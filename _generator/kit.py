@@ -16,8 +16,21 @@ SITE = {
     "whatsapp": "33784544861",
     "email": "edenflats.paris@gmail.com",
     "booking": "https://directbooky.com/vacationrentals",
-    "facebook": "https://www.facebook.com/edenflats",
-    "instagram": "https://www.instagram.com/eden_flats_paris",
+    # Réseaux sociaux : (icône, nom, adresse de la page). Tant que l'adresse est vide, l'icône s'affiche sans lien.
+    # Supprimez une ligne pour retirer un réseau ; l'icône de chaque réseau est dans ICONS (TikTok y est déjà).
+    "social": [
+        ("instagram", "Instagram", ""),
+        ("facebook", "Facebook", ""),
+        ("linkedin", "LinkedIn", ""),
+        ("youtube", "YouTube", ""),
+        # ("tiktok", "TikTok", ""),
+    ],
+    # Bandeau cookies (accepter / refuser, choix gardé six mois, rouvrable en bas de page). Il demande l'accord
+    # pour la mesure d'audience Google Analytics, qui ne se charge qu'après « Accepter » et seulement si
+    # l'identifiant GA4 est renseigné (ex. "G-ABC123XYZ9"). Sans mesure d'audience, aucun bandeau n'est
+    # nécessaire : mettez alors "cookie_banner" à False, la politique de confidentialité s'adapte.
+    "cookie_banner": True,
+    "analytics": {"ga4": ""},
     "company": {
         "name": "EDENEL PATRIMOINE GESTION RESEAUX & SERVICES",
         "acronym": "EPGRS",
@@ -51,8 +64,10 @@ ROUTES = {
     "paris": {"fr": "/conciergerie-airbnb-paris", "en": "/en/airbnb-management-paris"},
     "contact": {"fr": "/contact", "en": "/en/contact"},
     "mentions": {"fr": "/mentions-legales", "en": "/en/legal-notice"},
+    "cgv": {"fr": "/conditions-generales-de-vente", "en": "/en/terms-and-conditions"},
     "confidentialite": {"fr": "/politique-de-cookies", "en": "/en/privacy"},
     "credits": {"fr": "/credits-photos", "en": "/en/photo-credits"},
+    "plan": {"fr": "/plan-du-site", "en": "/en/sitemap"},
 }
 
 
@@ -99,6 +114,12 @@ ICONS = {
     "brush": '<path d="M14 4l6 6-7.5 7.5-6-6z"/><path d="M6.5 11.5L3.5 20.5l9-3"/>',
     "instagram": '<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9"/>',
     "facebook": '<path d="M14 8.5h2.5V5h-2.5A3.5 3.5 0 0 0 10.5 8.5V11H8v3.5h2.5V21H14v-6.5h2.5L17 11h-3V9a.5.5 0 0 1 .5-.5z"/>',
+    "linkedin": '<rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/><path d="M8 10.5V16.5M11.5 16.5v-6M11.5 13.2c0-1.7 1-2.7 2.4-2.7s2.1 1 2.1 2.7v3.3"/><circle cx="8" cy="7.6" r=".4"/>',
+    "youtube": '<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.2 9.2v5.6l4.8-2.8z"/>',
+    "tiktok": '<path d="M13.5 3.5v11.3a3.3 3.3 0 1 1-3.3-3.3"/><path d="M13.5 3.5c.4 2.5 2.1 4.2 4.8 4.5"/>',
+    "bubble": '<path d="M20.5 11.5a8 8 0 0 1-11.9 7L4 19.8l1.3-4.4A8 8 0 1 1 20.5 11.5z"/><path d="M8.6 11.6h.01M12.5 11.6h.01M16.4 11.6h.01" stroke-width="2.6"/>',
+    "cookie": '<path d="M20.5 12.6A8.5 8.5 0 1 1 11.4 3.5a2.8 2.8 0 0 0 3.4 3.4 2.8 2.8 0 0 0 3.3 3.3 2.8 2.8 0 0 0 2.4 2.4z"/><path d="M8.3 10.2h.01M11.8 15.6h.01M15.6 14.2h.01M8.4 15h.01" stroke-width="2.4"/>',
+    "close": '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
     "menu": '<path d="M4 7h16M4 12h16M4 17h16"/>',
 }
 
@@ -207,7 +228,7 @@ SITE_ID = SITE["url"] + "/#site"
 def org_ld(L):
     c = SITE["company"]
     t = tr(L)
-    return {
+    d = {
         "@context": "https://schema.org", "@type": "ProfessionalService", "@id": ORG_ID,
         "name": "EdenFlats", "legalName": c["name"], "url": SITE["url"] + "/",
         "logo": SITE["url"] + "/assets/img/apple-touch-icon.png", "image": SITE["url"] + "/assets/img/og-image.jpg",
@@ -217,9 +238,14 @@ def org_ld(L):
         "address": {"@type": "PostalAddress", "streetAddress": "14 rue de Champigny", "postalCode": "94370",
                     "addressLocality": "Sucy-en-Brie", "addressRegion": "Île-de-France", "addressCountry": "FR"},
         "areaServed": [{"@type": "City", "name": "Paris"}, {"@type": "AdministrativeArea", "name": "Île-de-France"}],
-        "knowsLanguage": ["fr", "en"], "sameAs": [SITE["facebook"], SITE["instagram"]],
+        "knowsLanguage": ["fr", "en"],
         "identifier": {"@type": "PropertyValue", "propertyID": "SIRET", "value": c["siret"].replace(" ", "")},
     }
+    # Seules les pages renseignées dans SITE["social"] sont déclarées aux moteurs de recherche.
+    same = [href for _, _, href in SITE["social"] if href]
+    if same:
+        d["sameAs"] = same
+    return d
 
 
 def website_ld(L):
@@ -245,6 +271,19 @@ def contact_buttons(L, on_dark=False):
             f'{btn("tel:" + s["phone_href"], s["phone"], "light" if on_dark else "", ico="phone")}'
             f'{btn("mailto:" + s["email"], t("Envoyer un e-mail", "Send an email"), ghost, ico="mail")}'
             f'</div>')
+
+
+def social_links(L, cls="social"):
+    """Icônes des réseaux sociaux. Sans adresse, l'icône reste visible mais n'est pas un lien."""
+    t = tr(L)
+    out = []
+    for key, name, href in SITE["social"]:
+        if href:
+            out.append(f'<a href="{href}" target="_blank" rel="noopener" aria-label="{name}">{icon(key)}</a>')
+        else:
+            label = f'{name} ({t("bientôt", "coming soon")})'
+            out.append(f'<span class="soon" role="img" aria-label="{label}" title="{label}">{icon(key)}</span>')
+    return f'<div class="{cls}">{"".join(out)}</div>' if out else ""
 
 
 # ── Typographie ─────────────────────────────────────────────────────────────
@@ -299,6 +338,9 @@ def footer(L, areas, towns):
     area_links = "".join(f'<li><a href="{h}">{n}</a></li>' for n, h in areas)
     town_links = "".join(f'<li><a href="{h}">{n}</a></li>' for n, h in towns)
     year = date.today().year
+    # Retirer son accord doit être aussi simple que le donner : ce bouton rouvre le bandeau cookies.
+    manage = (f'\n        <li><button class="linkish" type="button" data-consent-open>{t("Gérer les cookies", "Cookie settings")}</button></li>'
+              if s["cookie_banner"] else "")
     return f"""<footer class="foot">
   <div class="wrap">
     <div class="foot-grid">
@@ -311,10 +353,7 @@ def footer(L, areas, towns):
           <li><a href="https://wa.me/{s['whatsapp']}" target="_blank" rel="noopener">{icon("chat")}WhatsApp</a></li>
           <li><a href="mailto:{s['email']}">{icon("mail")}{s['email']}</a></li>
         </ul>
-        <div class="social">
-          <a href="{s['instagram']}" target="_blank" rel="noopener">{icon("instagram", "ico", "Instagram")}</a>
-          <a href="{s['facebook']}" target="_blank" rel="noopener">{icon("facebook", "ico", "Facebook")}</a>
-        </div>
+        {social_links(L)}
       </div>
       <div><h3>{t("Services", "Services")}</h3><ul>
         <li><a href="{url('voyageurs', L)}">{t("Gestion des voyageurs", "Guest management")}</a></li>
@@ -327,15 +366,63 @@ def footer(L, areas, towns):
       <div><h3>{t("Île-de-France", "Île-de-France")}</h3><ul>{town_links}</ul>
         <h3 class="mt">{t("Informations", "Information")}</h3><ul>
         <li><a href="{url('mentions', L)}">{t("Mentions légales", "Legal notice")}</a></li>
-        <li><a href="{url('confidentialite', L)}">{t("Confidentialité", "Privacy")}</a></li>
-        <li><a href="{url('credits', L)}">{t("Crédits photos", "Photo credits")}</a></li></ul></div>
+        <li><a href="{url('cgv', L)}">{t("Conditions générales de vente", "Terms and conditions")}</a></li>
+        <li><a href="{url('confidentialite', L)}">{t("Confidentialité et cookies", "Privacy and cookies")}</a></li>{manage}
+        <li><a href="{url('credits', L)}">{t("Crédits photos", "Photo credits")}</a></li>
+        <li><a href="{url('plan', L)}">{t("Plan du site", "Sitemap")}</a></li></ul></div>
     </div>
     <div class="foot-bottom">
-      <span>© {year} EdenFlats · <a href="{url('mentions', L)}">{t("Mentions légales", "Legal notice")}</a></span>
+      <span>© {year} EdenFlats · <a href="{url('mentions', L)}">{t("Mentions légales", "Legal notice")}</a> · <a href="{url('plan', L)}">{t("Plan du site", "Sitemap")}</a></span>
       <span>{t("Site conçu par", "Website by")} <a href="{s['maker'][1]}" target="_blank" rel="noopener">{s['maker'][0]}</a></span>
     </div>
   </div>
 </footer>"""
+
+
+def bubble(L, pid):
+    """Petit bouton de contact fixé en bas de l'écran ; il apparaît une fois passé le haut de page."""
+    if pid == "contact":
+        return ""
+    t = tr(L)
+    return (f'<a class="bubble" href="{url("contact", L)}"><i>{icon("bubble")}</i>'
+            f'<span>{t("Nous contacter", "Contact us")}</span></a>\n')
+
+
+def consent_template(L):
+    """Bandeau cookies, inséré par main.js tant que le visiteur n'a pas choisi (choix gardé six mois)."""
+    if not SITE["cookie_banner"]:
+        return ""
+    t = tr(L)
+    return f"""<template id="tpl-cookies">
+<div class="consent" role="region" aria-label="Cookies">
+  <p class="consent-t">{icon("cookie")}<b>{t("Cookies", "Cookies")}</b></p>
+  <p>{t("Nous aimerions mesurer la fréquentation du site pour l'améliorer. Ces cookies ne sont déposés qu'avec votre accord ; vous pouvez changer d'avis à tout moment en bas de page.",
+        "We would like to measure visits to the site to improve it. These cookies are only set with your consent, and you can change your mind at any time from the footer.")}</p>
+  <div class="consent-actions"><button type="button" data-consent="non">{t("Refuser", "Decline")}</button><button type="button" data-consent="oui">{t("Accepter", "Accept")}</button></div>
+  <a class="consent-more" href="{url('confidentialite', L)}#cookies">{t("En savoir plus", "Learn more")}</a>
+</div>
+</template>
+"""
+
+
+def language_template(L, target):
+    """Proposition de changer de langue quand celle du navigateur ne correspond pas à la page.
+    Elle est écrite dans l'autre langue : c'est celle que lit le visiteur à qui elle s'adresse."""
+    if L == "fr":
+        lang, text, go, stay, close = ("en", "<b>It looks like you don't speak French.</b> Would you like to see the website in English?",
+                                       "View in English", "Stay in French", "Close")
+    else:
+        lang, text, go, stay, close = ("fr", "<b>Vous parlez français ?</b> Ce site existe aussi en français.",
+                                       "Voir en français", "Rester en anglais", "Fermer")
+    return f"""<template id="tpl-langue">
+<div class="langprompt" lang="{lang}" role="dialog" aria-labelledby="lp-t">
+  {illu("langues")}
+  <div><p id="lp-t">{text}</p>
+    <div class="lp-actions"><a class="btn small" href="{target}" hreflang="{lang}" data-lang="{lang}"><span>{go}</span><i>{icon("arrow")}</i></a><button class="linkish" type="button" data-lang="{L}">{stay}</button></div></div>
+  <button class="lp-close" type="button" aria-label="{close}" data-lang="{L}">{icon("close")}</button>
+</div>
+</template>
+"""
 
 
 def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None, ld=None, cta=True,
@@ -359,6 +446,8 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
     robots = ('<meta name="robots" content="noindex">' if noindex
               else '<meta name="robots" content="index, follow, max-image-preview:large">') + "\n"
     og_alt = og_alt or title
+    ga4 = SITE["analytics"]["ga4"] if SITE["cookie_banner"] else ""
+    body_attrs = f' data-ga4="{escape(ga4)}"' if ga4 else ""
     html = f"""<!doctype html>
 <html lang="{L}" class="no-js">
 <head>
@@ -388,7 +477,7 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
 <link rel="preload" href="/assets/fonts/public-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css">
 {lds}</head>
-<body>
+<body{body_attrs}>
 <a class="skip" href="#contenu">{t("Aller au contenu", "Skip to content")}</a>
 <header class="top">
   <div class="wrap top-in">
@@ -407,7 +496,7 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
 </main>
 {final_cta(L, cta_title, cta_text) if cta else ""}
 {footer(L, areas, towns)}
-<script src="/assets/main.js" defer></script>
+{bubble(L, pid)}{consent_template(L)}{language_template(L, alt_path or url("home", OTHER[L]))}<script src="/assets/main.js" defer></script>
 </body>
 </html>
 """

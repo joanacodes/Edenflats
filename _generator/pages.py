@@ -3,7 +3,7 @@
 import re
 from html import escape
 from kit import (SITE, tr, url, icon, illu, chip, btn, more, todo, fcard, photo, sticker, ticks, head, faq_list, crumbs,
-                 crumbs_ld, contact_buttons, org_ld, website_ld, service_ld)
+                 crumbs_ld, contact_buttons, org_ld, website_ld, service_ld, social_links, OTHER)
 import faq
 import photos
 import quartiers as Q
@@ -231,10 +231,6 @@ def home(L):
     {btn(s["booking"], t("Voir les logements", "See the homes"), ext=True, ico="out")}
   </div>
 </div></section>"""
-    ld = {"@context": "https://schema.org", "@type": "Organization", "name": "EdenFlats", "url": SITE["url"] + url("home", L),
-          "logo": SITE["url"] + "/assets/img/apple-touch-icon.png", "email": SITE["email"], "telephone": SITE["phone_href"],
-          "areaServed": ["Paris", "Île-de-France"], "sameAs": [SITE["facebook"], SITE["instagram"]],
-          "description": t("Conciergerie Airbnb à Paris et en Île-de-France.", "Airbnb management company in Paris and Île-de-France.")}
     return {"title": t("Conciergerie Airbnb à Paris et en Île-de-France | EdenFlats", "Airbnb Management in Paris & Île-de-France | EdenFlats"),
             "desc": t("Conciergerie Airbnb à Paris et en Île-de-France : annonce, voyageurs, clés, ménage et entretien de votre résidence secondaire. Revenu garanti ou réel.",
                       "Airbnb management in Paris and Île-de-France for second homes and buy-to-let flats: listing, guests, keys, cleaning. Guaranteed or actual income."),
@@ -581,10 +577,11 @@ def contact(L):
             t("Ce que vous souhaitez nous confier : tout, ou certains services", "What you want us to handle: everything, or some services"),
             t("La formule envisagée : revenu garanti ou revenu réel", "The plan you have in mind: guaranteed or actual income")])}
   </div>
-  <aside class="facts cream"><h3>{t("Vous êtes voyageur ?", "Are you a guest?")}</h3>
+  <aside class="facts cream-s"><h3>{t("Vous êtes voyageur ?", "Are you a guest?")}</h3>
     <p style="margin:10px 0 18px">{t("Pour réserver un logement EdenFlats, rendez-vous sur notre page de réservation.", "To book an EdenFlats home, go to our booking page.")}</p>
     {btn(s["booking"], t("Réserver un séjour", "Book a stay"), "small", ext=True, ico="out")}
-    <div class="social" style="margin-top:22px"><a href="{s['instagram']}" target="_blank" rel="noopener">{icon("instagram", "ico", "Instagram")}</a><a href="{s['facebook']}" target="_blank" rel="noopener">{icon("facebook", "ico", "Facebook")}</a></div>
+    <h3 style="margin-top:26px">{t("Suivez-nous", "Follow us")}</h3>
+    {social_links(L)}
   </aside>
 </div></section>"""
     desc = t("Contactez la conciergerie Airbnb EdenFlats par téléphone, WhatsApp ou e-mail pour confier la gestion de votre logement à Paris et en Île-de-France. Estimation de revenus.",
@@ -654,17 +651,32 @@ def confidentialite(L):
     s = SITE
     c = s["company"]
     trail = [(t("Confidentialité", "Privacy"), url("confidentialite", L))]
+    banner = s["cookie_banner"]
+    if banner:
+        cookies = f"""<p>{t("Le site ne dépose aucun cookie publicitaire, et aucun cookie sans votre accord. Il garde seulement dans votre navigateur (stockage local) deux préférences nécessaires à son fonctionnement : votre choix dans le bandeau cookies, pendant six mois, et la langue que vous avez choisie quand le site vous la propose. Elles ne vous identifient pas et ne quittent pas votre appareil.",
+        "The website sets no advertising cookies, and no cookies at all without your consent. It only keeps two preferences in your browser (local storage) that it needs to work: your choice in the cookie banner, for six months, and the language you picked when the site offered it. They do not identify you and never leave your device.")}</p>
+  <h3>{t("Mesure d'audience", "Audience measurement")}</h3>
+  <p>{t("Si vous cliquez sur « Accepter » dans le bandeau, nous utilisons Google Analytics, un service de Google Ireland Limited, pour compter les visites et savoir quelles pages sont consultées. Google Analytics dépose alors des cookies (_ga et _ga_…) conservés treize mois au plus. Les données peuvent être transférées aux États-Unis, où Google est certifié au titre du Data Privacy Framework UE–États-Unis. Si vous cliquez sur « Refuser », Google Analytics n'est pas chargé et rien n'est déposé.",
+        "If you click “Accept” in the banner, we use Google Analytics, a service of Google Ireland Limited, to count visits and see which pages are read. Google Analytics then sets cookies (_ga and _ga_…) kept for thirteen months at most. Data may be transferred to the United States, where Google is certified under the EU–US Data Privacy Framework. If you click “Decline”, Google Analytics is not loaded and nothing is set.")}</p>
+  <p>{t("Vous pouvez changer d'avis à tout moment, ici ou avec le lien « Gérer les cookies » en bas de chaque page. Votre choix vous est redemandé au bout de six mois.",
+        "You can change your mind at any time, here or with the “Cookie settings” link at the bottom of every page. You will be asked again after six months.")}</p>
+  <p><button class="btn small" type="button" data-consent-open><span>{t("Gérer les cookies", "Cookie settings")}</span><i>{icon("cookie")}</i></button></p>"""
+    else:
+        cookies = f"""<p>{t("Le site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience. Il garde seulement dans votre navigateur (stockage local) la langue que vous avez choisie quand le site vous la propose : cette préférence, nécessaire à son fonctionnement, ne vous identifie pas et ne quitte pas votre appareil.",
+        "The website sets no cookies and uses no audience measurement tools. It only keeps in your browser (local storage) the language you picked when the site offered it: this preference, which the site needs to work, does not identify you and never leaves your device.")}</p>"""
     body = phead(L, trail, t("Informations", "Information"), t("Politique de confidentialité et cookies", "Privacy and cookie policy"),
-                 t("Ce site ne comporte ni formulaire, ni cookie, ni outil de mesure d'audience. Voici ce qui se passe quand vous nous contactez.",
-                   "This website has no forms, no cookies and no audience measurement tools. Here is what happens when you contact us."), actions=False) + f"""
+                 t("Ce que le site garde dans votre navigateur, ce qui se passe quand vous nous contactez, et vos droits.",
+                   "What the website keeps in your browser, what happens when you contact us, and your rights."), actions=False) + f"""
 <section class="sec"><div class="wrap doc">
   <h2>{t("Responsable du traitement", "Data controller")}</h2>
   <p>{escape(c['name'])} ({c['acronym']}), {c['address']}, {t("qui exploite la marque EdenFlats. Contact :", "which operates the EdenFlats brand. Contact:")} <a href="mailto:{s['email']}">{s['email']}</a>.</p>
   <h2>{t("Données collectées", "Data collected")}</h2>
-  <p>{t("Le site ne collecte aucune donnée par lui-même : il n'a pas de formulaire et ne dépose aucun cookie ni traceur. Les polices de caractères sont hébergées sur le site, sans appel à un service tiers.",
-        "The website does not collect any data itself: it has no forms and sets no cookies or trackers. Fonts are hosted on the site, with no call to a third-party service.")}</p>
+  <p>{t("Le site n'a pas de formulaire. Les polices de caractères et les images sont hébergées sur le site, sans appel à un service tiers.",
+        "The website has no forms. Fonts and images are hosted on the site, with no call to a third-party service.")}</p>
   <p>{t("Quand vous nous contactez par téléphone, WhatsApp ou e-mail, nous utilisons vos coordonnées et votre message pour vous répondre et, si nous travaillons ensemble, pour préparer et exécuter notre contrat.",
         "When you contact us by phone, WhatsApp or email, we use your contact details and your message to reply and, if we work together, to prepare and perform our contract.")}</p>
+  <h2 id="cookies">{t("Cookies et stockage local", "Cookies and local storage")}</h2>
+  {cookies}
   <h2>{t("Durée de conservation", "Retention")}</h2>
   <p>{t("Les échanges avec les personnes qui ne deviennent pas clientes sont conservés au plus trois ans après le dernier contact. Les données des clients sont conservées pendant la durée du contrat, puis le temps imposé par nos obligations légales, notamment comptables.",
         "Exchanges with people who do not become clients are kept for at most three years after the last contact. Client data is kept for the duration of the contract, then for as long as our legal obligations require, notably accounting.")}</p>
@@ -672,14 +684,14 @@ def confidentialite(L):
   <ul>
     <li>{t("WhatsApp est un service de WhatsApp Ireland Limited : si vous nous écrivez par ce biais, sa propre politique de confidentialité s'applique.", "WhatsApp is a service of WhatsApp Ireland Limited: if you message us through it, its own privacy policy applies.")}</li>
     <li>{t("L'hébergeur du site,", "The website host,")} {s['host']['name']}, {t("peut enregistrer l'adresse IP des visiteurs dans ses journaux techniques, à des fins de sécurité.", "may record visitors' IP addresses in its technical logs, for security purposes.")}</li>
-    <li>{t("Les liens vers Instagram, Facebook et notre page de réservation mènent à des sites tiers, qui appliquent leurs propres règles.", "Links to Instagram, Facebook and our booking page lead to third-party sites, which apply their own rules.")}</li>
+    <li>{t("Les liens vers nos réseaux sociaux et vers notre page de réservation mènent à des sites tiers, qui appliquent leurs propres règles.", "Links to our social media pages and to our booking page lead to third-party sites, which apply their own rules.")}</li>
   </ul>
   <h2>{t("Vos droits", "Your rights")}</h2>
   <p>{t("Conformément au RGPD, vous pouvez accéder à vos données, les rectifier, les effacer, en limiter le traitement, vous y opposer et en demander la portabilité, en écrivant à", "Under the GDPR, you can access, correct or erase your data, restrict or object to its processing and request its portability, by writing to")} <a href="mailto:{s['email']}">{s['email']}</a>. {t("Vous pouvez aussi adresser une réclamation à la CNIL", "You can also lodge a complaint with the CNIL")} (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>).</p>
 </div></section>"""
     return {"title": t("Politique de confidentialité et cookies | EdenFlats", "Privacy and cookie policy | EdenFlats"),
-            "desc": t("Politique de confidentialité et de cookies d'EdenFlats : aucun cookie ni traceur, ce qui se passe quand vous nous contactez, et vos droits RGPD.",
-                      "EdenFlats privacy and cookie policy: no cookies or trackers on this site, what happens when you contact us, and your rights under the GDPR."),
+            "desc": t("Politique de confidentialité et de cookies d'EdenFlats : cookies déposés seulement avec votre accord, données de contact, durée de conservation et vos droits RGPD.",
+                      "EdenFlats privacy and cookie policy: cookies set only with your consent, how we use your contact details, how long we keep them and your rights under the GDPR."),
             "body": body, "ld": [crumbs_ld(L, trail)], "cta": False}
 
 
@@ -706,6 +718,133 @@ def credits(L):
             "desc": t("Auteurs et licences libres (Creative Commons) des photos des quartiers de Paris utilisées sur le site EdenFlats, issues de Wikimedia Commons.",
                       "Authors and free licences (Creative Commons) of the Paris neighbourhood photos used on the EdenFlats website, from Wikimedia Commons."),
             "body": body, "ld": [crumbs_ld(L, trail)], "cta": False}
+
+
+# ── Conditions générales de vente ───────────────────────────────────────────
+# Reprises de l'ancien site (version du 7 avril 2025), complétées : nom de la société, renvois vers les pages,
+# droit de rétractation, médiation et tribunaux, qui s'imposent quand le client est un consommateur.
+# Les cadres pointillés sont à compléter ; le texte est à faire valider avant la mise en ligne.
+CGV_MAJ = ("24 novembre 2026", "24 November 2026")
+
+
+def cgv(L):
+    t = tr(L)
+    s = SITE
+    c = s["company"]
+    trail = [(t("Conditions générales de vente", "Terms and conditions"), url("cgv", L))]
+    mail = f'<a href="mailto:{s["email"]}">{s["email"]}</a>'
+    hours = todo(t("[nombre] heures", "[number] hours"))
+
+    def ul(items):
+        return "<ul>" + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
+    articles = [
+        (t("Objet", "Purpose and scope"),
+         f"<p>{t('Les présentes conditions générales de vente (CGV) régissent les relations contractuelles entre', 'These terms and conditions govern the contractual relationship between')} {escape(c['name'])} ({c['acronym']}), "
+         f"{t('société par actions simplifiée dont le siège est situé', 'a French simplified joint-stock company (SAS) whose registered office is at')} {c['address']}, SIRET {c['siret']}, "
+         f"{t('qui exploite la marque EdenFlats (ci-après « EdenFlats »), et toute personne qui lui confie des prestations de conciergerie pour un logement loué en courte ou moyenne durée (ci-après « le Client »).', 'which operates the EdenFlats brand (“EdenFlats”), and any person who entrusts it with concierge services for a home let on a short or mid-term basis (“the Client”).')}</p>"
+         f"<p>{t('Le contrat de gestion ou le devis accepté par le Client précise et complète ces conditions ; en cas de contradiction, il prévaut.', 'The management agreement or the quote accepted by the Client details and supplements these terms; where they conflict, it prevails.')}</p>"),
+        (t("Prestations", "Services"),
+         f"<p>{t('EdenFlats propose notamment les services suivants :', 'EdenFlats offers in particular the following services:')}</p>"
+         + ul([t("remise et récupération des clés, accueil des voyageurs (check-in et check-out) ;", "key handover and collection, guest welcome (check-in and check-out);"),
+               t("ménage professionnel ;", "professional cleaning;"),
+               t("gestion des réservations en ligne ;", "online booking management;"),
+               t("communication avec les voyageurs ;", "communication with guests;"),
+               t("blanchisserie et fourniture de linge ;", "laundry and linen supply;"),
+               t("maintenance de base et gestion des urgences.", "basic maintenance and emergency handling.")])
+         + f"<p>{t('Le détail des prestations est présenté sur le site www.edenflats.com, notamment aux pages', 'The services are described on www.edenflats.com, in particular on the')} "
+           f"<a href=\"{url('voyageurs', L)}\">{t('Gestion des voyageurs', 'Guest management')}</a>, <a href=\"{url('logement', L)}\">{t('Gestion du logement', 'Property management')}</a> "
+           f"{t('et', 'and')} <a href=\"{url('formules', L)}\">{t('Nos formules', 'Plans')}</a>{t(', et précisé dans le contrat ou le devis remis au Client.', ' pages, and set out in the agreement or quote given to the Client.')}</p>"),
+        (t("Conditions d'accès aux services", "Eligibility"),
+         f"<p>{t('Pour bénéficier des services, le Client doit être propriétaire ou gestionnaire légal d’un bien mis en location de courte durée. Il fournit les informations nécessaires à la bonne exécution des prestations : adresse du logement, accès, calendrier, consignes particulières, etc.', 'To use the services, the Client must own or lawfully manage a property let on a short-term basis. The Client provides the information needed to perform the services: address of the home, access, calendar, specific instructions, etc.')}</p>"
+         f"<p>{t('Le Client veille au respect des règles qui s’appliquent à la location de son logement (déclaration en mairie, numéro d’enregistrement, nombre de nuits autorisé, règlement de copropriété). Notre', 'The Client ensures that the rules applying to the letting of the home are complied with (registration with the city, registration number, number of nights allowed, building rules). Our')} "
+         f"<a href=\"{url('faq', L)}#reglementation\">{t('FAQ', 'FAQ')}</a> {t('résume les règles en vigueur à Paris.', 'sums up the rules in force in Paris.')}</p>"),
+        (t("Tarifs et paiement", "Prices and payment"),
+         f"<p>{t('Les tarifs sont communiqués sur devis personnalisé ou sur le site (page', 'Prices are given in a personalised quote or on the website (')} <a href=\"{url('formules', L)}\">{t('Nos formules', 'Plans')}</a>{t('), en euros toutes taxes comprises. Le paiement des prestations peut s’effectuer par virement bancaire, par carte bancaire ou par prélèvement automatique, si celui-ci a été convenu.', ' page), in euros including all taxes. Services can be paid by bank transfer, by card or by direct debit, if agreed.')}</p>"
+         f"<p>{t('Toute prestation commencée est due dans son intégralité. Des frais supplémentaires peuvent s’appliquer en cas de demandes spécifiques ou urgentes ; ils sont annoncés au Client avant l’intervention.', 'Any service that has started is due in full. Extra charges may apply to specific or urgent requests; the Client is told about them before the work is done.')}</p>"
+         f"<p>{t('Si le Client est un professionnel, tout retard de paiement entraîne de plein droit des pénalités calculées à trois fois le taux d’intérêt légal et une indemnité forfaitaire de 40 € pour frais de recouvrement (article L441-10 du Code de commerce).', 'If the Client is a business, any late payment automatically incurs penalties at three times the French statutory interest rate and a fixed recovery fee of €40 (article L441-10 of the French Commercial Code).')}</p>"),
+        (t("Réservation et annulation des prestations", "Booking and cancelling services"),
+         f"<p>{t('Toute demande de prestation doit être confirmée au moins', 'Any service request must be confirmed at least')} {hours} {t('à l’avance. Le Client peut annuler sans frais jusqu’à', 'in advance. The Client may cancel free of charge up to')} {hours} "
+         f"{t('avant la prestation ; passé ce délai, le montant total est dû.', 'before the service; after that, the full amount is due.')}</p>"),
+        (t("Droit de rétractation", "Right of withdrawal"),
+         f"<p>{t('Si le Client est un consommateur et que le contrat a été conclu à distance (par téléphone, e-mail ou WhatsApp, par exemple) ou hors établissement, il dispose de quatorze jours à compter de la conclusion du contrat pour se rétracter, sans avoir à motiver sa décision, par une déclaration dénuée d’ambiguïté adressée à EdenFlats, par exemple par e-mail à', 'If the Client is a consumer and the contract was concluded at a distance (by phone, email or WhatsApp, for example) or off-premises, the Client has fourteen days from the conclusion of the contract to withdraw, without giving any reason, by an unambiguous statement sent to EdenFlats, for example by email to')} {mail} "
+         f"{t('(articles L221-18 et suivants du Code de la consommation).', '(articles L221-18 et seq. of the French Consumer Code).')}</p>"
+         f"<p>{t('Si le Client demande expressément que la prestation commence avant la fin de ce délai, il reste redevable du montant correspondant au service fourni jusqu’à sa rétractation. Une prestation pleinement exécutée avant la fin du délai, à sa demande, ne peut plus faire l’objet d’une rétractation.', 'If the Client expressly asks for the service to start before the end of this period, the Client remains liable for the amount corresponding to the service provided until withdrawal. A service fully performed before the end of the period, at the Client’s request, can no longer be withdrawn from.')}</p>"),
+        (t("Engagements d'EdenFlats", "EdenFlats' commitments"),
+         f"<p>{t('EdenFlats s’engage à exécuter les prestations avec diligence, professionnalisme et selon les standards de qualité en vigueur. En cas d’impossibilité d’exécution (force majeure, accident, etc.), EdenFlats s’engage à en informer le Client au plus vite.', 'EdenFlats undertakes to perform the services diligently, professionally and to current quality standards. If a service cannot be performed (force majeure, accident, etc.), EdenFlats undertakes to inform the Client as soon as possible.')}</p>"),
+        (t("Responsabilités", "Liability"),
+         f"<p>{t('EdenFlats ne saurait être tenue responsable :', 'EdenFlats cannot be held liable for:')}</p>"
+         + ul([t("des dégâts causés par les voyageurs ;", "damage caused by guests;"),
+               t("des vols ou dégradations commis hors de sa présence ;", "theft or damage occurring in its absence;"),
+               t("des pertes de revenus dues à des annulations extérieures à sa gestion.", "loss of income due to cancellations beyond its management.")])
+         + f"<p>{t('En cas de dégâts causés par des voyageurs, EdenFlats accompagne le Client dans ses démarches auprès de la plateforme de réservation. Le Client reste seul responsable des déclarations fiscales et juridiques liées à la location de son bien.', 'If guests cause damage, EdenFlats helps the Client with the claim to the booking platform. The Client remains solely responsible for the tax and legal declarations relating to the letting of the property.')}</p>"),
+        (t("Assurance", "Insurance"),
+         f"<p>{t('Le Client s’engage à disposer d’une assurance multirisque habitation couvrant la location de courte durée. EdenFlats dispose d’une assurance de responsabilité civile professionnelle', 'The Client undertakes to hold home insurance covering short-term letting. EdenFlats holds professional liability insurance')} "
+         f"({todo(t('assureur et numéro de contrat à compléter', 'insurer and policy number to be completed'))}).</p>"),
+        (t("Données personnelles", "Personal data"),
+         f"<p>{t('Les données personnelles du Client sont traitées conformément au règlement général sur la protection des données (RGPD), selon notre', 'The Client’s personal data is processed in accordance with the General Data Protection Regulation (GDPR), as described in our')} "
+         f"<a href=\"{url('confidentialite', L)}\">{t('politique de confidentialité', 'privacy policy')}</a>. "
+         f"{t('Le Client peut à tout moment demander l’accès à ses données, leur rectification ou leur suppression en écrivant à', 'The Client may at any time ask to access, correct or delete their data by writing to')} {mail}.</p>"),
+        (t("Médiation de la consommation", "Consumer mediation"),
+         f"<p>{t('Si le Client est un consommateur, il peut recourir gratuitement à un médiateur de la consommation pour résoudre à l’amiable un litige avec EdenFlats, après avoir adressé une réclamation écrite à EdenFlats (articles L612-1 et suivants du Code de la consommation). Médiateur :', 'If the Client is a consumer, they may refer a dispute with EdenFlats to a consumer mediator free of charge, after first sending a written complaint to EdenFlats (articles L612-1 et seq. of the French Consumer Code). Mediator:')} "
+         f"{todo(t('nom, adresse et site du médiateur à compléter', 'mediator name, address and website to be completed'))}.</p>"),
+        (t("Droit applicable et litiges", "Governing law and disputes"),
+         f"<p>{t('Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera recherchée en priorité.', 'These terms are governed by French law. In the event of a dispute, an amicable solution will be sought first.')}</p>"
+         f"<p>{t('À défaut, si le Client est un professionnel, le litige sera porté devant les tribunaux compétents dans le ressort du siège social d’EdenFlats, à Sucy-en-Brie. Si le Client est un consommateur, il peut saisir, à son choix, l’une des juridictions territorialement compétentes ou celle du lieu où il demeurait au moment de la conclusion du contrat ou de la survenance du fait dommageable.', 'Failing that, if the Client is a business, the dispute will be brought before the competent courts for the area of EdenFlats’ registered office, in Sucy-en-Brie. If the Client is a consumer, they may choose to bring the matter before any court with territorial jurisdiction or the court for the place where they lived when the contract was concluded or when the damage occurred.')}</p>"),
+    ]
+    arts = "".join(f'<h2 id="article-{i}">{t("Article", "Article")} {i} – {h}</h2>{b}' for i, (h, b) in enumerate(articles, 1))
+    toc = "".join(f'<a class="chip" href="#article-{i}">{i}. {h}</a>' for i, (h, _) in enumerate(articles, 1))
+    version = t(f"Dernière mise à jour : {CGV_MAJ[0]}.", f"Last updated: {CGV_MAJ[1]}.")
+    translation = "" if L == "fr" else (f'<p class="note">This English version is a translation provided for convenience. '
+                                        f'If it differs from the <a href="{url("cgv", "fr")}" hreflang="fr" lang="fr">French version</a>, the French version prevails.</p>')
+    body = phead(L, trail, t("Informations", "Information"), t("Conditions générales de vente", "Terms and conditions"),
+                 t("Les conditions qui s'appliquent aux prestations de conciergerie EdenFlats : services, tarifs, annulation, responsabilités et litiges.",
+                   "The terms that apply to EdenFlats concierge services: services, prices, cancellation, liability and disputes."), actions=False) + f"""
+<section class="sec"><div class="wrap doc">
+  <p class="note" style="margin-top:0">{version}</p>{translation}
+  <nav class="toc cta-row" aria-label="{t("Articles", "Articles")}">{toc}</nav>
+  {arts}
+</div></section>"""
+    return {"title": t("Conditions générales de vente | EdenFlats", "Terms and conditions | EdenFlats"),
+            "desc": t("Conditions générales de vente d'EdenFlats, conciergerie Airbnb à Paris et en Île-de-France : prestations, tarifs, annulation, rétractation, responsabilités et litiges.",
+                      "EdenFlats terms and conditions for Airbnb management in Paris and Île-de-France: services, prices, cancellation, withdrawal, liability and disputes."),
+            "body": body, "ld": [crumbs_ld(L, trail)], "cta": False}
+
+
+# ── Plan du site ────────────────────────────────────────────────────────────
+def plan_du_site(L):
+    t = tr(L)
+    trail = [(t("Plan du site", "Sitemap"), url("plan", L))]
+
+    def links(items):
+        return "".join(f'<li><a href="{h}">{n}</a></li>' for n, h in items)
+    main = [(t("Accueil", "Home"), url("home", L)), (t("Gestion des voyageurs", "Guest management"), url("voyageurs", L)),
+            (t("Gestion du logement", "Property management"), url("logement", L)), (t("Nos formules", "Our plans"), url("formules", L)),
+            (t("Questions fréquentes", "FAQ"), url("faq", L)), (t("Contact", "Contact"), url("contact", L))]
+    paris = [(t("Conciergerie Airbnb à Paris", "Airbnb management in Paris"), url("paris", L))] + [
+        (f'{a[L]["name"]} <small>{a[L]["arr"]}</small>', Q.area_url(a, L)) for a in Q.AREAS]
+    towns = [(a[L]["name"], Q.area_url(a, L)) for a in Q.TOWNS]
+    info = [(t("Mentions légales", "Legal notice"), url("mentions", L)), (t("Conditions générales de vente", "Terms and conditions"), url("cgv", L)),
+            (t("Confidentialité et cookies", "Privacy and cookies"), url("confidentialite", L)), (t("Crédits photos", "Photo credits"), url("credits", L))]
+    groups = [("green-s", "maison", t("Conciergerie Airbnb", "Airbnb management"), main, ""),
+              ("blue-s", "tour-eiffel", "Paris", paris, " cols2"),
+              ("coral-s", "carte", t("Île-de-France", "Île-de-France"), towns, ""),
+              ("sand-s", "balance", t("Informations", "Information"), info, "")]
+    cards = "".join(f'<div class="card {c} sitemap-card">{illu(i)}<h2>{h}</h2><ul class="sitemap-list{x}">{links(items)}</ul></div>'
+                    for c, i, h, items, x in groups)
+    other = OTHER[L]
+    body = phead(L, trail, t("Informations", "Information"), t("Plan du site", "Sitemap"),
+                 t("Toutes les pages du site EdenFlats en un coup d'œil : nos services, nos formules, les quartiers de Paris et les communes d'Île-de-France où nous intervenons.",
+                   "Every page of the EdenFlats website at a glance: our services, our plans, and the Paris neighbourhoods and Île-de-France towns where we work."),
+                 actions=False) + f"""
+<section class="sec"><div class="wrap">
+  <div class="sitemap">{cards}</div>
+  <p class="note">{t("Le site existe aussi en anglais :", "The website is also available in French:")} <a href="{url("plan", other)}" hreflang="{other}" lang="{other}">{t("English sitemap", "plan du site en français")}</a>. {t("Pour les moteurs de recherche et les assistants IA :", "For search engines and AI assistants:")} <a href="/sitemap.xml">sitemap.xml</a> · <a href="/llms.txt">llms.txt</a>.</p>
+</div></section>"""
+    return {"title": t("Plan du site | EdenFlats", "Sitemap | EdenFlats"),
+            "desc": t("Plan du site EdenFlats : toutes les pages de la conciergerie Airbnb, services, formules, FAQ, quartiers de Paris, communes d'Île-de-France et informations légales.",
+                      "EdenFlats sitemap: every page of our Airbnb management website, from services, plans and FAQ to Paris neighbourhoods, Île-de-France towns and legal pages."),
+            "body": body, "ld": [crumbs_ld(L, trail)]}
+
 
 
 def not_found(L):

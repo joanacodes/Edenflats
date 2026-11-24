@@ -92,9 +92,16 @@ a.chip .ico{width:15px;height:15px}
 .sticker{position:absolute;z-index:4;display:grid;place-items:center;width:118px;height:118px;border-radius:50%;box-shadow:var(--shadow);pointer-events:none}
 .sticker .illu{width:96px}
 
-/* En-tête */
-.top{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
-.top.scrolled{border-color:var(--line)}
+/* En-tête en verre dépoli. Le flou est porté par un pseudo-élément et non par l'en-tête lui-même :
+   un élément flouté ne laisse voir à ses enfants que lui-même, et le menu mobile, en verre lui aussi,
+   ne flouterait plus la page. */
+.top{position:sticky;top:0;z-index:60}
+.top::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(255,255,255,.72);
+  -webkit-backdrop-filter:blur(18px) saturate(1.7);backdrop-filter:blur(18px) saturate(1.7);
+  border-bottom:1px solid transparent;transition:background .25s,border-color .25s,box-shadow .25s}
+.top.scrolled::before{background:rgba(255,255,255,.68);border-color:rgba(36,72,92,.1);box-shadow:0 12px 32px -22px rgba(27,55,71,.45)}
+/* Au-dessus d'une section sombre, le gris du menu manquerait de contraste à travers le verre : il passe à l'ardoise. */
+.top.scrolled .nav{color:var(--ink)}
 .top-in{display:flex;align-items:center;gap:28px;min-height:72px}
 .logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font:500 1.35rem/1 var(--head);letter-spacing:-.03em;color:var(--ink)}
 .logo .mark{width:32px;height:32px;color:var(--ink)}
@@ -105,18 +112,34 @@ a.chip .ico{width:15px;height:15px}
 .nav a[aria-current=page]{color:var(--ink);border-color:var(--coral)}
 .nav .nav-contact{display:none}
 .top-actions{display:flex;align-items:center;gap:12px;margin-left:auto}
-.lang{display:grid;place-items:center;min-width:44px;height:40px;padding:0 10px;border-radius:10px;border:1.5px solid var(--line);text-decoration:none;font:700 .85rem/1 var(--body);letter-spacing:.04em}
+.lang{display:grid;place-items:center;min-width:44px;height:40px;padding:0 10px;border-radius:10px;border:1.5px solid rgba(36,72,92,.16);background:rgba(255,255,255,.45);text-decoration:none;font:700 .85rem/1 var(--body);letter-spacing:.04em}
 .lang:hover{border-color:var(--ink)}
-.burger{display:none;width:44px;height:44px;border:0;border-radius:10px;background:var(--cream);color:var(--ink);cursor:pointer;place-items:center}
+.burger{display:none;width:44px;height:44px;border:0;border-radius:12px;background:rgba(36,72,92,.08);color:var(--ink);cursor:pointer;place-items:center}
+.burger:hover{background:rgba(36,72,92,.14)}
 @media(max-width:1080px){
   .burger{display:grid}
-  .nav{display:none;position:absolute;left:var(--edge);right:var(--edge);top:calc(100% + 6px);flex-direction:column;gap:0;padding:8px 20px 16px;
-    background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);font-size:1.05rem;color:var(--ink)}
+  .nav{display:none;position:absolute;left:var(--edge);right:var(--edge);top:calc(100% + 8px);flex-direction:column;gap:0;padding:6px 20px 12px;
+    background:rgba(255,255,255,.93);-webkit-backdrop-filter:blur(24px) saturate(1.7);backdrop-filter:blur(24px) saturate(1.7);
+    border:1px solid rgba(255,255,255,.85);border-radius:20px;box-shadow:0 24px 60px -24px rgba(27,55,71,.5);font-size:1.05rem;color:var(--ink)}
   .nav.open{display:flex}
-  .nav a{padding:14px 0;border-bottom:1px solid var(--line)}
+  .nav a{padding:14px 0;border-bottom:1px solid rgba(36,72,92,.1)}
   .nav a:last-child{border-bottom:0}
-  .nav a[aria-current=page]{border-color:var(--line);font-weight:600}
+  .nav a[aria-current=page]{border-color:rgba(36,72,92,.1);font-weight:600}
   .nav .nav-contact{display:block}
+}
+/* Sur téléphone, l'en-tête devient une barre de verre arrondie qui flotte au-dessus de la page. */
+@media(max-width:760px){
+  .top{top:8px;margin:8px var(--edge);border-radius:18px}
+  .top::before{border-radius:18px;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.8);box-shadow:0 12px 30px -14px rgba(27,55,71,.35)}
+  .top.scrolled::before{background:rgba(255,255,255,.58);border-color:rgba(255,255,255,.8);box-shadow:0 14px 34px -14px rgba(27,55,71,.42)}
+  .top-in{width:auto;margin:0 8px 0 14px;min-height:60px;gap:12px}
+  .nav{left:0;right:0}
+  .lang{height:38px;min-width:42px}
+  .burger{width:42px;height:42px}
+}
+@supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  .top::before,.top.scrolled::before{background:rgba(255,255,255,.97)}
+  .nav{background:var(--white)}
 }
 @media(max-width:560px){.hide-sm{display:none}}
 
@@ -340,10 +363,16 @@ a.chip .ico{width:15px;height:15px}
 .foot .cols2 li{break-inside:avoid;margin-top:0;padding-bottom:8px}
 .foot-contact a{display:inline-flex;align-items:center;gap:10px}
 .foot-contact .ico{width:18px;height:18px}
-.social{display:flex;gap:10px;margin-top:16px}
-.social a{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:var(--cream)}
-.social a:hover{background:var(--cream-2)}
+.social{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.social a,.social .soon{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:var(--cream);color:var(--ink)}
+.social a:hover{background:var(--green)}
 .social .ico{width:20px;height:20px}
+.facts .social{margin-top:12px}
+.facts .social a,.facts .social .soon{background:var(--white)}
+.linkish{padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px;text-decoration-thickness:2px}
+.foot .linkish{color:var(--ink-2);text-decoration:none}
+.foot .linkish:hover{color:var(--ink);text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px;text-decoration-thickness:1px}
+button.btn{cursor:pointer}
 .foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;padding-top:22px;font-size:.84rem;color:var(--ink-3)}
 .foot-bottom a{color:inherit}
 @media(max-width:960px){.foot-grid{grid-template-columns:1fr 1fr}}
@@ -416,12 +445,75 @@ a.chip .ico{width:15px;height:15px}
 .doc dl div{display:grid;grid-template-columns:minmax(150px,34%) 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
 .doc dt{font-weight:600}
 .doc dd{color:var(--ink-2)}
-.doc ul{list-style:disc;padding-left:1.2em}
+.doc ul{list-style:disc;padding-left:1.2em;margin:10px 0}
 .doc li{margin:6px 0}
+.doc h3{font-size:1.15rem;margin:28px 0 10px}
+.doc .toc{margin:20px 0 48px;gap:8px}
+.doc .toc .chip{font-size:.8rem}
+.doc .toc a.chip:hover{background:var(--green)}
 @media(max-width:600px){.doc dl div{grid-template-columns:1fr;gap:2px}}
+
+/* Plan du site */
+.sitemap{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.sitemap-card{min-height:0}
+.sitemap-card h2{font-size:1.45rem;letter-spacing:-.02em}
+.sitemap-list li{padding:5px 0;break-inside:avoid}
+.sitemap-list a{text-decoration:none;font-weight:600}
+.sitemap-list a:hover{text-decoration:underline;text-underline-offset:3px}
+.sitemap-list small{font-weight:400;opacity:.8;margin-left:4px}
+.sitemap-list.cols2{columns:2;column-gap:24px}
+@media(max-width:800px){.sitemap{grid-template-columns:1fr}}
+@media(max-width:420px){.sitemap-list.cols2{columns:1}}
 .credits-list li{padding:14px 0;border-bottom:1px solid var(--line);color:var(--ink-2);list-style:none}
 .credits-list b{color:var(--ink)}
 .todo{outline:2px dashed #b4410b;outline-offset:2px;color:#b4410b;font-weight:600}
+
+/* Petit bouton de contact fixé en bas de l'écran, comme sur mlkwebstudio.fr. Il arrive une fois le haut de
+   page passé et repart quand l'appel final ou le pied de page arrive : ils ont déjà leurs boutons. */
+.bubble{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:55;display:inline-flex;align-items:center;gap:10px;
+  height:52px;padding:0 20px 0 6px;border-radius:999px;background:var(--ink);color:var(--white);text-decoration:none;font:600 .92rem/1 var(--body);
+  box-shadow:0 16px 40px -12px rgba(27,55,71,.6);visibility:hidden;transform:translateY(calc(100% + 32px));
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),visibility 0s linear .5s,background .2s}
+.bubble.in{visibility:visible;transform:none;transition:transform .5s cubic-bezier(.2,.8,.2,1),background .2s}
+.bubble i{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--green);color:var(--ink)}
+.bubble .ico{width:21px;height:21px}
+.bubble:hover{background:var(--ink-dark)}
+.no-js .bubble{visibility:visible;transform:none}
+@media(max-width:760px){
+  .bubble{right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));height:46px;padding:0 16px 0 5px;gap:8px;font-size:.88rem}
+  .bubble i{width:36px;height:36px}
+  .bubble .ico{width:19px;height:19px}
+  .consent-open .bubble.in{visibility:hidden;transform:translateY(calc(100% + 32px))}
+}
+
+/* Bandeau cookies : « Refuser » et « Accepter » ont exactement le même poids (recommandation de la CNIL). */
+.consent{position:fixed;left:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:65;width:min(420px,calc(100vw - 40px));
+  padding:20px 20px 16px;border-radius:20px;background:var(--white);color:var(--ink);border:1px solid var(--line);
+  box-shadow:0 28px 70px -24px rgba(27,55,71,.55);opacity:0;transform:translateY(calc(100% + 40px));transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.consent.in{opacity:1;transform:none}
+.consent-t{display:flex;align-items:center;gap:10px;font:700 1.1rem/1.2 var(--head);letter-spacing:-.01em}
+.consent-t .ico{width:34px;height:34px;padding:6px;border-radius:50%;background:var(--sand);color:var(--sand-d)}
+.consent p:not(.consent-t){margin-top:10px;font-size:.9rem;line-height:1.5;color:var(--ink-2)}
+.consent-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.consent-actions button{height:44px;border-radius:12px;border:1.5px solid var(--ink);background:var(--ink);color:var(--white);font:600 .92rem/1 var(--body);cursor:pointer}
+.consent-actions button:hover{background:var(--ink-dark);border-color:var(--ink-dark)}
+.consent-more{display:inline-block;margin-top:12px;font-size:.85rem;color:var(--ink-2);text-underline-offset:3px;text-decoration-color:var(--coral)}
+@media(max-width:560px){.consent{left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom,0px));width:auto}}
+
+/* Proposition de changer de langue, sous l'en-tête */
+.langprompt{position:fixed;top:88px;right:20px;z-index:66;width:min(400px,calc(100vw - 40px));display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:start;
+  padding:16px 46px 18px 14px;border-radius:20px;background:var(--blue-s);color:var(--ink);border:1px solid rgba(35,59,122,.12);
+  box-shadow:0 24px 60px -24px rgba(27,55,71,.5);opacity:0;transform:translateY(-10px);transition:opacity .35s,transform .35s}
+.langprompt.in{opacity:1;transform:none}
+.langprompt .illu{width:76px;color:var(--blue-d);margin-top:2px}
+.langprompt p{font-size:.92rem;line-height:1.45;color:var(--ink-2)}
+.langprompt p b{display:block;margin-bottom:4px;font:700 1.04rem/1.25 var(--head);letter-spacing:-.01em;color:var(--ink)}
+.lp-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:14px;font-size:.9rem}
+.lp-close{position:absolute;top:10px;right:10px;display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:10px;background:transparent;color:var(--ink-2);cursor:pointer}
+.lp-close:hover{background:rgba(255,255,255,.75);color:var(--ink)}
+.lp-close .ico{width:18px;height:18px}
+@media(max-width:760px){.langprompt{top:84px;left:8px;right:8px;width:auto}}
+@media(max-width:400px){.langprompt{grid-template-columns:1fr}.langprompt .illu{width:62px}}
 
 /* Apparition au défilement */
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
@@ -433,4 +525,5 @@ a.chip .ico{width:15px;height:15px}
   *,*::before,*::after{transition:none!important;scroll-behavior:auto!important}
   .reveal{opacity:1;transform:none}
   .marquee{animation:none;flex-wrap:wrap;width:auto;justify-content:center;row-gap:12px;padding:0 var(--gut)}
+  .bubble,.consent,.langprompt{transform:none}
 }

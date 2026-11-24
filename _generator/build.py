@@ -22,16 +22,15 @@ TODAY = date.today().isoformat()
 
 PAGES = [  # (identifiant, fonction)
     ("home", P.home), ("voyageurs", P.voyageurs), ("logement", P.logement), ("formules", P.formules),
-    ("faq", P.faq_page), ("paris", Q.hub), ("contact", P.contact), ("mentions", P.mentions),
-    ("confidentialite", P.confidentialite), ("credits", P.credits),
+    ("faq", P.faq_page), ("paris", Q.hub), ("contact", P.contact), ("mentions", P.mentions), ("cgv", P.cgv),
+    ("confidentialite", P.confidentialite), ("credits", P.credits), ("plan", P.plan_du_site),
 ]
 
 # Anciennes adresses Squarespace sans équivalent : une page qui redirige aussitôt vers la plus proche.
-# Les autres anciennes adresses (accueil, gestion des voyageurs, de propriété, FAQ, contact, Créteil,
-# Saint-Maur, mentions légales, politique de cookies) sont servies telles quelles par le nouveau site.
+# Les autres anciennes adresses (gestion des voyageurs, de propriété, FAQ, contact, Créteil, Saint-Maur,
+# mentions légales, conditions générales de vente, politique de cookies) sont servies telles quelles.
 REDIRECTS = {
     "/accueil": "/",
-    "/conditions-generales-de-vente": "/mentions-legales",
     "/boutique": "/",
     "/erreur-404": "/",
 }
@@ -117,7 +116,7 @@ def llms(entries):
            + "\n\n## Quartiers de Paris et communes d'Île-de-France\n\n" + "\n".join(groups["areas_fr"])
            + "\n\n## English\n\n" + "\n".join(groups["en"])
            + "\n\n## English: Paris neighbourhoods\n\n" + "\n".join(groups["areas_en"])
-           + f"\n\n## Optional\n\n- [Texte complet du site (FAQ, formules, quartiers)]({base}/llms-full.txt)\n- [Plan du site]({base}/sitemap.xml)\n")
+           + f"\n\n## Optional\n\n- [Texte complet du site (FAQ, formules, quartiers)]({base}/llms-full.txt)\n- [Plan du site XML]({base}/sitemap.xml)\n")
     (ROOT / "llms.txt").write_text(out, encoding="utf-8")
     written.append("llms.txt")
     full = [head]

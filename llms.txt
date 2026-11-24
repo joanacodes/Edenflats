@@ -14,8 +14,10 @@ EdenFlats est exploitée par EDENEL PATRIMOINE GESTION RESEAUX & SERVICES (EPGRS
 - [Conciergerie Airbnb à Paris : nos quartiers](https://www.edenflats.com/conciergerie-airbnb-paris): Conciergerie Airbnb à Paris, du Marais à Montmartre et à la tour Eiffel : annonce, voyageurs, clés, ménage, et les règles de location à Paris (90 jours).
 - [Contact conciergerie Airbnb Paris](https://www.edenflats.com/contact): Contactez la conciergerie Airbnb EdenFlats par téléphone, WhatsApp ou e-mail pour confier la gestion de votre logement à Paris et en Île-de-France. Estimation de revenus.
 - [Mentions légales](https://www.edenflats.com/mentions-legales): Mentions légales du site EdenFlats : éditeur (EDENEL PATRIMOINE GESTION RESEAUX & SERVICES, Sucy-en-Brie), hébergeur et propriété intellectuelle.
-- [Politique de confidentialité et cookies](https://www.edenflats.com/politique-de-cookies): Politique de confidentialité et de cookies d'EdenFlats : aucun cookie ni traceur, ce qui se passe quand vous nous contactez, et vos droits RGPD.
+- [Conditions générales de vente](https://www.edenflats.com/conditions-generales-de-vente): Conditions générales de vente d'EdenFlats, conciergerie Airbnb à Paris et en Île-de-France : prestations, tarifs, annulation, rétractation, responsabilités et litiges.
+- [Politique de confidentialité et cookies](https://www.edenflats.com/politique-de-cookies): Politique de confidentialité et de cookies d'EdenFlats : cookies déposés seulement avec votre accord, données de contact, durée de conservation et vos droits RGPD.
 - [Crédits photos](https://www.edenflats.com/credits-photos): Auteurs et licences libres (Creative Commons) des photos des quartiers de Paris utilisées sur le site EdenFlats, issues de Wikimedia Commons.
+- [Plan du site](https://www.edenflats.com/plan-du-site): Plan du site EdenFlats : toutes les pages de la conciergerie Airbnb, services, formules, FAQ, quartiers de Paris, communes d'Île-de-France et informations légales.
 
 ## Quartiers de Paris et communes d'Île-de-France
 
@@ -44,8 +46,10 @@ EdenFlats est exploitée par EDENEL PATRIMOINE GESTION RESEAUX & SERVICES (EPGRS
 - [Airbnb management in Paris: our neighbourhoods](https://www.edenflats.com/en/airbnb-management-paris): Airbnb management across Paris, from Le Marais to Montmartre and the Eiffel Tower: listing, guests, keys and cleaning, plus the Paris rental rules.
 - [Contact our Paris Airbnb Management Team](https://www.edenflats.com/en/contact): Contact EdenFlats, Airbnb management in Paris, by phone, WhatsApp or email to have your Paris or Île-de-France home managed. Ask for an income estimate.
 - [Legal notice](https://www.edenflats.com/en/legal-notice): EdenFlats legal notice: publisher (EDENEL PATRIMOINE GESTION RESEAUX & SERVICES, Sucy-en-Brie), website host and intellectual property.
-- [Privacy and cookie policy](https://www.edenflats.com/en/privacy): EdenFlats privacy and cookie policy: no cookies or trackers on this site, what happens when you contact us, and your rights under the GDPR.
+- [Terms and conditions](https://www.edenflats.com/en/terms-and-conditions): EdenFlats terms and conditions for Airbnb management in Paris and Île-de-France: services, prices, cancellation, withdrawal, liability and disputes.
+- [Privacy and cookie policy](https://www.edenflats.com/en/privacy): EdenFlats privacy and cookie policy: cookies set only with your consent, how we use your contact details, how long we keep them and your rights under the GDPR.
 - [Photo credits](https://www.edenflats.com/en/photo-credits): Authors and free licences (Creative Commons) of the Paris neighbourhood photos used on the EdenFlats website, from Wikimedia Commons.
+- [Sitemap](https://www.edenflats.com/en/sitemap): EdenFlats sitemap: every page of our Airbnb management website, from services, plans and FAQ to Paris neighbourhoods, Île-de-France towns and legal pages.
 
 ## English: Paris neighbourhoods
 
@@ -67,4 +71,4 @@ EdenFlats est exploitée par EDENEL PATRIMOINE GESTION RESEAUX & SERVICES (EPGRS
 ## Optional
 
 - [Texte complet du site (FAQ, formules, quartiers)](https://www.edenflats.com/llms-full.txt)
-- [Plan du site](https://www.edenflats.com/sitemap.xml)
+- [Plan du site XML](https://www.edenflats.com/sitemap.xml)
