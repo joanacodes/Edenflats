@@ -1,0 +1,4 @@
+exclude:
+  - README.md
+  - IMAGES-MIDJOURNEY.md
+  - _generator

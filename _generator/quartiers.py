@@ -1,10 +1,9 @@
 # Pages des quartiers de Paris et des communes d'Île-de-France.
 # Chaque page dit quelque chose de propre au lieu (stations, monuments, voyageurs) : des pages
 # identiques où seul le nom change seraient traitées par Google comme des pages satellites.
-from kit import (SITE, tr, url, icon, chip, btn, more, fcard, photo, ticks, head, crumbs, crumbs_ld)
+from kit import (SITE, tr, url, icon, illu, chip, btn, more, fcard, photo, ticks, head, crumbs, crumbs_ld, service_ld)
 import photos
 
-PARIS = url("paris", "fr"), url("paris", "en")
 
 AREAS = [
     {"id": "marais", "slug": {"fr": "le-marais", "en": "le-marais"}, "neighbors": ["bastille", "louvre", "canal-saint-martin"],
@@ -242,7 +241,7 @@ AREAS = [
 
 # Communes d'Île-de-France qui avaient déjà une page sur l'ancien site : leurs adresses sont gardées.
 TOWNS = [
-    {"id": "creteil", "route": {"fr": "/conciergerie-airbnb-creteil/", "en": "/en/airbnb-management-creteil/"}, "neighbors": ["saint-maur"],
+    {"id": "creteil", "route": {"fr": "/conciergerie-airbnb-creteil", "en": "/en/airbnb-management-creteil"}, "neighbors": ["saint-maur"],
      "fr": {"name": "Créteil", "prep": "à Créteil", "arr": "Val-de-Marne (94)",
             "teaser": "Préfecture du Val-de-Marne, sur la ligne 8.",
             "lead": "Préfecture du Val-de-Marne, reliée à Paris par la ligne 8 du métro, Créteil attire des voyageurs qui viennent étudier, travailler ou accompagner un proche. Nous gérons votre meublé en location courte et moyenne durée.",
@@ -261,7 +260,7 @@ TOWNS = [
             "transit": ["Créteil–L'Échat (line 8)", "Créteil–Université (8)", "Créteil–Préfecture (8)", "Pointe du Lac (8)"],
             "see": ["Créteil lake and leisure park", "Créteil Soleil", "Banks of the Marne"],
             "guests": "Students and lecturers, patients' relatives, work assignments"}},
-    {"id": "saint-maur", "route": {"fr": "/conciergerie-airbnb-saint-maur-des-fosses/", "en": "/en/airbnb-management-saint-maur-des-fosses/"},
+    {"id": "saint-maur", "route": {"fr": "/conciergerie-airbnb-saint-maur-des-fosses", "en": "/en/airbnb-management-saint-maur-des-fosses"},
      "neighbors": ["creteil"],
      "fr": {"name": "Saint-Maur-des-Fossés", "prep": "à Saint-Maur-des-Fossés", "arr": "Val-de-Marne (94)",
             "teaser": "Une boucle de la Marne, à une vingtaine de minutes de Paris en RER A.",
@@ -290,11 +289,37 @@ IDF = ["Versailles", "Boulogne-Billancourt", "Neuilly-sur-Seine", "Levallois-Per
 
 BY_ID = {a["id"]: a for a in AREAS + TOWNS}
 
+SEO_TITLES = {
+    "marais": ("Le Marais, Paris 3e-4e", "Le Marais, Paris 3rd-4th"), "montmartre": ("Montmartre, Paris 18e", "Montmartre, Paris 18th"),
+    "saint-germain-des-pres": ("Saint-Germain-des-Prés", "Saint-Germain-des-Prés"),
+    "quartier-latin": ("Quartier latin, Paris 5e", "Latin Quarter, Paris 5th"), "tour-eiffel": ("Tour Eiffel, Paris 7e", "Eiffel Tower, Paris 7th"),
+    "champs-elysees": ("Champs-Élysées, Paris 8e", "Champs-Élysées, Paris 8th"), "opera": ("Opéra, Paris 9e", "Opéra, Paris 9th"),
+    "louvre": ("Louvre, Paris 1er", "Louvre, Paris 1st"), "canal-saint-martin": ("Canal Saint-Martin, Paris 10e", "Canal Saint-Martin, Paris 10th"),
+    "bastille": ("Bastille, Paris 11e-12e", "Bastille, Paris 11th-12th"), "montparnasse": ("Montparnasse, Paris 14e", "Montparnasse, Paris 14th"),
+    "trocadero": ("Trocadéro, Paris 16e", "Trocadéro, Paris 16th"), "creteil": ("Créteil (94)", "Créteil (94)"),
+    "saint-maur": ("Saint-Maur-des-Fossés (94)", "Saint-Maur-des-Fossés (94)"),
+}
+
+
+def seo_desc(a, L):
+    """Description unique par page : le quartier, ce qui le caractérise, puis le service (version courte si trop long)."""
+    d = a[L]
+    if L == "fr":
+        options = [f"Conciergerie Airbnb {d['prep']}. {d['teaser']} Annonce, voyageurs, clés et ménage pour votre meublé.",
+                   f"Conciergerie Airbnb {d['prep']}. {d['teaser']} Annonce, voyageurs, clés et ménage.",
+                   f"Conciergerie Airbnb {d['prep']}. {d['teaser']}"]
+    else:
+        options = [f"Airbnb management {d['prep']}. {d['teaser']} Listing, guests, keys and cleaning for your furnished home.",
+                   f"Airbnb management {d['prep']}. {d['teaser']} Listing, guests, keys and cleaning.",
+                   f"Airbnb management {d['prep']}. {d['teaser']}"]
+    return next((o for o in options if len(o) <= 158), options[-1])
+
 
 def area_url(a, L):
+    """Adresses à plat, sur le modèle des pages de communes de l'ancien site (/conciergerie-airbnb-creteil)."""
     if "route" in a:
         return a["route"][L]
-    return PARIS[0 if L == "fr" else 1] + a["slug"][L] + "/"
+    return ("/conciergerie-airbnb-" if L == "fr" else "/en/airbnb-management-") + a["slug"][L]
 
 
 def area_img(a, L, sizes="(max-width: 700px) 90vw, 290px", lazy=True):
@@ -320,16 +345,16 @@ def credit(a, L):
 def rules(L):
     t = tr(L)
     cards = [
-        ("lime-s", t("90 jours par an", "90 days a year"),
+        ("green-s", t("90 jours par an", "90 days a year"),
          t("C'est le maximum pour louer votre résidence principale en meublé de tourisme à Paris, depuis le 1er janvier 2025.",
            "The maximum for letting your main residence as furnished tourist accommodation in Paris, since 1 January 2025.")),
-        ("pink-s", t("Numéro d'enregistrement", "Registration number"),
+        ("coral-s", t("Numéro d'enregistrement", "Registration number"),
          t("Le logement doit être déclaré à la Ville ; son numéro figure sur chaque annonce.",
            "The property must be declared to the City; its number appears on every listing.")),
-        ("mint-s", t("Changement d'usage", "Change of use"),
+        ("blue-s", t("Changement d'usage", "Change of use"),
          t("Louer une résidence secondaire en courte durée demande une autorisation de la Ville, en général avec compensation.",
            "Letting a second home for short stays requires City authorisation, usually with compensation.")),
-        ("peach-s", t("Accord du propriétaire", "Landlord's consent"),
+        ("sand-s", t("Accord du propriétaire", "Landlord's consent"),
          t("Locataire ? Il vous faut l'accord écrit de votre propriétaire pour sous-louer.",
            "Renting? You need your landlord's written consent to sublet.")),
     ]
@@ -342,22 +367,22 @@ def rules(L):
 def minis(L):
     t = tr(L)
     tiles = [
-        ("lime-s", "camera", t("Annonce et photos", "Listing and photos"), t("Photos prises par nos soins, annonce en français et en anglais.", "Photos taken by us, listing in French and English."), "voyageurs"),
-        ("pink-s", "shield", t("Sélection des voyageurs", "Guest screening"), t("Profils vérifiés, pièce d'identité obligatoire.", "Verified profiles, ID required."), "voyageurs"),
-        ("mint-s", "key", t("Clés et accueil", "Keys and welcome"), t("En main propre, par un café partenaire ou à distance.", "In person, via a partner café or remotely."), "voyageurs"),
-        ("peach-s", "sparkle", t("Ménage et linge", "Cleaning and linen"), t("Après chaque départ, consommables compris.", "After every check-out, consumables included."), "logement"),
+        ("green-s", "appareil", t("Annonce et photos", "Listing and photos"), t("Photos prises par nos soins, annonce en français et en anglais.", "Photos taken by us, listing in French and English."), "voyageurs"),
+        ("coral-s", "identite", t("Sélection des voyageurs", "Guest screening"), t("Profils vérifiés, pièce d'identité obligatoire.", "Verified profiles, ID required."), "voyageurs"),
+        ("blue-s", "cles", t("Clés et accueil", "Keys and welcome"), t("En main propre, par un café partenaire ou à distance.", "In person, via a partner café or remotely."), "voyageurs"),
+        ("sand-s", "menage", t("Ménage et linge", "Cleaning and linen"), t("Après chaque départ, consommables compris.", "After every check-out, consumables included."), "logement"),
     ]
     return '<div class="minis">' + "".join(
-        f'<a class="mini {c}" href="{url(p, L)}">{icon(i)}<b>{b}</b><span>{s}</span></a>' for c, i, b, s, p in tiles) + "</div>"
+        f'<a class="mini {c}" href="{url(p, L)}">{illu(i)}<b>{b}</b><span>{s}</span></a>' for c, i, b, s, p in tiles) + "</div>"
 
 
 def plans_strip(L):
     t = tr(L)
     return f"""<div class="plans">
-  <div class="plan lime-s reveal">{chip(t("Formule 1", "Plan 1"), "t-lime")}<h3>{t("Revenu garanti", "Guaranteed income")}</h3>
+  <div class="plan green-s reveal">{illu("maison")}{chip(t("Formule 1", "Plan 1"))}<h3>{t("Revenu garanti", "Guaranteed income")}</h3>
     <p class="big">{t("≈ 15 %", "≈ 15%")}<small>{t("de marge moyenne pour EdenFlats, et un revenu versé que le logement soit loué ou non", "average margin for EdenFlats, with an income paid whether or not the apartment is booked")}</small></p>
     {more(url("formules", L), t("Comparer les formules", "Compare the plans"))}</div>
-  <div class="plan mint-s reveal">{chip(t("Formule 2", "Plan 2"), "t-mint")}<h3>{t("Revenu réel", "Actual income")}</h3>
+  <div class="plan blue-s reveal">{illu("graphique")}{chip(t("Formule 2", "Plan 2"))}<h3>{t("Revenu réel", "Actual income")}</h3>
     <p class="big">{t("18 à 25 %", "18–25%")}<small>{t("de commission selon la durée de location, avec un prix minimum par nuit que vous fixez", "commission depending on rental length, with a minimum nightly price that you set")}</small></p>
     {more(url("formules", L), t("Comparer les formules", "Compare the plans"))}</div>
 </div>"""
@@ -372,8 +397,8 @@ def area_page(a, L):
     h1 = t(f"Conciergerie Airbnb <mark>{d['prep']}</mark>", f"Airbnb management <mark>{d['prep']}</mark>")
     visual = f"""<div class="hero-visual">
         <figure class="hero-photo">{area_img(a, L, sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
-        {fcard(t("Métro et RER", "Metro and RER") if not is_town else t("Transports", "Transport"), "t-mint", ", ".join(d["transit"][:2]), "fc-1", "train")}
-        {fcard(t("À voir", "Nearby"), "t-lime", ", ".join(d["see"][:2]), "fc-3", "eye")}
+        {fcard(t("Métro et RER", "Metro and RER") if not is_town else t("Transports", "Transport"), "t-blue", ", ".join(d["transit"][:2]), "fc-1", "train")}
+        {fcard(t("À voir", "Nearby"), "t-green", ", ".join(d["see"][:2]), "fc-3", "eye")}
       </div>{credit(a, L)}"""
     facts = [("pin", t("Situation", "Location"), d["arr"]),
              ("train", t("Métro et RER", "Metro and RER") if not is_town else t("Transports", "Transport"), " · ".join(d["transit"])),
@@ -390,7 +415,7 @@ def area_page(a, L):
 </div></section>"""
     else:
         rules_block = f"""<section class="sec tight"><div class="wrap">
-  <div class="rule sand-s" style="max-width:780px"><b>{t("Les règles dépendent de la commune", "The rules depend on the town")}</b>
+  <div class="rule cream-s" style="max-width:780px"><b>{t("Les règles dépendent de la commune", "The rules depend on the town")}</b>
   <span>{t("Déclaration en mairie, numéro d'enregistrement sur l'annonce, autorisation de changement d'usage pour une résidence secondaire : renseignez-vous auprès de votre mairie avant la mise en location.",
            "Declaration to the town hall, registration number on the listing, change-of-use authorisation for a second home: check with your town hall before letting.")}
   {more(url("faq", L) + "#reglementation", t("Lire notre réponse sur la législation", "Read our answer on the rules"))}</span></div>
@@ -410,9 +435,11 @@ def area_page(a, L):
     <p>{d["p1"]}</p><p>{d["p2"]}</p>
     <h2>{t("Votre logement", "Your home")} {d["prep"]}{t(", géré par EdenFlats", ", managed by EdenFlats")}</h2>
     <p>{d["ours"]}</p>
+    <p>{t(f'Nous prenons en charge la <a href="{url("voyageurs", L)}">gestion des voyageurs</a> (annonce, sélection, clés, assistance) et la <a href="{url("logement", L)}">gestion du logement</a> (ménage, linge, entretien), avec <a href="{url("formules", L)}">un revenu garanti ou un revenu réel</a>. Les questions des propriétaires sont dans notre <a href="{url("faq", L)}">FAQ</a>.',
+          f'We handle <a href="{url("voyageurs", L)}">guest management</a> (listing, screening, keys, support) and <a href="{url("logement", L)}">property management</a> (cleaning, linen, upkeep), with <a href="{url("formules", L)}">a guaranteed or an actual income</a>. Owners’ questions are answered in our <a href="{url("faq", L)}">FAQ</a>.')}</p>
     {minis(L)}
   </div>
-  <aside class="facts sand-s" aria-label="{t("Repères", "Key facts")}"><h3>{t("Repères", "Key facts")}</h3><dl>{facts_html}</dl></aside>
+  <aside class="facts cream-s" aria-label="{t("Repères", "Key facts")}"><h3>{t("Repères", "Key facts")}</h3><dl>{facts_html}</dl></aside>
 </div></section>
 <section class="sec tight"><div class="wrap">
   {head(t("Nos formules", "Our plans"), t("Revenu garanti ou revenu réel", "Guaranteed or actual income"))}
@@ -424,12 +451,16 @@ def area_page(a, L):
   <div class="areas">{neigh}</div>
   <p class="note">{more(url("paris", L), t("Tous les quartiers de Paris", "All Paris neighbourhoods"))}</p>
 </div></section>"""
-    title = t(f"Conciergerie Airbnb {d['prep']} ({d['arr']}) | EdenFlats", f"Airbnb management {d['prep']} ({d['arr']}) | EdenFlats")
-    desc = t(f"EdenFlats gère votre meublé {d['prep']} en location courte et moyenne durée : annonce, sélection des voyageurs, clés, ménage et linge. Revenu garanti ou revenu réel.",
-             f"EdenFlats manages your furnished apartment {d['prep']} for short and mid-term stays: listing, guest screening, keys, cleaning and linen. Guaranteed or actual income.")
+    st = SEO_TITLES[a["id"]]
+    title = t(f"Conciergerie Airbnb {st[0]} | EdenFlats", f"Airbnb Management {st[1]} | EdenFlats")
+    desc = seo_desc(a, L)
     cta_title = t(f'Un logement {d["prep"]} ? <span class="o">Parlons-en.</span>', f'A property {d["prep"]}? <span class="o">Let\'s talk.</span>')
+    p = photos.AREA[a["id"]]
+    area_name = d["name"] if is_town else f'{d["name"]}, Paris'
+    ld = [crumbs_ld(L, trail), service_ld(L, t(f"Conciergerie Airbnb {d['prep']}", f"Airbnb management {d['prep']}"), desc, path, area=area_name)]
     return {"path": path, "alt_path": area_url(a, "en" if L == "fr" else "fr"), "title": title, "desc": desc, "body": body,
-            "ld": [crumbs_ld(L, trail)], "cta_title": cta_title}
+            "ld": ld, "cta_title": cta_title, "og_image": f'/assets/img/{p["file"]}.jpg', "og_alt": p["alt"][L],
+            "section": None if is_town else "paris", "image": f'/assets/img/{p["file"]}.jpg'}
 
 
 def hub(L):
@@ -453,8 +484,8 @@ def hub(L):
         <div class="cta-row">{btn(url("contact", L), t("Parlez-nous de votre logement", "Tell us about your property"))}{btn("#quartiers", t("Voir les quartiers", "See the neighbourhoods"), "ghost")}</div></div>
       <div><div class="hero-visual">
         <figure class="hero-photo">{photo(p["file"], p["alt"][L], sizes="(max-width: 900px) 100vw, 45vw", lazy=False, big=p["big"])}</figure>
-        {fcard("Paris", "t-lime", t("Résidence principale : 90 jours de location par an au maximum.", "Main residence: up to 90 rental days a year."), "fc-1", "calendar")}
-        {fcard(t("Annonce", "Listing"), "t-pink", t("Numéro d'enregistrement affiché sur chaque annonce.", "Registration number shown on every listing."), "fc-3", "id")}
+        {fcard("Paris", "t-green", t("Résidence principale : 90 jours de location par an au maximum.", "Main residence: up to 90 rental days a year."), "fc-1", "calendar")}
+        {fcard(t("Annonce", "Listing"), "t-coral", t("Numéro d'enregistrement affiché sur chaque annonce.", "Registration number shown on every listing."), "fc-3", "id")}
       </div>{cred}</div>
     </div>
   </div>
@@ -477,6 +508,20 @@ def hub(L):
   <div class="cta-row">{town_chips}{others}</div>
 </div></section>"""
     title = t("Conciergerie Airbnb à Paris : nos quartiers | EdenFlats", "Airbnb management in Paris: our neighbourhoods | EdenFlats")
-    desc = t("Conciergerie Airbnb à Paris : Marais, Montmartre, Saint-Germain-des-Prés, tour Eiffel, Champs-Élysées et plus. Annonce, voyageurs, clés, ménage, et les règles de location à Paris.",
-             "Airbnb management in Paris: Le Marais, Montmartre, Saint-Germain-des-Prés, the Eiffel Tower, the Champs-Élysées and more. Listing, guests, keys, cleaning, and the Paris rental rules.")
-    return {"title": title, "desc": desc, "body": body, "ld": [crumbs_ld(L, trail)]}
+    desc = t("Conciergerie Airbnb à Paris, du Marais à Montmartre et à la tour Eiffel : annonce, voyageurs, clés, ménage, et les règles de location à Paris (90 jours).",
+             "Airbnb management across Paris, from Le Marais to Montmartre and the Eiffel Tower: listing, guests, keys and cleaning, plus the Paris rental rules.")
+    ld = [crumbs_ld(L, trail), service_ld(L, t("Conciergerie Airbnb à Paris", "Airbnb management in Paris"), desc, url("paris", L), area="Paris")]
+    return {"title": title, "desc": desc, "body": body, "ld": ld, "og_image": f'/assets/img/{p["file"]}.jpg', "og_alt": p["alt"][L],
+            "section": "paris", "image": f'/assets/img/{p["file"]}.jpg'}
+
+
+def where(L, illus_name="tour-eiffel", tone="blue-s"):
+    """Bloc de liens vers chaque quartier : il relie les pages de services aux pages locales (maillage interne)."""
+    t = tr(L)
+    chips = "".join(f'<a class="chip" href="{area_url(a, L)}">{a[L]["name"]}</a>' for a in AREAS + TOWNS)
+    text = t(f'Nous gérons des logements dans tout Paris et en Île-de-France. Chaque quartier a sa page : les voyageurs qui y séjournent, les transports, ce que nous faisons pour votre logement. Voir la <a href="{url("paris", L)}">conciergerie Airbnb à Paris</a>.',
+             f'We manage homes all over Paris and Île-de-France. Each neighbourhood has its own page: who stays there, transport, what we do for your home. See <a href="{url("paris", L)}">Airbnb management in Paris</a>.')
+    return f"""<section class="sec tight"><div class="wrap"><div class="where {tone}">
+  {illu(illus_name)}
+  <div><h2>{t("Où nous intervenons", "Where we work")}</h2><p>{text}</p><div class="cta-row">{chips}</div></div>
+</div></div></section>"""

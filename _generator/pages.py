@@ -2,8 +2,8 @@
 # Les textes reprennent ceux de l'ancien site (services, FAQ, formules), réécrits sans les doublons.
 import re
 from html import escape
-from kit import (SITE, tr, url, icon, chip, btn, more, todo, fcard, photo, obj, ticks, head, faq_list, crumbs,
-                 crumbs_ld, contact_buttons)
+from kit import (SITE, tr, url, icon, illu, chip, btn, more, todo, fcard, photo, sticker, ticks, head, faq_list, crumbs,
+                 crumbs_ld, contact_buttons, org_ld, website_ld, service_ld)
 import faq
 import photos
 import quartiers as Q
@@ -12,28 +12,28 @@ import quartiers as Q
 def services(L):
     t = tr(L)
     return [
-        ("lime-s", "calendar", t("Gestion des réservations", "Reservations"),
+        ("green-s", "calendrier", t("Gestion des réservations", "Reservations"),
          t("Nous prenons en charge tout le processus de réservation, de la mise en ligne de l'annonce à la confirmation, avec des tarifs ajustés pour garantir la rentabilité.",
            "We handle the whole booking process, from publishing the listing to confirming each stay, with prices adjusted to keep your property profitable."), "voyageurs"),
-        ("pink-s", "door", t("Accueil des voyageurs", "Guest welcome"),
+        ("coral-s", "porte", t("Accueil des voyageurs", "Guest welcome"),
          t("Un accueil chaleureux, une remise de clés sécurisée et une présentation complète du logement, pour que les voyageurs s'y sentent chez eux dès le premier instant.",
            "A warm welcome, a secure key handover and a full tour of the home, so guests feel at home from the first minute."), "voyageurs"),
-        ("mint-s", "sparkle", t("Ménage et entretien", "Cleaning and upkeep"),
+        ("blue-s", "menage", t("Ménage et entretien", "Cleaning and upkeep"),
          t("Après chaque séjour, nos équipes rendent le logement impeccable, et des vérifications régulières le gardent en parfait état.",
            "After every stay, our teams leave the home spotless, and regular checks keep it in perfect condition."), "logement"),
-        ("peach-s", "linen", t("Blanchisserie du linge", "Linen service"),
+        ("sand-s", "linge", t("Blanchisserie du linge", "Linen service"),
          t("Draps, serviettes et linge de maison sont lavés et repassés à chaque séjour, prêts pour les voyageurs suivants.",
            "Sheets, towels and household linen are washed and ironed for every stay, ready for the next guests."), "logement"),
-        ("lime-s", "wrench", t("Maintenance et réparation", "Maintenance and repairs"),
+        ("green-s", "outils", t("Maintenance et réparation", "Maintenance and repairs"),
          t("Une ampoule à changer ou un dépannage plus complexe : notre équipe technique intervient rapidement pour la pérennité de votre bien.",
            "A bulb to change or a more complex repair: our technical team steps in quickly to keep your property in good shape."), "logement"),
-        ("pink-s", "headset", t("Assistance aux voyageurs", "Guest support"),
+        ("coral-s", "casque", t("Assistance aux voyageurs", "Guest support"),
          t("Une question, un imprévu ? Notre assistance répond aux voyageurs 24h/24 et 7j/7, des conseils locaux à l'aide d'urgence.",
            "A question or a problem? Our support team answers guests 24/7, from local tips to emergency help."), "voyageurs"),
-        ("mint-s", "scales", t("Gestion des litiges", "Dispute handling"),
+        ("blue-s", "balance", t("Gestion des litiges", "Dispute handling"),
          t("En cas de désaccord, nous servons de médiateur et protégeons les intérêts du propriétaire, en cherchant un règlement équitable.",
            "If a disagreement arises, we mediate and protect the owner's interests while seeking a fair settlement."), "logement"),
-        ("peach-s", "sliders", t("Conciergerie à la carte", "À la carte"),
+        ("sand-s", "carte", t("Conciergerie à la carte", "À la carte"),
          t("Gestion complète, ou seulement le ménage, la maintenance ou les réservations : vous choisissez les services qui vous conviennent.",
            "Full management, or only cleaning, maintenance or bookings: you choose the services that suit you."), "formules"),
     ]
@@ -44,7 +44,7 @@ def service_cards(L, items, link=True):
     out = []
     for tone, ic, h, p, target in items:
         m = more(url(target, L), t("En savoir plus", "Learn more")) if link else ""
-        out.append(f'<div class="card {tone} reveal">{icon(ic)}<h3>{h}</h3><p>{p}</p>{m}</div>')
+        out.append(f'<div class="card {tone} reveal">{illu(ic)}<h3>{h}</h3><p>{p}</p>{m}</div>')
     return "".join(out)
 
 
@@ -59,20 +59,20 @@ def marquee(L):
 def steps(L):
     t = tr(L)
     items = [
-        ("lime-s", t("Vous nous présentez votre logement", "You tell us about your home"),
+        ("green-s", "telephone", t("Vous nous présentez votre logement", "You tell us about your home"),
          t("Par téléphone, sur WhatsApp ou par e-mail : adresse, nombre de couchages, dates où vous souhaitez le louer.",
            "By phone, WhatsApp or email: address, number of beds, the dates you want to let it.")),
-        ("pink-s", t("Nous estimons vos revenus", "We estimate your income"),
+        ("coral-s", "graphique", t("Nous estimons vos revenus", "We estimate your income"),
          t("Après une évaluation détaillée du logement et de vos objectifs, nous vous remettons une projection réaliste et transparente.",
            "After a detailed assessment of the home and your goals, we give you a realistic, transparent projection.")),
-        ("mint-s", t("Nous préparons l'annonce", "We prepare the listing"),
+        ("blue-s", "appareil", t("Nous préparons l'annonce", "We prepare the listing"),
          t("Photos prises par nos soins, annonce en français et en anglais, publiée sur Airbnb, Booking.com, Vrbo et Expedia.",
            "Photos taken by us, a listing in French and English, published on Airbnb, Booking.com, Vrbo and Expedia.")),
-        ("peach-s", t("Nous gérons tout", "We handle everything"),
+        ("sand-s", "cles", t("Nous gérons tout", "We handle everything"),
          t("Réservations, voyageurs, clés, ménage et entretien. Vous gardez l'accès à votre compte Airbnb.",
            "Bookings, guests, keys, cleaning and upkeep. You keep access to your Airbnb account.")),
     ]
-    return '<ol class="steps">' + "".join(f'<li class="step {c} reveal"><h3>{h}</h3><p>{p}</p></li>' for c, h, p in items) + "</ol>"
+    return '<ol class="steps">' + "".join(f'<li class="step {c} reveal">{illu(i)}<h3>{h}</h3><p>{p}</p></li>' for c, i, h, p in items) + "</ol>"
 
 
 def phead(L, trail, label, h1, lead, visual="", actions=True):
@@ -116,11 +116,11 @@ def home(L):
         <div class="cta-row">{btn(url("contact", L), t("Parlez-nous de votre projet", "Tell us about your property"))}{btn(url("formules", L), t("Voir nos formules", "See our plans"), "ghost")}</div>
       </div>
       <div class="hero-visual">
-        <figure class="hero-photo">{photo("photo-arrivee-voyageurs", t("Deux voyageurs arrivent avec leur valise", "Two guests arriving with their suitcase"), sizes="(max-width: 900px) 100vw, 40vw", lazy=False)}</figure>
-        {fcard(t("Revenu garanti", "Guaranteed income"), "t-lime", t("Versé que le logement soit loué ou non.", "Paid whether or not the home is booked."), "fc-1", "chart")}
-        {fcard(t("Voyageurs", "Guests"), "t-pink", t("Pièce d'identité vérifiée avant chaque séjour.", "ID checked before every stay."), "fc-2", "id")}
-        {fcard(t("Ménage", "Cleaning"), "t-mint", t("Après chaque départ, linge compris.", "After every check-out, linen included."), "fc-3", "sparkle")}
-        {obj("cles", "obj-keys")}
+        <figure class="hero-photo">{photo("accueil-hero", t("Deux voyageurs arrivent avec leur valise", "Two guests arriving with their suitcase"), sizes="(max-width: 900px) 100vw, 40vw", lazy=False)}</figure>
+        {fcard(t("Revenu garanti", "Guaranteed income"), "t-green", t("Versé que le logement soit loué ou non.", "Paid whether or not the home is booked."), "fc-1", "chart")}
+        {fcard(t("Voyageurs", "Guests"), "t-coral", t("Pièce d'identité vérifiée avant chaque séjour.", "ID checked before every stay."), "fc-2", "id")}
+        {fcard(t("Ménage", "Cleaning"), "t-blue", t("Après chaque départ, linge compris.", "After every check-out, linen included."), "fc-3", "sparkle")}
+        {sticker("cles")}
       </div>
     </div>
   </div>
@@ -144,10 +144,11 @@ def home(L):
 
 <section class="sec split"><div class="wrap split-grid">
   <div class="split-visual">
-    <figure class="ph">{photo("photo-voyage-carte", t("Passeport et lunettes de soleil posés sur une carte du monde", "Passport and sunglasses on a world map"))}</figure>
-    {fcard(t("Identité", "Identity"), "t-lime", t("Pièce d'identité vérifiée", "ID checked"), "a", "id")}
-    {fcard(t("Profil", "Profile"), "t-pink", t("Commentaires positifs et profil vérifié", "Positive reviews and verified profile"), "b", "star")}
-    {fcard(t("Familles", "Families"), "t-mint", t("Réservations des familles facilitées", "Family bookings made easy"), "c", "family")}
+    <figure class="ph">{photo("accueil-voyageurs", t("Passeport et lunettes de soleil posés sur une carte du monde", "Passport and sunglasses on a world map"))}</figure>
+    {fcard(t("Identité", "Identity"), "t-green", t("Pièce d'identité vérifiée", "ID checked"), "a", "id")}
+    {fcard(t("Profil", "Profile"), "t-coral", t("Commentaires positifs et profil vérifié", "Positive reviews and verified profile"), "b", "star")}
+    {fcard(t("Familles", "Families"), "t-blue", t("Réservations des familles facilitées", "Family bookings made easy"), "c", "family")}
+    {sticker("identite", cls="low")}
   </div>
   <div class="split-text reveal">
     {chip(t("Gestion des voyageurs", "Guest management"))}
@@ -164,10 +165,10 @@ def home(L):
 
 <section class="sec split flip"><div class="wrap split-grid">
   <div class="split-visual">
-    <figure class="ph">{photo("photo-chambre", t("Chambre lumineuse avec un lit fait et du linge propre", "Bright bedroom with a freshly made bed"))}</figure>
-    {fcard(t("Réapprovisionnement", "Restocking"), "t-mint", t("Draps, serviettes et articles de toilette remis en place.", "Sheets, towels and toiletries put back in place."), "a", "linen")}
-    {fcard(t("Entretien", "Upkeep"), "t-peach", t("Vérifications régulières des équipements.", "Regular checks of all equipment."), "b", "wrench")}
-    {obj("serviettes", "o1")}{obj("savon", "o2")}
+    <figure class="ph">{photo("accueil-logement", t("Chambre lumineuse avec un lit fait et du linge propre", "Bright bedroom with a freshly made bed"))}</figure>
+    {fcard(t("Réapprovisionnement", "Restocking"), "t-blue", t("Draps, serviettes et articles de toilette remis en place.", "Sheets, towels and toiletries put back in place."), "a", "linen")}
+    {fcard(t("Entretien", "Upkeep"), "t-sand", t("Vérifications régulières des équipements.", "Regular checks of all equipment."), "b", "wrench")}
+    {sticker("linge")}
   </div>
   <div class="split-text reveal">
     {chip(t("Gestion du logement", "Property management"))}
@@ -189,16 +190,17 @@ def home(L):
   {Q.plans_strip(L)}
 </div></section>
 
-<section class="sec navy-band" aria-labelledby="areas-t" data-rail>
+<section class="sec blue-band" aria-labelledby="areas-t" data-rail>
   <div class="wrap">
     <div class="rail-head">
       {head("Paris", t("Les quartiers que les voyageurs viennent chercher", "The neighbourhoods guests come looking for"),
             t("Nous gérons des logements dans tout Paris et en Île-de-France. Voici ce qui attire les voyageurs dans chaque quartier.",
               "We manage homes all over Paris and Île-de-France. Here is what draws guests to each neighbourhood."), hid="areas-t")}
+      {illu("tour-eiffel")}
       <div class="rail-btns"><button class="prev" type="button" aria-label="{t("Quartiers précédents", "Previous")}">{icon("arrow")}</button><button class="next" type="button" aria-label="{t("Quartiers suivants", "Next")}">{icon("arrow")}</button></div>
     </div>
     <div class="rail">{rail}</div>
-    <div class="rail-foot">{btn(url("paris", L), t("Tous les quartiers de Paris", "All Paris neighbourhoods"), "light")}
+    <div class="rail-foot">{btn(url("paris", L), t("Conciergerie Airbnb à Paris : tous les quartiers", "Airbnb management in Paris: all neighbourhoods"))}
       <span>{t("Photos des quartiers : Wikimedia Commons,", "Neighbourhood photos: Wikimedia Commons,")} <a href="{url("credits", L)}">{t("voir les crédits", "see credits")}</a></span></div>
   </div>
 </section>
@@ -213,8 +215,8 @@ def home(L):
     {head("FAQ", t("Les questions des propriétaires", "Owners' questions"), hid="faq-t")}
     <p class="intro">{t("Les réponses à ce qu'on nous demande avant de nous confier un logement.", "Answers to what owners ask us before handing over their keys.")}</p>
     <div class="split-visual">
-      <figure class="ph">{photo("photo-salon-plantes", t("Salon lumineux avec des plantes", "Bright living room with plants"))}</figure>
-      {fcard("WhatsApp", "t-lime", t("Une autre question ? Écrivez-nous.", "Another question? Message us."), "b", "chat")}
+      <figure class="ph">{photo("accueil-faq", t("Salon lumineux avec des plantes", "Bright living room with plants"))}</figure>
+      {fcard("WhatsApp", "t-green", t("Une autre question ? Écrivez-nous.", "Another question? Message us."), "b", "chat")}
     </div>
   </div>
   <div>{faq_list(faq.pick(L, ["tarifs", "revenu", "cles", "selection", "legislation"]))}
@@ -222,21 +224,21 @@ def home(L):
 </div></section>
 
 <section class="sec tight"><div class="wrap">
-  <div class="travel panel cream" style="margin:0">
+  <div class="travel panel coral-s" style="margin:0">
+    {illu("cafe")}
     <div><h2>{t("Vous voyagez à Paris ?", "Travelling to Paris?")}</h2>
       <p>{t("Découvrez les logements EdenFlats disponibles et réservez directement.", "Browse the EdenFlats homes available and book directly.")}</p></div>
     {btn(s["booking"], t("Voir les logements", "See the homes"), ext=True, ico="out")}
-    {obj("croissants", "o1")}{obj("cafe", "o2")}
   </div>
 </div></section>"""
     ld = {"@context": "https://schema.org", "@type": "Organization", "name": "EdenFlats", "url": SITE["url"] + url("home", L),
           "logo": SITE["url"] + "/assets/img/apple-touch-icon.png", "email": SITE["email"], "telephone": SITE["phone_href"],
           "areaServed": ["Paris", "Île-de-France"], "sameAs": [SITE["facebook"], SITE["instagram"]],
           "description": t("Conciergerie Airbnb à Paris et en Île-de-France.", "Airbnb management company in Paris and Île-de-France.")}
-    return {"title": t("Conciergerie Airbnb à Paris et en Île-de-France | EdenFlats", "Airbnb management in Paris and Île-de-France | EdenFlats"),
-            "desc": t("EdenFlats gère la location saisonnière de votre résidence secondaire ou bien locatif à Paris et en Île-de-France : annonce, voyageurs, clés, ménage et entretien. Revenu garanti ou réel.",
-                      "EdenFlats manages short-term rentals of second homes and buy-to-let apartments in Paris and Île-de-France: listing, guests, keys, cleaning and upkeep. Guaranteed or actual income."),
-            "body": body, "ld": [ld]}
+    return {"title": t("Conciergerie Airbnb à Paris et en Île-de-France | EdenFlats", "Airbnb Management in Paris & Île-de-France | EdenFlats"),
+            "desc": t("Conciergerie Airbnb à Paris et en Île-de-France : annonce, voyageurs, clés, ménage et entretien de votre résidence secondaire. Revenu garanti ou réel.",
+                      "Airbnb management in Paris and Île-de-France for second homes and buy-to-let flats: listing, guests, keys, cleaning. Guaranteed or actual income."),
+            "body": body, "ld": [org_ld(L), website_ld(L)], "og_image": "/assets/img/og-image.jpg", "image": "/assets/img/accueil-hero.jpg"}
 
 
 # ── Gestion des voyageurs ───────────────────────────────────────────────────
@@ -244,19 +246,19 @@ def voyageurs(L):
     t = tr(L)
     trail = [(t("Gestion des voyageurs", "Guest management"), url("voyageurs", L))]
     visual = f"""<div class="hero-visual">
-        <figure class="hero-photo">{photo("photo-portes", t("Portes d'entrée colorées d'une rue résidentielle", "Colourful front doors on a residential street"), sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
-        {fcard(t("Accueil", "Welcome"), "t-pink", t("Remise des clés en main propre ou à distance.", "Keys handed over in person or remotely."), "fc-1", "key")}
-        {fcard(t("Assistance", "Support"), "t-lime", t("Voyageurs accompagnés 24h/24 et 7j/7.", "Guests supported 24/7."), "fc-3", "headset")}
-        {obj("cles", "obj-keys")}
+        <figure class="hero-photo">{photo("voyageurs-hero", t("Portes d'entrée colorées d'une rue résidentielle", "Colourful front doors on a residential street"), sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
+        {fcard(t("Accueil", "Welcome"), "t-coral", t("Remise des clés en main propre ou à distance.", "Keys handed over in person or remotely."), "fc-1", "key")}
+        {fcard(t("Assistance", "Support"), "t-green", t("Voyageurs accompagnés 24h/24 et 7j/7.", "Guests supported 24/7."), "fc-3", "headset")}
+        {sticker("cles")}
       </div>"""
     four = [
-        ("lime-s", "globe", t("Mise en ligne de votre annonce", "Publishing your listing"),
+        ("green-s", "langues", t("Mise en ligne de votre annonce", "Publishing your listing"),
          t("Une annonce soignée, publiée sur Airbnb et les grandes plateformes, pour une visibilité optimale.", "A carefully written listing on Airbnb and the main platforms, for the best visibility."), "voyageurs"),
-        ("pink-s", "shield", t("Sélection des voyageurs", "Guest screening"),
+        ("coral-s", "identite", t("Sélection des voyageurs", "Guest screening"),
          t("Misez sur la tranquillité et la sécurité grâce à une sélection rigoureuse des voyageurs.", "Peace of mind and security, thanks to careful guest screening."), "voyageurs"),
-        ("mint-s", "key", t("Remise de clés", "Key handover"),
+        ("blue-s", "cles", t("Remise de clés", "Key handover"),
          t("Chaque échange de clés se fait simplement : en main propre, par un café partenaire ou à distance.", "Every key exchange is simple: in person, via a partner café or remotely."), "voyageurs"),
-        ("peach-s", "headset", t("Assistance voyageur", "Guest support"),
+        ("sand-s", "casque", t("Assistance voyageur", "Guest support"),
          t("Un accueil chaleureux et professionnel, puis une assistance disponible 24h/24 et 7j/7.", "A warm, professional welcome, then support available 24/7."), "voyageurs"),
     ]
     body = phead(L, trail, t("Gestion des voyageurs", "Guest management"),
@@ -271,9 +273,10 @@ def voyageurs(L):
 
 <section class="sec tight split"><div class="wrap split-grid">
   <div class="split-visual">
-    <figure class="ph">{photo("photo-salon-lumineux", t("Salon lumineux d'un appartement meublé", "Bright living room in a furnished apartment"))}</figure>
-    {fcard("FR · EN", "t-mint", t("Annonce rédigée en français et en anglais.", "Listing written in French and English."), "a", "globe")}
-    {fcard(t("Photos", "Photos"), "t-lime", t("Prises par nos soins, sous les meilleurs angles.", "Taken by us, from the best angles."), "b", "camera")}
+    <figure class="ph">{photo("voyageurs-annonce", t("Salon lumineux d'un appartement meublé", "Bright living room in a furnished apartment"))}</figure>
+    {fcard("FR · EN", "t-blue", t("Annonce rédigée en français et en anglais.", "Listing written in French and English."), "a", "globe")}
+    {fcard(t("Photos", "Photos"), "t-green", t("Prises par nos soins, sous les meilleurs angles.", "Taken by us, from the best angles."), "b", "camera")}
+    {sticker("appareil", cls="low")}
   </div>
   <div class="split-text reveal">
     {chip(t("Mise en ligne", "Listing"))}
@@ -289,9 +292,10 @@ def voyageurs(L):
 
 <section class="sec split flip"><div class="wrap split-grid">
   <div class="split-visual">
-    <figure class="ph">{photo("photo-equipe-bureau", t("L'équipe échange autour d'un ordinateur portable", "The team talking around a laptop"))}</figure>
-    {fcard(t("Accepté", "Accepted"), "t-lime", t("Profil vérifié, commentaires positifs, identité contrôlée.", "Verified profile, positive reviews, ID checked."), "a", "check")}
-    {fcard(t("Questions", "Questions"), "t-pink", t("Âge et raison du séjour demandés.", "Age and reason for the stay requested."), "b", "users")}
+    <figure class="ph">{photo("voyageurs-selection", t("L'équipe échange autour d'un ordinateur portable", "The team talking around a laptop"))}</figure>
+    {fcard(t("Accepté", "Accepted"), "t-green", t("Profil vérifié, commentaires positifs, identité contrôlée.", "Verified profile, positive reviews, ID checked."), "a", "check")}
+    {fcard(t("Questions", "Questions"), "t-coral", t("Âge et raison du séjour demandés.", "Age and reason for the stay requested."), "b", "users")}
+    {sticker("identite", cls="low")}
   </div>
   <div class="split-text reveal">
     {chip(t("Sélection des voyageurs", "Guest screening"))}
@@ -308,12 +312,12 @@ def voyageurs(L):
 <section class="sec tight"><div class="wrap">
   {head(t("Accueil et remise de clés", "Welcome and key handover"), t("Des arrivées simples, pour vous comme pour les voyageurs", "Easy arrivals, for you and your guests"), center=True)}
   <div class="cards two">
-    <div class="card pink-s with-obj reveal">{obj("cles", "")}<h3>{t("L'accueil en personne", "A personal welcome")}</h3>
+    <div class="card coral-s reveal">{illu("porte")}<h3>{t("L'accueil en personne", "A personal welcome")}</h3>
       <p>{t("À leur arrivée, notre équipe accueille les voyageurs, les guide dans le logement et répond à leurs questions, pour leur confort et leur sécurité dès le premier instant.",
             "When guests arrive, our team welcomes them, shows them around and answers their questions, for their comfort and safety from the first minute.")}</p>
       <p>{t("Il nous faut deux jeux de clés : la veille de la location, vous déposez le premier dans l'un de nos cafés partenaires ; le second reste dans le logement, sur le plan de travail de la cuisine. Pendant la location, un jeu est confié à notre prestataire de ménage, l'autre aux voyageurs.",
             "We need two sets of keys: the day before the rental, you drop the first at one of our partner cafés; the second stays in the home, on the kitchen worktop. During the rental, one set goes to our cleaning provider and the other to the guests.")}</p></div>
-    <div class="card lime-s with-obj reveal">{obj("serrure", "")}<h3>{t("Les systèmes Smart Key", "Smart Key systems")}</h3>
+    <div class="card green-s reveal">{illu("serrure")}<h3>{t("Les systèmes Smart Key", "Smart Key systems")}</h3>
       <p>{t("Pour des arrivées simplifiées, nous pouvons aussi ouvrir à distance, avec des serrures connectées (SmartKey) ou des boîtes à clés (LockBox).",
             "For easier arrivals, we can also open remotely, with smart locks (SmartKey) or key boxes (LockBox).")}</p>
       <p>{t("L'utilisation de ces systèmes dépend de vous : nous l'adaptons à votre logement et à votre immeuble.",
@@ -323,10 +327,10 @@ def voyageurs(L):
 
 <section class="sec"><div class="wrap">
   <div class="cards two">
-    <div class="card mint-s with-obj reveal">{obj("telephone", "")}<h3>{t("Assistance voyageurs, 24h/24 et 7j/7", "Guest support, 24/7")}</h3>
+    <div class="card blue-s reveal">{illu("casque")}<h3>{t("Assistance voyageurs, 24h/24 et 7j/7", "Guest support, 24/7")}</h3>
       <p>{t("Notre objectif : un revenu et une tranquillité totale pour vous, et une expérience exceptionnelle pour chaque voyageur. Nous répondons à tous leurs besoins, des conseils locaux à l'aide d'urgence, et restons disponibles à chaque étape de leur séjour.",
             "Our goal: income and complete peace of mind for you, and an exceptional stay for every guest. We answer all their needs, from local tips to emergency help, and stay available at every step of their stay.")}</p></div>
-    <div class="card peach-s reveal">{icon("users")}<h3>{t("Et vous ? L'assistance propriétaire", "And you? Owner support")}</h3>
+    <div class="card sand-s reveal">{illu("maison")}<h3>{t("Et vous ? L'assistance propriétaire", "And you? Owner support")}</h3>
       <p>{t("Posséder et gérer un bien peut être complexe : questions, préoccupations ou attentes particulières, notre équipe vous accompagne tout au long de la collaboration.",
             "Owning and running a property can be complex: whatever your questions, concerns or expectations, our team supports you throughout.")}</p>
       <p>{t("Vous gardez un accès complet à votre compte Airbnb : réservations, commentaires et revenus, en temps réel.",
@@ -334,14 +338,16 @@ def voyageurs(L):
   </div>
 </div></section>
 
+{Q.where(L)}
 <section class="sec tight"><div class="wrap faq-wrap">
   <div>{head("FAQ", t("Questions sur les voyageurs", "Questions about guests"))}</div>
   <div>{faq_list(faq.pick(L, ["selection", "reservations", "acces-compte", "annulation", "cles"]))}</div>
 </div></section>"""
-    return {"title": t("Gestion des voyageurs : annonce, sélection, clés | EdenFlats", "Guest management: listing, screening, keys | EdenFlats"),
-            "desc": t("Annonce en français et en anglais, sélection des voyageurs, remise des clés et assistance 24h/24 : la gestion des voyageurs EdenFlats à Paris et en Île-de-France.",
-                      "Listing in French and English, guest screening, key handover and 24/7 support: EdenFlats guest management in Paris and Île-de-France."),
-            "body": body, "ld": [crumbs_ld(L, trail)]}
+    title = t("Gestion des voyageurs Airbnb à Paris | EdenFlats", "Airbnb Guest Management in Paris | EdenFlats")
+    desc = t("Annonce Airbnb en français et en anglais, sélection des voyageurs, accueil et remise des clés, assistance 24h/24 : la gestion des voyageurs à Paris.",
+             "Airbnb listing in French and English, guest screening, check-in and key handover, 24/7 support: EdenFlats guest management in Paris and Île-de-France.")
+    return {"title": title, "desc": desc, "body": body, "og_image": "/assets/img/voyageurs-hero.jpg", "image": "/assets/img/voyageurs-hero.jpg",
+            "ld": [crumbs_ld(L, trail), service_ld(L, t("Gestion des voyageurs Airbnb", "Airbnb guest management"), desc, url("voyageurs", L))]}
 
 
 # ── Gestion du logement ─────────────────────────────────────────────────────
@@ -349,17 +355,17 @@ def logement(L):
     t = tr(L)
     trail = [(t("Gestion du logement", "Property management"), url("logement", L))]
     visual = f"""<div class="hero-visual">
-        <figure class="hero-photo">{photo("photo-salon-cuir", t("Salon d'un appartement meublé avec canapé en cuir", "Living room of a furnished apartment with a leather sofa"), sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
-        {fcard(t("Ménage", "Cleaning"), "t-mint", t("Après chaque départ des voyageurs.", "After every check-out."), "fc-1", "sparkle")}
-        {fcard(t("Entretien", "Upkeep"), "t-peach", t("Petits travaux et réparations.", "Small works and repairs."), "fc-3", "wrench")}
-        {obj("serviettes", "obj-keys")}
+        <figure class="hero-photo">{photo("logement-hero", t("Salon d'un appartement meublé avec canapé en cuir", "Living room of a furnished apartment with a leather sofa"), sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
+        {fcard(t("Ménage", "Cleaning"), "t-blue", t("Après chaque départ des voyageurs.", "After every check-out."), "fc-1", "sparkle")}
+        {fcard(t("Entretien", "Upkeep"), "t-sand", t("Petits travaux et réparations.", "Small works and repairs."), "fc-3", "wrench")}
+        {sticker("linge")}
       </div>"""
     three = [
-        ("lime-s", "linen", t("Réapprovisionnement", "Restocking"),
+        ("green-s", "linge", t("Réapprovisionnement", "Restocking"),
          t("Nous remettons en place les petits éléments indispensables après chaque départ des voyageurs.", "We restock the small essentials after every check-out."), "logement"),
-        ("pink-s", "sparkle", t("Ménage", "Cleaning"),
+        ("coral-s", "menage", t("Ménage", "Cleaning"),
          t("Le ménage est assuré après chaque départ des voyageurs, pour un logement impeccable à chaque arrivée.", "Cleaning is done after every check-out, so the home is spotless for every arrival."), "logement"),
-        ("mint-s", "wrench", t("Entretien et travaux", "Upkeep and works"),
+        ("blue-s", "outils", t("Entretien et travaux", "Upkeep and works"),
          t("Nous réalisons les petits travaux nécessaires au bon fonctionnement de votre logement.", "We carry out the small works needed to keep your home running smoothly."), "logement"),
     ]
     body = phead(L, trail, t("Gestion de votre propriété", "Property management"),
@@ -373,9 +379,9 @@ def logement(L):
 
 <section class="sec tight split"><div class="wrap split-grid">
   <div class="split-visual">
-    <figure class="ph">{photo("photo-equipe-menage", t("Deux personnes font le ménage d'un salon", "Two people cleaning a living room"))}</figure>
-    {fcard(t("Ménage", "Cleaning"), "t-mint", t("Fait après chaque passage des voyageurs.", "Done after every stay."), "a", "sparkle")}
-    {obj("eponge", "o1")}{obj("seau", "o2")}
+    <figure class="ph">{photo("logement-menage", t("Deux personnes font le ménage d'un salon", "Two people cleaning a living room"))}</figure>
+    {fcard(t("Ménage", "Cleaning"), "t-blue", t("Fait après chaque passage des voyageurs.", "Done after every stay."), "a", "sparkle")}
+    {sticker("menage")}
   </div>
   <div class="split-text reveal">
     {chip(t("Ménage et linge", "Cleaning and linen"))}
@@ -391,9 +397,9 @@ def logement(L):
 
 <section class="sec split flip"><div class="wrap split-grid">
   <div class="split-visual">
-    <figure class="ph">{photo("photo-cuisine-salon", t("Cuisine ouverte et coin salon d'un appartement", "Open kitchen and lounge corner of an apartment"))}</figure>
-    {fcard(t("Réapprovisionnement", "Restocking"), "t-lime", t("Articles de toilette de qualité, prêts avant chaque arrivée.", "Quality toiletries, ready before every arrival."), "a", "check")}
-    {obj("serviettes", "o1")}
+    <figure class="ph">{photo("logement-reassort", t("Cuisine ouverte et coin salon d'un appartement", "Open kitchen and lounge corner of an apartment"))}</figure>
+    {fcard(t("Réapprovisionnement", "Restocking"), "t-green", t("Articles de toilette de qualité, prêts avant chaque arrivée.", "Quality toiletries, ready before every arrival."), "a", "check")}
+    {sticker("outils", cls="low")}
   </div>
   <div class="split-text reveal">
     {chip(t("Réapprovisionnement", "Restocking"))}
@@ -408,17 +414,19 @@ def logement(L):
 <section class="sec tight"><div class="wrap">
   {head(t("Déco et travaux", "Decoration and works"), t("Décoration, petits travaux et gros travaux de réaménagement", "Decoration, small works and larger refurbishments"), center=True)}
   <div class="cards two">
-    <div class="card peach-s with-obj reveal">{obj("lampe", "")}<h3>{t("Pourquoi décorer ?", "Why decorate?")}</h3>
+    <div class="card sand-s reveal">{illu("lampe")}<h3>{t("Pourquoi décorer ?", "Why decorate?")}</h3>
       <p>{t("La première impression que votre logement fait aux voyageurs est réelle. Si nécessaire, nous travaillons avec vous sur sa décoration, pour qu'il soit réservé plus facilement et suscite d'excellents commentaires.",
             "The first impression your home makes on guests is real. Where needed, we work with you on its decoration, so it gets booked more easily and earns excellent reviews.")}</p></div>
-    <div class="card mint-s with-obj reveal">{obj("outils", "")}<h3>{t("Besoin de travaux ? Petits ou gros", "Need works done? Small or large")}</h3>
+    <div class="card blue-s reveal">{illu("rouleau")}<h3>{t("Besoin de travaux ? Petits ou gros", "Need works done? Small or large")}</h3>
       <p>{t("Besoins courants de votre logement ou travaux imposés par la loi pour la location saisonnière : réparations mineures, ajustements ou améliorations pour respecter les exigences légales, notre équipe s'en charge, sans tracas pour vous ni pour vos voyageurs.",
             "Everyday needs or works required by law for short-term letting: minor repairs, adjustments or improvements to meet legal requirements, our team takes care of it, with no hassle for you or your guests.")}</p></div>
   </div>
 </div></section>
 
+{Q.where(L, "maison", "green-s")}
 <section class="sec"><div class="wrap split-grid">
   <div class="split-text reveal">
+    {illu("balance")}
     {chip(t("Litiges et dommages", "Disputes and damage"))}
     <h2>{t("Si un problème survient, nous nous en occupons", "If a problem arises, we handle it")}</h2>
     <p>{t("En cas de désaccord, nous servons de médiateur, en protégeant vos intérêts tout en cherchant un règlement équitable pour toutes les parties.",
@@ -429,10 +437,11 @@ def logement(L):
   </div>
   <div>{faq_list(faq.pick(L, ["menage", "dommages", "acces-logement", "risques", "carte"]))}</div>
 </div></section>"""
-    return {"title": t("Gestion de propriété : ménage, linge, entretien | EdenFlats", "Property management: cleaning, linen, upkeep | EdenFlats"),
-            "desc": t("Ménage après chaque départ, linge, réapprovisionnement, maintenance, décoration et travaux : EdenFlats garde votre logement prêt à louer, à Paris et en Île-de-France.",
-                      "Cleaning after every check-out, linen, restocking, maintenance, decoration and works: EdenFlats keeps your home ready to let, in Paris and Île-de-France."),
-            "body": body, "ld": [crumbs_ld(L, trail)]}
+    title = t("Gestion de propriété Airbnb : ménage, linge | EdenFlats", "Airbnb Property Management: Cleaning, Linen | EdenFlats")
+    desc = t("Ménage Airbnb après chaque départ, blanchisserie du linge, réapprovisionnement, maintenance, décoration et travaux : EdenFlats garde votre logement prêt à louer à Paris.",
+             "Airbnb cleaning after every check-out, linen service, restocking, maintenance, decoration and works: EdenFlats keeps your Paris home ready to let.")
+    return {"title": title, "desc": desc, "body": body, "og_image": "/assets/img/logement-hero.jpg", "image": "/assets/img/logement-hero.jpg",
+            "ld": [crumbs_ld(L, trail), service_ld(L, t("Gestion de propriété Airbnb", "Airbnb property management"), desc, url("logement", L))]}
 
 
 # ── Nos formules ────────────────────────────────────────────────────────────
@@ -440,9 +449,9 @@ def formules(L):
     t = tr(L)
     trail = [(t("Nos formules", "Our plans"), url("formules", L))]
     visual = f"""<div class="hero-visual">
-        <figure class="hero-photo">{photo("photo-salon-epure", t("Salon épuré avec canapé vert et table basse en bois", "Minimal living room with a green sofa and a wooden coffee table"), sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
-        {fcard(t("Revenu garanti", "Guaranteed income"), "t-lime", t("≈ 15 % de marge moyenne.", "≈ 15% average margin."), "fc-1", "chart")}
-        {fcard(t("Revenu réel", "Actual income"), "t-mint", t("18 à 25 % de commission.", "18–25% commission."), "fc-3", "sliders")}
+        <figure class="hero-photo">{photo("formules-hero", t("Salon épuré avec canapé vert et table basse en bois", "Minimal living room with a green sofa and a wooden coffee table"), sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
+        {fcard(t("Revenu garanti", "Guaranteed income"), "t-green", t("≈ 15 % de marge moyenne.", "≈ 15% average margin."), "fc-1", "chart")}
+        {fcard(t("Revenu réel", "Actual income"), "t-blue", t("18 à 25 % de commission.", "18–25% commission."), "fc-3", "sliders")}
       </div>"""
     rows = [
         (t("Ce que vous touchez", "What you receive"),
@@ -464,11 +473,11 @@ def formules(L):
     th_g, th_r = t("Revenu garanti", "Guaranteed income"), t("Revenu réel", "Actual income")
     table = "".join(f'<tr><th scope="row">{a}</th><td data-label="{th_g}">{b}</td><td data-label="{th_r}">{c}</td></tr>' for a, b, c in rows)
     factors = [
-        ("lime-s", "home", t("Votre logement", "Your home"), t("Ses caractéristiques : adresse, nombre de couchages, équipements…", "Its features: address, number of beds, amenities…")),
-        ("pink-s", "calendar", t("Vos dates", "Your dates"), t("Le nombre de nuits que vous souhaitez nous confier.", "The number of nights you want to entrust to us.")),
-        ("mint-s", "chart", t("La demande", "Demand"), t("Le taux d'occupation moyen sur Airbnb à cette période, calculé par notre algorithme de tarification dynamique.", "The average Airbnb occupancy rate for that period, calculated by our dynamic pricing algorithm.")),
+        ("green-s", "maison", t("Votre logement", "Your home"), t("Ses caractéristiques : adresse, nombre de couchages, équipements…", "Its features: address, number of beds, amenities…")),
+        ("coral-s", "calendrier", t("Vos dates", "Your dates"), t("Le nombre de nuits que vous souhaitez nous confier.", "The number of nights you want to entrust to us.")),
+        ("blue-s", "graphique", t("La demande", "Demand"), t("Le taux d'occupation moyen sur Airbnb à cette période, calculé par notre algorithme de tarification dynamique.", "The average Airbnb occupancy rate for that period, calculated by our dynamic pricing algorithm.")),
     ]
-    fcards = "".join(f'<div class="card {c} reveal">{icon(i)}<h3>{h}</h3><p>{p}</p></div>' for c, i, h, p in factors)
+    fcards = "".join(f'<div class="card {c} reveal">{illu(i)}<h3>{h}</h3><p>{p}</p></div>' for c, i, h, p in factors)
     body = phead(L, trail, t("Nos formules", "Our plans"),
                  t("Revenu garanti ou revenu réel : <mark>deux façons de nous confier votre bien</mark>", "Guaranteed or actual income: <mark>two ways to work with us</mark>"),
                  t("Vous choisissez la formule qui vous convient : un revenu fixé à l'avance, ou les revenus réels du logement moins notre commission. Dans les deux cas, nous gérons tout, avec des contrats flexibles.",
@@ -476,12 +485,12 @@ def formules(L):
                  visual, actions=False) + f"""
 <section class="sec"><div class="wrap">
   <div class="plans">
-    <div class="plan lime-s reveal">{chip(t("Formule 1", "Plan 1"), "t-lime")}<h3>{t("Le contrat au revenu garanti", "The guaranteed-income contract")}</h3>
+    <div class="plan green-s reveal">{illu("maison")}{chip(t("Formule 1", "Plan 1"))}<h3>{t("Le contrat au revenu garanti", "The guaranteed-income contract")}</h3>
       <p class="big">{t("≈ 15 %", "≈ 15%")}<small>{t("de marge moyenne pour EdenFlats", "average margin for EdenFlats")}</small></p>
       {ticks([t("Un revenu calculé selon vos dates, votre logement et le taux d'occupation moyen sur Airbnb", "An income based on your dates, your home and the average Airbnb occupancy rate"),
               t("Versé que le logement soit loué ou non", "Paid whether or not the home is booked"),
               t("Un revenu prévisible, sans vous soucier des périodes creuses", "A predictable income, with no worries about quiet periods")])}</div>
-    <div class="plan mint-s reveal">{chip(t("Formule 2", "Plan 2"), "t-mint")}<h3>{t("Le contrat au revenu réel", "The actual-income contract")}</h3>
+    <div class="plan blue-s reveal">{illu("graphique")}{chip(t("Formule 2", "Plan 2"))}<h3>{t("Le contrat au revenu réel", "The actual-income contract")}</h3>
       <p class="big">{t("18 à 25 %", "18–25%")}<small>{t("de commission sur les revenus, selon la durée de location", "commission on income, depending on rental length")}</small></p>
       {ticks([t("Plus le logement est loué, plus vous y gagnez", "The more the home is booked, the more you earn"),
               t("Prix ajustés à la hausse ou à la baisse selon l'offre et la demande", "Prices moved up or down with supply and demand"),
@@ -500,16 +509,18 @@ def formules(L):
   <div class="cards three">{fcards}</div>
 </div></section>
 
+{Q.where(L, "tour-eiffel", "coral-s")}
 <section class="sec tight"><div class="wrap faq-wrap">
   <div>{head("FAQ", t("Questions sur les formules", "Questions about our plans"))}
     <p class="intro">{t("Contrats flexibles et services à la carte : parlons de ce qui convient à votre logement.", "Flexible contracts and à la carte services: let's talk about what suits your home.")}</p>
     <p style="margin-top:22px">{btn(url("contact", L), t("Demander une estimation", "Ask for an estimate"))}</p></div>
   <div>{faq_list(faq.pick(L, ["tarifs", "revenu", "gagner", "prix", "prix-change", "carte"]))}</div>
 </div></section>"""
-    return {"title": t("Nos formules : revenu garanti ou revenu réel | EdenFlats", "Our plans: guaranteed or actual income | EdenFlats"),
-            "desc": t("Contrat au revenu garanti (marge moyenne de 15 %) ou au revenu réel (commission de 18 à 25 %) : comparez les deux formules de la conciergerie EdenFlats.",
-                      "Guaranteed-income contract (15% average margin) or actual-income contract (18–25% commission): compare EdenFlats' two plans."),
-            "body": body, "ld": [crumbs_ld(L, trail)]}
+    title = t("Tarifs conciergerie Airbnb : revenu garanti ou réel | EdenFlats", "Airbnb Management Fees: Guaranteed or Actual Income | EdenFlats")
+    desc = t("Tarifs de la conciergerie Airbnb EdenFlats : contrat au revenu garanti (marge moyenne de 15 %) ou au revenu réel (commission de 18 à 25 %). Comparez les deux formules.",
+             "EdenFlats Airbnb management fees: guaranteed-income contract (15% average margin) or actual-income contract (18–25% commission). Compare the two plans.")
+    return {"title": title, "desc": desc, "body": body, "og_image": "/assets/img/formules-hero.jpg", "image": "/assets/img/formules-hero.jpg",
+            "ld": [crumbs_ld(L, trail), service_ld(L, t("Conciergerie Airbnb : formules", "Airbnb management plans"), desc, url("formules", L))]}
 
 
 # ── FAQ ─────────────────────────────────────────────────────────────────────
@@ -534,10 +545,10 @@ def faq_page(L):
     <p style="margin-top:12px">{btn(url("contact", L), t("Nous contacter", "Contact us"), "small")}</p></div></aside>
   <div>{"".join(groups)}</div>
 </div></section>"""
-    return {"title": t("FAQ conciergerie Airbnb : tarifs, clés, voyageurs | EdenFlats", "Airbnb management FAQ: fees, keys, guests | EdenFlats"),
-            "desc": t("Tarifs, calcul du revenu, compte Airbnb, sélection des voyageurs, clés, ménage et réglementation : les réponses de la conciergerie EdenFlats aux propriétaires.",
-                      "Fees, income, Airbnb account, guest screening, keys, cleaning and regulations: EdenFlats answers owners' questions."),
-            "body": body, "ld": [crumbs_ld(L, trail), faq_ld(all_items)]}
+    return {"title": t("FAQ conciergerie Airbnb : tarifs, clés, législation | EdenFlats", "Airbnb Management FAQ: Fees, Keys, Rules | EdenFlats"),
+            "desc": t("Tarifs, calcul du revenu, compte Airbnb, sélection des voyageurs, clés, ménage, législation Airbnb à Paris : les réponses de la conciergerie EdenFlats aux propriétaires.",
+                      "Fees, income, your Airbnb account, guest screening, keys, cleaning and the Paris Airbnb rules: EdenFlats answers the questions owners ask."),
+            "body": body, "ld": [crumbs_ld(L, trail), faq_ld(all_items)], "og_image": "/assets/img/accueil-faq.jpg", "image": "/assets/img/accueil-faq.jpg"}
 
 
 # ── Contact ─────────────────────────────────────────────────────────────────
@@ -546,9 +557,9 @@ def contact(L):
     s = SITE
     trail = [(t("Contact", "Contact"), url("contact", L))]
     cards = [
-        ("lime-s", "chat", "WhatsApp", t("Écrire sur WhatsApp", "Message us"), f"https://wa.me/{s['whatsapp']}", True),
-        ("pink-s", "phone", t("Téléphone", "Phone"), s["phone"], f"tel:{s['phone_href']}", False),
-        ("mint-s", "mail", t("E-mail", "Email"), s["email"], f"mailto:{s['email']}", False),
+        ("green-s", "chat", "WhatsApp", t("Écrire sur WhatsApp", "Message us"), f"https://wa.me/{s['whatsapp']}", True),
+        ("coral-s", "phone", t("Téléphone", "Phone"), s["phone"], f"tel:{s['phone_href']}", False),
+        ("blue-s", "mail", t("E-mail", "Email"), s["email"], f"mailto:{s['email']}", False),
     ]
     blank = ' target="_blank" rel="noopener"'
     cc = "".join(f'<a class="ccard {c}" href="{h}"{blank if ext else ""}>{icon(i)}<small>{k}</small><b>{v}</b></a>'
@@ -576,10 +587,12 @@ def contact(L):
     <div class="social" style="margin-top:22px"><a href="{s['instagram']}" target="_blank" rel="noopener">{icon("instagram", "ico", "Instagram")}</a><a href="{s['facebook']}" target="_blank" rel="noopener">{icon("facebook", "ico", "Facebook")}</a></div>
   </aside>
 </div></section>"""
-    return {"title": t("Contact : conciergerie Airbnb à Paris | EdenFlats", "Contact: Airbnb management in Paris | EdenFlats"),
-            "desc": t("Contactez EdenFlats par téléphone, WhatsApp ou e-mail pour confier la gestion de votre logement à Paris et en Île-de-France.",
-                      "Contact EdenFlats by phone, WhatsApp or email to have your home in Paris and Île-de-France managed."),
-            "body": body, "ld": [crumbs_ld(L, trail)]}
+    desc = t("Contactez la conciergerie Airbnb EdenFlats par téléphone, WhatsApp ou e-mail pour confier la gestion de votre logement à Paris et en Île-de-France. Estimation de revenus.",
+             "Contact EdenFlats, Airbnb management in Paris, by phone, WhatsApp or email to have your Paris or Île-de-France home managed. Ask for an income estimate.")
+    ld = {"@context": "https://schema.org", "@type": "ContactPage", "name": t("Contact EdenFlats", "Contact EdenFlats"),
+          "url": SITE["url"] + url("contact", L), "about": {"@id": SITE["url"] + "/#entreprise"}}
+    return {"title": t("Contact conciergerie Airbnb Paris | EdenFlats", "Contact our Paris Airbnb Management Team | EdenFlats"),
+            "desc": desc, "body": body, "ld": [crumbs_ld(L, trail), ld]}
 
 
 # ── Mentions légales ────────────────────────────────────────────────────────
@@ -630,7 +643,8 @@ def mentions(L):
   <p>{t("Le traitement de vos données est décrit dans notre", "How we handle your data is described in our")} <a href="{url('confidentialite', L)}">{t("politique de confidentialité", "privacy policy")}</a>.</p>
 </div></section>"""
     return {"title": t("Mentions légales | EdenFlats", "Legal notice | EdenFlats"),
-            "desc": t("Mentions légales du site EdenFlats : éditeur, hébergeur, propriété intellectuelle.", "EdenFlats legal notice: publisher, host, intellectual property."),
+            "desc": t("Mentions légales du site EdenFlats : éditeur (EDENEL PATRIMOINE GESTION RESEAUX & SERVICES, Sucy-en-Brie), hébergeur et propriété intellectuelle.",
+                      "EdenFlats legal notice: publisher (EDENEL PATRIMOINE GESTION RESEAUX & SERVICES, Sucy-en-Brie), website host and intellectual property."),
             "body": body, "ld": [crumbs_ld(L, trail)], "cta": False}
 
 
@@ -640,7 +654,7 @@ def confidentialite(L):
     s = SITE
     c = s["company"]
     trail = [(t("Confidentialité", "Privacy"), url("confidentialite", L))]
-    body = phead(L, trail, t("Informations", "Information"), t("Politique de confidentialité", "Privacy policy"),
+    body = phead(L, trail, t("Informations", "Information"), t("Politique de confidentialité et cookies", "Privacy and cookie policy"),
                  t("Ce site ne comporte ni formulaire, ni cookie, ni outil de mesure d'audience. Voici ce qui se passe quand vous nous contactez.",
                    "This website has no forms, no cookies and no audience measurement tools. Here is what happens when you contact us."), actions=False) + f"""
 <section class="sec"><div class="wrap doc">
@@ -663,8 +677,9 @@ def confidentialite(L):
   <h2>{t("Vos droits", "Your rights")}</h2>
   <p>{t("Conformément au RGPD, vous pouvez accéder à vos données, les rectifier, les effacer, en limiter le traitement, vous y opposer et en demander la portabilité, en écrivant à", "Under the GDPR, you can access, correct or erase your data, restrict or object to its processing and request its portability, by writing to")} <a href="mailto:{s['email']}">{s['email']}</a>. {t("Vous pouvez aussi adresser une réclamation à la CNIL", "You can also lodge a complaint with the CNIL")} (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>).</p>
 </div></section>"""
-    return {"title": t("Politique de confidentialité | EdenFlats", "Privacy policy | EdenFlats"),
-            "desc": t("Comment EdenFlats traite vos données : pas de cookie, pas de formulaire, vos droits RGPD.", "How EdenFlats handles your data: no cookies, no forms, your GDPR rights."),
+    return {"title": t("Politique de confidentialité et cookies | EdenFlats", "Privacy and cookie policy | EdenFlats"),
+            "desc": t("Politique de confidentialité et de cookies d'EdenFlats : aucun cookie ni traceur, ce qui se passe quand vous nous contactez, et vos droits RGPD.",
+                      "EdenFlats privacy and cookie policy: no cookies or trackers on this site, what happens when you contact us, and your rights under the GDPR."),
             "body": body, "ld": [crumbs_ld(L, trail)], "cta": False}
 
 
@@ -688,7 +703,8 @@ def credits(L):
   <ul class="credits-list">{"".join(items)}</ul>
 </div></section>"""
     return {"title": t("Crédits photos | EdenFlats", "Photo credits | EdenFlats"),
-            "desc": t("Auteurs et licences des photos utilisées sur le site EdenFlats.", "Authors and licences of the photos used on the EdenFlats website."),
+            "desc": t("Auteurs et licences libres (Creative Commons) des photos des quartiers de Paris utilisées sur le site EdenFlats, issues de Wikimedia Commons.",
+                      "Authors and free licences (Creative Commons) of the Paris neighbourhood photos used on the EdenFlats website, from Wikimedia Commons."),
             "body": body, "ld": [crumbs_ld(L, trail)], "cta": False}
 
 

@@ -159,7 +159,7 @@ AREA = {
   "title": "File:Palais de Chaillot from the Jardins du Trocadéro.jpg"
  },
  "paris": {
-  "file": "paris-paris",
+  "file": "paris-toits",
   "big": 1280,
   "alt": {
    "fr": "Les toits de Paris et le dôme des Invalides, vus depuis la terrasse des Galeries Lafayette",

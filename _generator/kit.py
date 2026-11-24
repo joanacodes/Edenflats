@@ -5,6 +5,8 @@ import re
 from datetime import date
 from html import escape
 
+from illus import illu  # noqa: F401  (réexporté pour les pages)
+
 # Une valeur vide s'affiche « à compléter » (cadre pointillé) : on ne publie pas d'information inventée.
 SITE = {
     "name": "EdenFlats",
@@ -37,19 +39,20 @@ SITE = {
 
 OTHER = {"fr": "en", "en": "fr"}
 
-# Adresses des pages. Les pages françaises gardent les adresses de l'ancien site Squarespace
-# quand elles existaient, pour ne pas perdre leur référencement.
+# Adresses des pages. Les pages françaises reprennent exactement les adresses de l'ancien site
+# Squarespace (sans barre finale) pour garder leur référencement : chaque page est un fichier .html
+# que GitHub Pages sert sans l'extension (/faq sert faq.html).
 ROUTES = {
     "home": {"fr": "/", "en": "/en/"},
-    "voyageurs": {"fr": "/gestion-des-voyageurs-conciergerie-airbnb-ile-de-france/", "en": "/en/guest-management/"},
-    "logement": {"fr": "/gestion-de-propriete-conciergerie-airbnb-ile-de-france/", "en": "/en/property-management/"},
-    "formules": {"fr": "/nos-formules/", "en": "/en/plans/"},
-    "faq": {"fr": "/faq/", "en": "/en/faq/"},
-    "paris": {"fr": "/conciergerie-airbnb-paris/", "en": "/en/airbnb-management-paris/"},
-    "contact": {"fr": "/contact/", "en": "/en/contact/"},
-    "mentions": {"fr": "/mentions-legales/", "en": "/en/legal-notice/"},
-    "confidentialite": {"fr": "/confidentialite/", "en": "/en/privacy/"},
-    "credits": {"fr": "/credits-photos/", "en": "/en/photo-credits/"},
+    "voyageurs": {"fr": "/gestion-des-voyageurs-conciergerie-airbnb-ile-de-france", "en": "/en/guest-management"},
+    "logement": {"fr": "/gestion-de-propriete-conciergerie-airbnb-ile-de-france", "en": "/en/property-management"},
+    "formules": {"fr": "/nos-formules", "en": "/en/plans"},
+    "faq": {"fr": "/faq", "en": "/en/faq"},
+    "paris": {"fr": "/conciergerie-airbnb-paris", "en": "/en/airbnb-management-paris"},
+    "contact": {"fr": "/contact", "en": "/en/contact"},
+    "mentions": {"fr": "/mentions-legales", "en": "/en/legal-notice"},
+    "confidentialite": {"fr": "/politique-de-cookies", "en": "/en/privacy"},
+    "credits": {"fr": "/credits-photos", "en": "/en/photo-credits"},
 }
 
 
@@ -108,9 +111,9 @@ def icon(name, cls="ico", label=None):
 
 # Le logo : une porte en arc, comme l'entrée d'un immeuble parisien.
 MARK = ('<svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/>'
-        '<path d="M10.5 25V15a5.5 5.5 0 0 1 11 0v10" fill="none" stroke="var(--mark-ink,#fff)" stroke-width="2.4" stroke-linecap="round"/>'
-        '<path d="M8 25h16" stroke="var(--mark-ink,#fff)" stroke-width="2.4" stroke-linecap="round"/>'
-        '<circle cx="18.6" cy="19.6" r="1.4" fill="var(--mark-ink,#fff)"/></svg>')
+        '<path d="M10.5 25V15a5.5 5.5 0 0 1 11 0v10" fill="none" stroke="#FBF2E8" stroke-width="2.4" stroke-linecap="round"/>'
+        '<path d="M8 25h16" stroke="#FBF2E8" stroke-width="2.4" stroke-linecap="round"/>'
+        '<circle cx="18.6" cy="19.6" r="1.6" fill="#FC585C"/></svg>')
 
 
 def logo(L, cls="logo"):
@@ -152,8 +155,11 @@ def photo(name, alt, sizes="(max-width: 900px) 100vw, 50vw", lazy=True, cls="", 
             f'/assets/img/{name}.jpg {big}w" sizes="{sizes}" alt="{escape(alt)}"{load}>')
 
 
-def obj(name, cls):
-    return f'<img class="obj {cls}" src="/assets/img/objet-{name}.webp" alt="" aria-hidden="true" loading="lazy">'
+def sticker(name, tone="", cls=""):
+    """Pastille ronde illustrée posée sur le bord d'une photo."""
+    bg = tone or "light"
+    style = "" if tone else ' style="background:#fff;color:var(--ink)"'
+    return f'<div class="sticker {bg} {cls}"{style} aria-hidden="true">{illu(name)}</div>'
 
 
 def ticks(items, cls="ticks"):
@@ -194,12 +200,48 @@ def crumbs_ld(L, trail):
         for i, (n, h) in enumerate(items)]}
 
 
+ORG_ID = SITE["url"] + "/#entreprise"
+SITE_ID = SITE["url"] + "/#site"
+
+
+def org_ld(L):
+    c = SITE["company"]
+    t = tr(L)
+    return {
+        "@context": "https://schema.org", "@type": "ProfessionalService", "@id": ORG_ID,
+        "name": "EdenFlats", "legalName": c["name"], "url": SITE["url"] + "/",
+        "logo": SITE["url"] + "/assets/img/apple-touch-icon.png", "image": SITE["url"] + "/assets/img/og-image.jpg",
+        "description": t("Conciergerie Airbnb à Paris et en Île-de-France : gestion locative saisonnière de résidences secondaires et de biens locatifs.",
+                         "Airbnb management in Paris and Île-de-France: short-term rental management for second homes and buy-to-let properties."),
+        "telephone": SITE["phone_href"], "email": SITE["email"],
+        "address": {"@type": "PostalAddress", "streetAddress": "14 rue de Champigny", "postalCode": "94370",
+                    "addressLocality": "Sucy-en-Brie", "addressRegion": "Île-de-France", "addressCountry": "FR"},
+        "areaServed": [{"@type": "City", "name": "Paris"}, {"@type": "AdministrativeArea", "name": "Île-de-France"}],
+        "knowsLanguage": ["fr", "en"], "sameAs": [SITE["facebook"], SITE["instagram"]],
+        "identifier": {"@type": "PropertyValue", "propertyID": "SIRET", "value": c["siret"].replace(" ", "")},
+    }
+
+
+def website_ld(L):
+    return {"@context": "https://schema.org", "@type": "WebSite", "@id": SITE_ID, "url": SITE["url"] + url("home", L),
+            "name": "EdenFlats", "inLanguage": "fr-FR" if L == "fr" else "en-GB", "publisher": {"@id": ORG_ID}}
+
+
+def service_ld(L, name, desc, path, area=None, service_type=None):
+    d = {"@context": "https://schema.org", "@type": "Service", "name": name, "description": desc,
+         "url": SITE["url"] + path, "provider": {"@id": ORG_ID}, "inLanguage": "fr-FR" if L == "fr" else "en-GB",
+         "serviceType": service_type or ("Conciergerie Airbnb" if L == "fr" else "Airbnb management")}
+    d["areaServed"] = {"@type": "Place", "name": area} if area else [{"@type": "City", "name": "Paris"},
+                                                                    {"@type": "AdministrativeArea", "name": "Île-de-France"}]
+    return d
+
+
 def contact_buttons(L, on_dark=False):
     t = tr(L)
     s = SITE
     ghost = "ghost-light" if on_dark else "ghost"
     return (f'<div class="cta-row">'
-            f'{btn("https://wa.me/" + s["whatsapp"], t("Écrire sur WhatsApp", "Message us on WhatsApp"), "lime", ext=True, ico="chat")}'
+            f'{btn("https://wa.me/" + s["whatsapp"], t("Écrire sur WhatsApp", "Message us on WhatsApp"), "green", ext=True, ico="chat")}'
             f'{btn("tel:" + s["phone_href"], s["phone"], "light" if on_dark else "", ico="phone")}'
             f'{btn("mailto:" + s["email"], t("Envoyer un e-mail", "Send an email"), ghost, ico="mail")}'
             f'</div>')
@@ -297,7 +339,7 @@ def footer(L, areas, towns):
 
 
 def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None, ld=None, cta=True,
-           cta_title=None, cta_text=None, og_image="/assets/img/og-image.jpg", noindex=False):
+           cta_title=None, cta_text=None, og_image="/assets/img/og-image.jpg", og_alt=None, noindex=False, section=None):
     t = tr(L)
     path = path or url(pid, L)
     alt_path = alt_path or (url(pid, OTHER[L]) if pid in ROUTES else None)
@@ -309,12 +351,14 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
                     f'<link rel="alternate" hreflang="x-default" href="{SITE["url"]}{fr_path}">\n')
     lds = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in (ld or []))
     cur = ' aria-current="page"'
-    nav = "".join(f'<a href="{url(k, L)}"{cur if url(k, L) == path or (k == "paris" and path.startswith(url("paris", L))) else ""}>{n}</a>'
+    nav = "".join(f'<a href="{url(k, L)}"{cur if url(k, L) == path or k == section else ""}>{n}</a>'
                   for k, n in nav_items(L))
     other = OTHER[L]
     switch = (f'<a class="lang" href="{alt_path}" hreflang="{other}" lang="{other}" '
               f'aria-label="{t("English version", "Version française")}">{other.upper()}</a>') if alt_path else ""
-    robots = '<meta name="robots" content="noindex">\n' if noindex else ""
+    robots = ('<meta name="robots" content="noindex">' if noindex
+              else '<meta name="robots" content="index, follow, max-image-preview:large">') + "\n"
+    og_alt = og_alt or title
     html = f"""<!doctype html>
 <html lang="{L}" class="no-js">
 <head>
@@ -326,12 +370,18 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
 {hreflang}<meta property="og:type" content="website">
 <meta property="og:site_name" content="EdenFlats">
 <meta property="og:locale" content="{t('fr_FR', 'en_GB')}">
+<meta property="og:locale:alternate" content="{t('en_GB', 'fr_FR')}">
 <meta property="og:title" content="{escape(title)}">
 <meta property="og:description" content="{escape(desc)}">
 <meta property="og:url" content="{SITE['url']}{path}">
 <meta property="og:image" content="{SITE['url']}{og_image}">
+<meta property="og:image:alt" content="{escape(og_alt)}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#21190D">
+<meta name="twitter:title" content="{escape(title)}">
+<meta name="twitter:description" content="{escape(desc)}">
+<meta name="twitter:image" content="{SITE['url']}{og_image}">
+<meta name="theme-color" content="#24485C">
+<meta name="format-detection" content="telephone=no">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>

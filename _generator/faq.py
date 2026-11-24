@@ -10,24 +10,26 @@ ITEMS = {
                "<p>Nous proposons deux formules :</p><ul>"
                "<li><b>Le contrat au revenu garanti</b> : selon vos dates, les caractéristiques de votre logement et le taux d'occupation moyen sur Airbnb, nous calculons un revenu qui vous est garanti et versé, que le logement soit loué ou non. Nous prenons en moyenne une marge de 15 %.</li>"
                "<li><b>Le contrat au revenu réel</b> : nous prenons une commission de 18 à 25 % sur les revenus générés par votre logement, selon la durée de la location. Plus le logement est loué, plus vous y gagnez ; s'il n'est pas loué, ce qui reste assez rare, vous ne touchez rien.</li></ul>"
-               "<p>Avec le revenu réel, nous faisons varier le prix des nuits à la hausse ou à la baisse selon l'offre et la demande sur Airbnb, pour maximiser les chances de louer. Vous pouvez fixer un prix minimum par nuit, en dessous duquel nous ne descendrons pas.</p>"),
+               "<p>Avec le revenu réel, nous faisons varier le prix des nuits à la hausse ou à la baisse selon l'offre et la demande sur Airbnb, pour maximiser les chances de louer. Vous pouvez fixer un prix minimum par nuit, en dessous duquel nous ne descendrons pas.</p>"
+               "<p><a href='{formules}'>Comparer les deux formules</a></p>"),
         "en": ("What are your fees?",
                "<p>We offer two plans:</p><ul>"
                "<li><b>The guaranteed-income contract</b>: based on your dates, your property and the average Airbnb occupancy rate, we calculate an income that is guaranteed and paid to you whether or not the apartment is booked. Our average margin is 15%.</li>"
                "<li><b>The actual-income contract</b>: we take a commission of 18% to 25% on the income your property generates, depending on the length of the rental. The more it is booked, the more you earn; if it is not booked, which is fairly rare, you receive nothing.</li></ul>"
-               "<p>With actual income, we move nightly prices up or down with supply and demand on Airbnb to maximise bookings. You can set a minimum nightly price below which we will not go.</p>"),
+               "<p>With actual income, we move nightly prices up or down with supply and demand on Airbnb to maximise bookings. You can set a minimum nightly price below which we will not go.</p>"
+               "<p><a href='{formules}'>Compare the two plans</a></p>"),
     },
     "revenu": {
         "fr": ("Comment calculez-vous mon revenu ?",
-               "<p>Le revenu de votre logement dépend de plusieurs facteurs : ses caractéristiques (adresse, nombre de couchages…), le nombre de nuits que vous souhaitez nous confier et le taux d'occupation moyen sur Airbnb à cette période. Ce taux est calculé par notre algorithme de tarification dynamique, à partir de l'offre et de la demande sur Airbnb. Vous choisissez ensuite entre un revenu garanti et un revenu réel.</p>"),
+               "<p>Le revenu de votre logement dépend de plusieurs facteurs : ses caractéristiques (adresse, nombre de couchages…), le nombre de nuits que vous souhaitez nous confier et le taux d'occupation moyen sur Airbnb à cette période. Ce taux est calculé par notre algorithme de tarification dynamique, à partir de l'offre et de la demande sur Airbnb. Vous choisissez ensuite entre <a href='{formules}'>un revenu garanti et un revenu réel</a>.</p>"),
         "en": ("How do you calculate my income?",
-               "<p>Your income depends on several factors: the property itself (address, number of beds…), the number of nights you want to entrust to us and the average Airbnb occupancy rate for that period. That rate is calculated by our dynamic pricing algorithm, from supply and demand on Airbnb. You then choose between a guaranteed income and your actual income.</p>"),
+               "<p>Your income depends on several factors: the property itself (address, number of beds…), the number of nights you want to entrust to us and the average Airbnb occupancy rate for that period. That rate is calculated by our dynamic pricing algorithm, from supply and demand on Airbnb. You then choose between <a href='{formules}'>a guaranteed income and your actual income</a>.</p>"),
     },
     "gagner": {
         "fr": ("Combien puis-je espérer gagner ?",
-               "<p>La rentabilité de votre logement dépend de nombreux paramètres : son emplacement, sa taille, sa qualité, la saison… Nous combinons des outils d'analyse et notre connaissance du marché local pour estimer vos gains. Après une évaluation détaillée de votre logement et de vos objectifs, nous vous remettons une projection réaliste et transparente de vos revenus.</p>"),
+               "<p>La rentabilité de votre logement dépend de nombreux paramètres : son emplacement, sa taille, sa qualité, la saison… Nous combinons des outils d'analyse et notre connaissance du marché local pour estimer vos gains. Après une évaluation détaillée de votre logement et de vos objectifs, nous vous remettons une projection réaliste et transparente de vos revenus. <a href='{contact}'>Demandez votre estimation</a>.</p>"),
         "en": ("How much can I expect to earn?",
-               "<p>Your return depends on many things: location, size, quality, the season… We combine analysis tools with our knowledge of the local market to estimate your earnings. After a detailed assessment of your property and your goals, we give you a realistic, transparent projection of your income.</p>"),
+               "<p>Your return depends on many things: location, size, quality, the season… We combine analysis tools with our knowledge of the local market to estimate your earnings. After a detailed assessment of your property and your goals, we give you a realistic, transparent projection of your income. <a href='{contact}'>Ask for your estimate</a>.</p>"),
     },
     "prix": {
         "fr": ("Comment le prix de mon logement est-il fixé ?",
@@ -43,15 +45,15 @@ ITEMS = {
     },
     "carte": {
         "fr": ("Proposez-vous une conciergerie à la carte ?",
-               "<p>Oui. Chaque propriétaire a des besoins différents : vous pouvez nous confier la gestion complète de votre logement, ou seulement la maintenance, le ménage ou la gestion des réservations.</p>"),
+               "<p>Oui. Chaque propriétaire a des besoins différents : vous pouvez nous confier la gestion complète de votre logement, ou seulement <a href='{logement}'>la maintenance, le ménage</a> ou <a href='{voyageurs}'>la gestion des réservations</a>.</p>"),
         "en": ("Can I choose only some services?",
-               "<p>Yes. Every owner's needs are different: you can hand us full management of your property, or only maintenance, cleaning or bookings.</p>"),
+               "<p>Yes. Every owner's needs are different: you can hand us full management of your property, or only <a href='{logement}'>maintenance, cleaning</a> or <a href='{voyageurs}'>bookings</a>.</p>"),
     },
     "pas-de-compte": {
         "fr": ("Je n'ai pas de compte Airbnb, que dois-je faire ?",
-               "<p>Rien : vous n'avez pas besoin de créer de profil. Notre équipe s'occupe de toute la création de l'annonce et vous donne des conseils pour renforcer la confiance des futurs voyageurs.</p>"),
+               "<p>Rien : vous n'avez pas besoin de créer de profil. Notre équipe s'occupe de toute <a href='{voyageurs}'>la création de l'annonce</a> et vous donne des conseils pour renforcer la confiance des futurs voyageurs.</p>"),
         "en": ("I don't have an Airbnb account. What do I need to do?",
-               "<p>Nothing: you don't need to create a profile. Our team handles the whole listing set-up and gives you tips to build trust with future guests.</p>"),
+               "<p>Nothing: you don't need to create a profile. Our team handles <a href='{voyageurs}'>the whole listing set-up</a> and gives you tips to build trust with future guests.</p>"),
     },
     "garder-compte": {
         "fr": ("Puis-je garder mon compte hôte Airbnb ?",
@@ -85,13 +87,13 @@ ITEMS = {
     },
     "selection": {
         "fr": ("Sélectionnez-vous les voyageurs ?",
-               "<p>Oui. Une équipe se consacre uniquement à la sélection, à la communication et à la gestion des voyageurs, pour que votre logement soit loué à des personnes de confiance. Nous examinons l'historique et les évaluations de chaque voyageur, et dialoguons souvent avec lui pour comprendre l'objet de son séjour. Un algorithme développé par nos soins nous aide aussi à les sélectionner selon des critères précis :</p><ul>"
+               "<p>Oui. Une équipe se consacre uniquement à la sélection, à la communication et à <a href=\"{voyageurs}\">la gestion des voyageurs</a>, pour que votre logement soit loué à des personnes de confiance. Nous examinons l'historique et les évaluations de chaque voyageur, et dialoguons souvent avec lui pour comprendre l'objet de son séjour. Un algorithme développé par nos soins nous aide aussi à les sélectionner selon des critères précis :</p><ul>"
                "<li>nous demandons l'âge et la raison de la réservation, en insistant pour les voyageurs sans commentaire ;</li>"
                "<li>nous privilégions les voyageurs avec des commentaires positifs et des profils vérifiés ;</li>"
                "<li>nous facilitons les réservations des familles ;</li>"
                "<li>une pièce d'identité est obligatoire pour réserver : l'identité de chaque voyageur est vérifiée.</li></ul>"),
         "en": ("Do you screen guests?",
-               "<p>Yes. A dedicated team handles only guest screening, communication and management, so your property is let to people you can trust. We look at each guest's history and reviews, and often talk with them to understand the purpose of their stay. An algorithm we developed also helps us select guests against specific criteria:</p><ul>"
+               "<p>Yes. A dedicated team handles only guest screening, communication and <a href=\"{voyageurs}\">guest management</a>, so your property is let to people you can trust. We look at each guest's history and reviews, and often talk with them to understand the purpose of their stay. An algorithm we developed also helps us select guests against specific criteria:</p><ul>"
                "<li>we ask for their age and the reason for the booking, insisting with guests who have no reviews;</li>"
                "<li>we favour guests with positive reviews and verified profiles;</li>"
                "<li>we make bookings easier for families;</li>"
@@ -117,10 +119,10 @@ ITEMS = {
     },
     "cles": {
         "fr": ("Comment se passe la gestion des clés ?",
-               "<p>Nous nous occupons des clés pendant toute la période de location confiée. Il nous faut deux jeux de clés : la veille de la location, vous déposez le premier dans l'un de nos cafés partenaires ; le second reste dans le logement, sur le plan de travail de la cuisine. Pendant la location, un jeu est confié à notre prestataire de ménage, l'autre aux voyageurs.</p>"
+               "<p>Nous nous occupons de <a href=\"{voyageurs}\">la remise des clés</a> pendant toute la période de location confiée. Il nous faut deux jeux de clés : la veille de la location, vous déposez le premier dans l'un de nos cafés partenaires ; le second reste dans le logement, sur le plan de travail de la cuisine. Pendant la location, un jeu est confié à notre prestataire de ménage, l'autre aux voyageurs.</p>"
                "<p>Si vous le souhaitez, nous pouvons aussi ouvrir à distance, avec une serrure connectée ou une boîte à clés.</p>"),
         "en": ("How are the keys handled?",
-               "<p>We look after the keys for the whole rental period. We need two sets: the day before the rental, you drop the first one at one of our partner cafés; the second stays in the apartment, on the kitchen worktop. During the rental, one set goes to our cleaning provider and the other to the guests.</p>"
+               "<p>We look after <a href=\"{voyageurs}\">the key handover</a> for the whole rental period. We need two sets: the day before the rental, you drop the first one at one of our partner cafés; the second stays in the apartment, on the kitchen worktop. During the rental, one set goes to our cleaning provider and the other to the guests.</p>"
                "<p>If you prefer, we can also open remotely, with a smart lock or a key box.</p>"),
     },
     "menage": {
@@ -131,7 +133,7 @@ ITEMS = {
                "<li>le remplacement des consommables : shampoing, gel douche, papier toilette ;</li>"
                "<li>l'aération du logement ;</li>"
                "<li>la vérification du bon fonctionnement des appareils et des équipements.</li></ul>"
-               "<p>Chaque nouveau voyageur entre ainsi dans un logement frais, propre et accueillant.</p>"),
+               "<p>Chaque nouveau voyageur entre ainsi dans un logement frais, propre et accueillant. Tout le détail sur <a href=\"{logement}\">la gestion du logement</a>.</p>"),
         "en": ("What does the cleaning include?",
                "<p>Cleaning includes:</p><ul>"
                "<li>a deep clean of every room;</li>"
@@ -139,7 +141,7 @@ ITEMS = {
                "<li>restocking consumables: shampoo, shower gel, toilet paper;</li>"
                "<li>airing the apartment;</li>"
                "<li>checking that appliances and equipment work properly.</li></ul>"
-               "<p>Every new guest walks into a fresh, clean and welcoming home.</p>"),
+               "<p>Every new guest walks into a fresh, clean and welcoming home. More on <a href=\"{logement}\">property management</a>.</p>"),
     },
     "dommages": {
         "fr": ("Quelles sont les procédures de dédommagement ?",
@@ -160,14 +162,14 @@ ITEMS = {
                "<li><b>Déclaration</b> : dans les communes qui l'exigent, comme Paris, le logement doit être déclaré en mairie et son numéro d'enregistrement affiché sur chaque annonce.</li>"
                "<li><b>Résidence secondaire ou bien locatif</b> : à Paris, en petite couronne et dans d'autres communes, le louer de façon répétée pour de courtes durées demande en général une autorisation de changement d'usage.</li>"
                "<li><b>Locataire</b> : il vous faut l'accord écrit de votre propriétaire pour sous-louer.</li></ul>"
-               f'<p>Ces règles évoluent : vérifiez celles qui s\'appliquent à votre logement auprès de votre mairie ou sur <a href="{SP}" target="_blank" rel="noopener">service-public.gouv.fr</a> avant de le mettre en location.</p>'),
+               f'<p>Ces règles évoluent : vérifiez celles qui s\'appliquent à votre logement (voir aussi <a href="{{paris}}">les règles à Paris</a>) auprès de votre mairie ou sur <a href="{SP}" target="_blank" rel="noopener">service-public.gouv.fr</a> avant de le mettre en location.</p>'),
         "en": ("What are the rules for Airbnb in France?",
                "<p>The rules depend on the town and on your situation. The main ones:</p><ul>"
                "<li><b>Main residence</b>: you can let it as furnished tourist accommodation for up to 120 days a year. Towns can lower this cap: in Paris it has been 90 days since 1 January 2025.</li>"
                "<li><b>Registration</b>: in towns that require it, including Paris, the property must be declared to the town hall and its registration number shown on every listing.</li>"
                "<li><b>Second home or buy-to-let</b>: in Paris, the inner suburbs and other towns, letting it repeatedly for short stays generally requires a change-of-use authorisation.</li>"
                "<li><b>Tenants</b>: you need your landlord's written consent to sublet.</li></ul>"
-               f'<p>These rules change: check the ones that apply to your property with your town hall or on <a href="{SP}" target="_blank" rel="noopener">service-public.gouv.fr</a> (in French) before you start letting it.</p>'),
+               f'<p>These rules change: check the ones that apply to your property (see also <a href="{{paris}}">the Paris rules</a>) with your town hall or on <a href="{SP}" target="_blank" rel="noopener">service-public.gouv.fr</a> (in French) before you start letting it.</p>'),
     },
 }
 
@@ -181,5 +183,12 @@ GROUPS = [
 ]
 
 
+def links(html, L):
+    from kit import url
+    for key in ("formules", "contact", "logement", "voyageurs", "paris", "faq"):
+        html = html.replace("{" + key + "}", url(key, L))
+    return html
+
+
 def pick(L, ids):
-    return [ITEMS[i][L] for i in ids]
+    return [(q, links(a, L)) for q, a in (ITEMS[i][L] for i in ids)]
