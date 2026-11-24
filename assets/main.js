@@ -1,5 +1,5 @@
-// Menu mobile, en-tête au défilement, rail des quartiers, apparition des blocs, bouton de contact,
-// bandeau cookies et proposition de changer de langue.
+// Menu mobile, en-tête au défilement, rail des quartiers, bouton de contact, bandeau cookies et proposition de
+// changer de langue. Les animations sont dans motion.js.
 document.documentElement.classList.remove('no-js');
 
 // Le stockage local peut être refusé (navigation privée, réglages) : le site doit marcher sans lui.
@@ -54,18 +54,6 @@ document.querySelectorAll('[data-rail]').forEach((box) => {
   box.querySelector('.prev')?.addEventListener('click', () => rail.scrollBy({ left: -step() }));
   box.querySelector('.next')?.addEventListener('click', () => rail.scrollBy({ left: step() }));
 });
-
-const items = document.querySelectorAll('.reveal');
-if ('IntersectionObserver' in window) {
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    }
-  }, { rootMargin: '0px 0px -8% 0px' });
-  items.forEach((el) => io.observe(el));
-} else {
-  items.forEach((el) => el.classList.add('in'));
-}
 
 // Les fenêtres (bandeau, proposition de langue) viennent d'un <template> : leur texte n'est pas lu comme
 // contenu de la page par les moteurs de recherche. On les place juste après le lien d'évitement, pour
