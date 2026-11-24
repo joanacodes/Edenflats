@@ -180,8 +180,11 @@ def main():
     # Pour Cloudflare Pages ou Netlify : vraies redirections 301 (GitHub Pages utilise les pages ci-dessus).
     write("_redirects", "".join(f"{src} {target} 301\n" for src, target in REDIRECTS.items()))
     # Vercel : adresses sans « .html » (comme GitHub Pages) et les mêmes redirections ; le générateur n'est pas publié.
+    # Les adresses d'aperçu en .vercel.app ne doivent pas être indexées : seul www.edenflats.com compte pour Google.
     write("vercel.json", json.dumps({"cleanUrls": True, "redirects": [
-        {"source": src, "destination": target, "permanent": True} for src, target in REDIRECTS.items()]}, indent=2) + "\n")
+        {"source": src, "destination": target, "permanent": True} for src, target in REDIRECTS.items()],
+        "headers": [{"source": "/(.*)", "has": [{"type": "host", "value": ".*\\.vercel\\.app"}],
+                     "headers": [{"key": "X-Robots-Tag", "value": "noindex"}]}]}, indent=2) + "\n")
     write(".vercelignore", "_generator\nREADME.md\nIMAGES-MIDJOURNEY.md\n")
     base = kit.SITE["url"]
     urls = []

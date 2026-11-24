@@ -104,7 +104,12 @@ En attendant, les pages principales montrent les photos de l'ancien site, et la 
 
 ## Mise en ligne
 
-Pensé pour GitHub Pages avec le domaine `www.edenflats.com` (les liens commencent par `/`, le site doit donc être servi à la racine du domaine). Au moment de quitter Squarespace : ajouter un fichier `CNAME` contenant `www.edenflats.com`, activer Pages sur la branche, puis faire pointer le DNS vers GitHub. `_config.yml` empêche Jekyll de publier le générateur et les fichiers de travail. Si le site est hébergé ailleurs, changer `SITE["host"]` dans `kit.py` (mentions légales).
+Le dépôt est privé : GitHub Pages n'y est disponible qu'avec un compte GitHub payant, et servirait le site sous `/Edenflats/`, que les liens (qui commencent par `/`) ne gèrent pas. Le site est prêt pour **Vercel** :
+
+1. vercel.com/new → importer `joanacodes/Edenflats` (préréglage « Other », aucune commande de build) → Deploy.
+2. Dans le projet : Settings → Git (ou Environments → Production) → branche de production `claude/edenflats-website-redesign-4i4x4w` (ou fusionner cette branche dans `main`), puis redéployer.
+
+`vercel.json` sert les pages sans « .html », reprend les redirections des anciennes adresses et demande aux moteurs de ne pas indexer les adresses en `.vercel.app` ; `.vercelignore` ne publie pas le générateur. Pour la mise en ligne définitive : ajouter le domaine `www.edenflats.com` dans Vercel, faire pointer le DNS, et mettre l'hébergeur à jour dans `SITE["host"]` (`kit.py`, mentions légales : Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA). Sur Netlify ou Cloudflare Pages, `_redirects` donne les mêmes redirections ; sur GitHub Pages avec le domaine, `_config.yml` empêche Jekyll de publier le générateur.
 
 ## À vérifier avant la mise en ligne
 
