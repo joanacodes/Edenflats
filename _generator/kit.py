@@ -119,6 +119,7 @@ ICONS = {
     "bubble": '<path d="M20.5 11.5a8 8 0 0 1-11.9 7L4 19.8l1.3-4.4A8 8 0 1 1 20.5 11.5z"/><path d="M8.6 11.6h.01M12.5 11.6h.01M16.4 11.6h.01" stroke-width="2.6"/>',
     "cookie": '<path d="M20.5 12.6A8.5 8.5 0 1 1 11.4 3.5a2.8 2.8 0 0 0 3.4 3.4 2.8 2.8 0 0 0 3.3 3.3 2.8 2.8 0 0 0 2.4 2.4z"/><path d="M8.3 10.2h.01M11.8 15.6h.01M15.6 14.2h.01M8.4 15h.01" stroke-width="2.4"/>',
     "close": '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
+    "help": '<circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.5a2.5 2.5 0 0 1 4.9.7c0 1.7-2.5 2.1-2.5 3.6"/><path d="M12 16.8h.01" stroke-width="2.6"/>',
     "menu": '<path d="M4 7h16M4 12h16M4 17h16"/>',
 }
 
@@ -130,9 +131,10 @@ def icon(name, cls="ico", label=None):
 
 
 # Le logo : une porte en arc, comme l'entrée d'un immeuble parisien.
+# Les couleurs du trait suivent la place du logo (--mark-fg) : vert anis sur bleu nuit, bleu nuit sur pervenche.
 MARK = ('<svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/>'
-        '<path d="M10.5 25V15a5.5 5.5 0 0 1 11 0v10" fill="none" stroke="#FBF2E8" stroke-width="2.4" stroke-linecap="round"/>'
-        '<path d="M8 25h16" stroke="#FBF2E8" stroke-width="2.4" stroke-linecap="round"/>'
+        '<path d="M10.5 25V15a5.5 5.5 0 0 1 11 0v10" fill="none" style="stroke:var(--mark-fg,#FBF2E8)" stroke-width="2.4" stroke-linecap="round"/>'
+        '<path d="M8 25h16" style="stroke:var(--mark-fg,#FBF2E8)" stroke-width="2.4" stroke-linecap="round"/>'
         '<circle cx="18.6" cy="19.6" r="1.6" fill="#FC585C"/></svg>')
 
 
@@ -332,48 +334,48 @@ def final_cta(L, title=None, text=None):
 
 
 def footer(L, areas, towns):
+    """Pied de page pervenche de la maquette : logo, colonnes en petites capitales, réseaux, retour en haut."""
     t = tr(L)
     s = SITE
     area_links = "".join(f'<li><a href="{h}">{n}</a></li>' for n, h in areas)
     town_links = "".join(f'<li><a href="{h}">{n}</a></li>' for n, h in towns)
     year = date.today().year
     # Retirer son accord doit être aussi simple que le donner : ce bouton rouvre le bandeau cookies.
-    manage = (f'\n        <li><button class="linkish" type="button" data-consent-open>{t("Gérer les cookies", "Cookie settings")}</button></li>'
+    manage = (f'<li><button class="linkish" type="button" data-consent-open>{t("Gérer les cookies", "Cookie settings")}</button></li>'
               if s["cookie_banner"] else "")
     return f"""<footer class="foot">
   <div class="wrap">
     <div class="foot-grid">
-      <div class="foot-brand">
-        {logo(L)}
-        <p>{t("Conciergerie Airbnb à Paris et en Île-de-France : gestion locative saisonnière de résidences secondaires et de biens locatifs.",
-              "Airbnb management in Paris and Île-de-France: short-term rental management for second homes and buy-to-let properties.")}</p>
-        <ul class="foot-contact">
-          <li><a href="tel:{s['phone_href']}">{icon("phone")}{s['phone']}</a></li>
-          <li><a href="https://wa.me/{s['whatsapp']}" target="_blank" rel="noopener">{icon("chat")}WhatsApp</a></li>
-          <li><a href="mailto:{s['email']}">{icon("mail")}{s['email']}</a></li>
-        </ul>
-        {social_links(L)}
-      </div>
+      <div class="foot-mark"><a href="{url('home', L)}" aria-label="{t("EdenFlats, accueil", "EdenFlats, home")}">{MARK}</a></div>
+      <div><h3>{t("Informations", "Information")}</h3><ul>
+        <li><a href="{url('mentions', L)}">{t("Mentions légales", "Legal notice")}</a></li>
+        <li><a href="{url('cgv', L)}">{t("Conditions générales de vente", "Terms and conditions")}</a></li>
+        <li><a href="{url('confidentialite', L)}">{t("Confidentialité et cookies", "Privacy and cookies")}</a></li>
+        {manage}
+        <li><a href="{url('plan', L)}">{t("Plan du site", "Sitemap")}</a></li></ul></div>
       <div><h3>{t("Services", "Services")}</h3><ul>
         <li><a href="{url('voyageurs', L)}">{t("Gestion des voyageurs", "Guest management")}</a></li>
         <li><a href="{url('logement', L)}">{t("Gestion du logement", "Property management")}</a></li>
         <li><a href="{url('formules', L)}">{t("Nos formules", "Our plans")}</a></li>
         <li><a href="{url('faq', L)}">{t("Questions fréquentes", "FAQ")}</a></li>
-        <li><a href="{url('contact', L)}">{t("Contact", "Contact")}</a></li>
         <li><a href="{s['booking']}" target="_blank" rel="noopener">{t("Réserver un séjour", "Book a stay")} ↗</a></li></ul></div>
-      <div><h3><a href="{url('paris', L)}">{t("Paris", "Paris")}</a></h3><ul class="cols2">{area_links}</ul></div>
-      <div><h3>{t("Île-de-France", "Île-de-France")}</h3><ul>{town_links}</ul>
-        <h3 class="mt">{t("Informations", "Information")}</h3><ul>
-        <li><a href="{url('mentions', L)}">{t("Mentions légales", "Legal notice")}</a></li>
-        <li><a href="{url('cgv', L)}">{t("Conditions générales de vente", "Terms and conditions")}</a></li>
-        <li><a href="{url('confidentialite', L)}">{t("Confidentialité et cookies", "Privacy and cookies")}</a></li>{manage}
-        <li><a href="{url('plan', L)}">{t("Plan du site", "Sitemap")}</a></li></ul></div>
+      <div><h3><a href="{url('paris', L)}">Paris</a></h3><ul class="cols2">{area_links}</ul>
+        <h3 class="mt">{t("Île-de-France", "Île-de-France")}</h3><ul>{town_links}</ul></div>
+      <div><h3>{t("Contactez-nous", "Contact us")}</h3>
+        <ul class="foot-contact">
+          <li><a href="tel:{s['phone_href']}">{icon("phone")}{s['phone']}</a></li>
+          <li><a href="https://wa.me/{s['whatsapp']}" target="_blank" rel="noopener">{icon("chat")}WhatsApp</a></li>
+          <li><a href="mailto:{s['email']}">{icon("mail")}{s['email']}</a></li>
+          <li><a href="{url('contact', L)}">{icon("arrow")}{t("Page contact", "Contact page")}</a></li>
+        </ul>
+        {social_links(L)}
+      </div>
     </div>
     <div class="foot-bottom">
-      <span>© {year} EdenFlats · <a href="{url('mentions', L)}">{t("Mentions légales", "Legal notice")}</a> · <a href="{url('plan', L)}">{t("Plan du site", "Sitemap")}</a></span>
-      <span>{t("Site conçu par", "Website by")} <a href="{s['maker'][1]}" target="_blank" rel="noopener">{s['maker'][0]}</a></span>
+      <span>Copyright © {year} EdenFlats · {t("Site conçu par", "Website by")} <a href="{s['maker'][1]}" target="_blank" rel="noopener">{s['maker'][0]}</a></span>
     </div>
   </div>
+  <a class="to-top" href="#top" aria-label="{t("Revenir en haut de la page", "Back to top")}">{icon("arrow")}</a>
 </footer>"""
 
 
@@ -467,15 +469,15 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
 <meta name="twitter:title" content="{escape(title)}">
 <meta name="twitter:description" content="{escape(desc)}">
 <meta name="twitter:image" content="{SITE['url']}{og_image}">
-<meta name="theme-color" content="#24485C">
+<meta name="theme-color" content="#1B1B4B">
 <meta name="format-detection" content="telephone=no">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
-<link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/public-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css">
 {lds}</head>
-<body{body_attrs}>
+<body id="top"{body_attrs}>
 <a class="skip" href="#contenu">{t("Aller au contenu", "Skip to content")}</a>
 <header class="top">
   <div class="wrap top-in">

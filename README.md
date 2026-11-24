@@ -8,21 +8,19 @@ Coordonnées (confirmées) : edenflats.paris@gmail.com, +33 7 84 54 48 61, et Wh
 
 ## Identité visuelle
 
-Une palette chaude qui réunit l'ancien site (crème, ardoise, vert tendre, corail), la pervenche de la maquette de référence et la construction de Bridge : des familles de couleurs claires, chacune avec sa couleur foncée pour le texte et les illustrations, des cartes blanches posées sur les photos, des panneaux arrondis qui se chevauchent.
+**Version « maquette »** (branche `claude/edenflats-layout-template`) : la mise en page de la maquette de référence, section par section, avec le contenu d'EdenFlats. La version précédente, plus proche de Bridge, est sur la branche `claude/edenflats-website-redesign-4i4x4w` ; les deux partagent les mêmes pages, adresses, textes et photos.
 
 | Rôle | Couleur |
 |---|---|
-| Texte, boutons, bandeaux sombres (ardoise de l'ancien site) | `#24485C` |
-| Fond des panneaux (crème de l'ancien site) | `#FBF2E8` |
-| Famille verte (vert de l'ancien site) | `#B9E89A`, fond `#E9F6DA`, texte `#1D4A35` |
-| Famille bleue (pervenche de la maquette) | `#A9C2FF`, fond `#E1E8FF`, texte `#233B7A` |
-| Famille corail (corail de l'ancien site, à la place du rose de Bridge) | `#FC585C`, fond `#FFE4DD`, texte `#8E2A24` |
-| Famille sable | `#EFD3B2`, fond `#F7EADB`, texte `#6B4423` |
-| Surlignage des titres | `#FFC6BA` |
+| En-tête, textes, sections sombres (bleu nuit de la maquette) | `#1B1B4B` |
+| Héros, en-têtes de pages, pied de page (pervenche) | `#A9C2FF` |
+| Cartes, étiquettes, pictogrammes sur bleu nuit (vert anis) | `#E4FBC0` |
+| Panneaux (crème de l'ancien site, à la place du beige de la maquette) | `#FBF2E8` |
+| Point du logo (corail de l'ancien site) | `#FC585C` |
 
-Polices : Bricolage Grotesque (titres) et Public Sans (texte), hébergées sur le site (licence SIL OFL).
+Polices : Public Sans (titres et texte) et Instrument Serif (mots en italique dans les titres, titres des cartes), hébergées sur le site (licence SIL OFL). Sections à angles droits, une grande courbe par photo, boutons en pilule.
 
-Illustrations : 21 dessins au trait dans l'esprit de Bridge, regroupés dans `assets/illus.svg` (calendrier, porte, ménage, linge, outils, casque 24/7, balance, services à la carte, clés, serrure connectée, appareil photo, langues FR/EN, pièce d'identité, valise, maison et revenus, graphique, café-croissant, lampe, rouleau, téléphone, tour Eiffel). Ils prennent la couleur de leur carte. Ils se modifient dans `_generator/illus.py`.
+Illustrations : 21 dessins au trait dans `assets/illus.svg` (calendrier, porte, ménage, linge, outils, casque 24/7, balance, services à la carte, clés, serrure connectée, appareil photo, langues FR/EN, pièce d'identité, valise, maison et revenus, graphique, café-croissant, lampe, rouleau, téléphone, tour Eiffel). Ils prennent la couleur de leur carte ; ils se modifient dans `_generator/illus.py`.
 
 ## Pages et adresses
 

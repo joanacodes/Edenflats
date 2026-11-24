@@ -50,7 +50,7 @@ auDefilement();
 // Les flèches font défiler le rail d'une carte et demie ; sans JavaScript, le rail défile au doigt.
 document.querySelectorAll('[data-rail]').forEach((box) => {
   const rail = box.querySelector('.rail');
-  const step = () => (rail.querySelector('.area-card')?.offsetWidth || 260) * 1.5;
+  const step = () => (rail.firstElementChild?.offsetWidth || 260) * 1.5;
   box.querySelector('.prev')?.addEventListener('click', () => rail.scrollBy({ left: -step() }));
   box.querySelector('.next')?.addEventListener('click', () => rail.scrollBy({ left: step() }));
 });

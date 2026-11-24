@@ -10,7 +10,7 @@ L = 'fill="var(--illu-fill,#fff)"'
 D = 'fill="currentColor"'
 N = 'fill="none"'
 LT = 'stroke="var(--illu-fill,#fff)"'
-FONT = 'font-family="Bricolage Grotesque, Arial, sans-serif" font-weight="800" text-anchor="middle"'
+FONT = 'font-family="Public Sans, Arial, sans-serif" font-weight="800" text-anchor="middle"'
 
 
 def shadow(cx, cy, rx):

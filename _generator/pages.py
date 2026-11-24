@@ -3,7 +3,7 @@
 import re
 from html import escape
 from kit import (SITE, tr, url, icon, illu, chip, btn, more, todo, fcard, photo, sticker, ticks, head, faq_list, crumbs,
-                 crumbs_ld, contact_buttons, org_ld, website_ld, service_ld, social_links, OTHER)
+                 crumbs_ld, contact_buttons, org_ld, website_ld, service_ld, social_links, OTHER, MARK)
 import faq
 import photos
 import quartiers as Q
@@ -100,140 +100,216 @@ def faq_ld(items):
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain(a)}} for q, a in items]}
 
 
-# ── Accueil ─────────────────────────────────────────────────────────────────
+# ── Accueil (mise en page de la maquette de référence) ────────────────────────
+# Textes alternatifs des photos principales : ils décrivent ce que montrent les prompts Midjourney.
+ALTS = {
+    "accueil-hero": ("Deux voyageurs accueillis avec leurs valises devant la porte d'un immeuble parisien", "Two guests with suitcases welcomed at the door of a Paris apartment building"),
+    "accueil-voyageurs": ("Une famille de voyageurs accueillie dans l'entrée d'un appartement parisien", "A family of travellers welcomed in the hallway of a Paris apartment"),
+    "accueil-logement": ("Lit fait avec du linge blanc propre dans une chambre parisienne lumineuse", "A bed made with crisp white linen in a bright Paris bedroom"),
+    "accueil-faq": ("Une propriétaire écrit un message depuis son salon", "An owner sending a message from her living room"),
+    "voyageurs-hero": ("Une voyageuse récupère ses clés dans une boîte à clés à l'entrée d'un appartement", "A guest collecting her keys from a key box at an apartment door"),
+    "voyageurs-annonce": ("Séance photo d'un salon parisien pour une annonce de location", "Photo shoot of a Paris living room for a rental listing"),
+    "voyageurs-selection": ("Deux membres de l'équipe étudient une demande de réservation", "Two team members reviewing a booking request"),
+    "logement-hero": ("Un propriétaire fait le tour de son appartement avec la conciergerie", "An owner showing their apartment to the concierge"),
+    "logement-menage": ("Ménage d'un salon parisien après le départ des voyageurs", "Cleaning a Paris living room after the guests leave"),
+    "logement-reassort": ("Serviettes et produits d'accueil remis en place dans une salle de bains", "Towels and toiletries restocked in a bathroom"),
+    "formules-hero": ("Un propriétaire et la conciergerie relisent un contrat autour d'un café", "An owner and the concierge going over a contract over coffee"),
+}
+
+
+def pic(name, L, sizes="(max-width: 900px) 100vw, 33vw", lazy=True):
+    fr, en = ALTS[name]
+    return photo(name, fr if L == "fr" else en, sizes=sizes, lazy=lazy)
+
+
+def rtitle(h2, hid="", side="right", light=False):
+    """Titre de section prolongé par un filet, à sa gauche ou à sa droite, comme sur la maquette."""
+    hid_attr = f' id="{hid}"' if hid else ""
+    line = '<span aria-hidden="true"></span>'
+    inner = f"{line}<h2{hid_attr}>{h2}</h2>" if side == "right" else f"<h2{hid_attr}>{h2}</h2>{line}"
+    return f'<div class="rtitle {side}{" light" if light else ""}">{inner}</div>'
+
+
+def rail_btns(L, light=False):
+    t = tr(L)
+    return (f'<div class="rail-btns{" light" if light else ""}"><button class="prev" type="button" aria-label="{t("Précédent", "Previous")}">{icon("arrow")}</button>'
+            f'<button class="next" type="button" aria-label="{t("Suivant", "Next")}">{icon("arrow")}</button></div>')
+
+
 def home(L):
     t = tr(L)
     s = SITE
-    rail = "".join(Q.area_card(a, L) for a in Q.AREAS)
-    body = f"""<section class="hero">
-  <div class="hero-panel panel">
-    <div class="wrap hero-grid">
-      <div class="hero-text">
-        {chip(t("Conciergerie Airbnb · Paris et Île-de-France", "Airbnb management · Paris and Île-de-France"))}
-        <h1>{t("Votre bien loué sur Airbnb, <mark>sans le moindre tracas</mark>", "Your property on Airbnb, <mark>without the hassle</mark>")}</h1>
-        <p class="lead">{t("Nous gérons la location saisonnière de votre résidence secondaire ou de votre bien locatif, à Paris et en Île-de-France : annonce, voyageurs, clés, ménage, linge et entretien. Vous choisissez entre un revenu garanti et un revenu réel.",
-                          "We run short-term rentals of second homes and buy-to-let apartments in Paris and Île-de-France: listing, guests, keys, cleaning, linen and upkeep. You choose between a guaranteed income and your actual income.")}</p>
-        <div class="cta-row">{btn(url("contact", L), t("Parlez-nous de votre projet", "Tell us about your property"))}{btn(url("formules", L), t("Voir nos formules", "See our plans"), "ghost")}</div>
-      </div>
-      <div class="hero-visual">
-        <figure class="hero-photo">{photo("accueil-hero", t("Deux voyageurs accueillis avec leurs valises devant la porte d'un immeuble parisien", "Two guests with suitcases welcomed at the door of a Paris apartment building"), sizes="(max-width: 900px) 100vw, 40vw", lazy=False)}</figure>
-        {fcard(t("Revenu garanti", "Guaranteed income"), "t-green", t("Versé que le logement soit loué ou non.", "Paid whether or not the home is booked."), "fc-1", "chart")}
-        {fcard(t("Voyageurs", "Guests"), "t-coral", t("Pièce d'identité vérifiée avant chaque séjour.", "ID checked before every stay."), "fc-2", "id")}
-        {fcard(t("Ménage", "Cleaning"), "t-blue", t("Après chaque départ, linge compris.", "After every check-out, linen included."), "fc-3", "sparkle")}
-        {sticker("cles")}
-      </div>
+    out = icon("out")
+    arrow = icon("arrow")
+
+    hero = f"""<section class="hb">
+  <div class="wrap hb-grid">
+    <div class="hb-text">
+      <h1>{t("Votre bien <em>loué</em> sur Airbnb, sans le moindre <em>tracas</em>", "Your home <em>let</em> on Airbnb, without the <em>hassle</em>")}</h1>
+      <p>{t("Nous gérons la location saisonnière de votre résidence secondaire ou de votre bien locatif, à Paris et en Île-de-France : annonce, voyageurs, clés, ménage, linge et entretien.",
+            "We run short-term rentals of second homes and buy-to-let apartments in Paris and Île-de-France: listing, guests, keys, cleaning, linen and upkeep.")}</p>
+      <a class="pill dark" href="{url("contact", L)}">{t("Parlez-nous de votre projet", "Tell us about your property")}{out}</a>
+    </div>
+    <div class="mosaic">
+      <div class="tile kpi t1">{illu("graphique")}<b>{t("15 %", "15%")}</b><span>{t("de marge moyenne avec le revenu garanti", "average margin with guaranteed income")}</span></div>
+      <figure class="tile t2">{pic("accueil-hero", L, "(max-width: 900px) 55vw, 26vw", lazy=False)}</figure>
+      <figure class="tile t3">{pic("accueil-voyageurs", L, "(max-width: 900px) 60vw, 30vw", lazy=False)}</figure>
+      <div class="tile kpi t4">{illu("casque")}<b>{t("24h/24", "24/7")}</b><span>{t("d'assistance pour vos voyageurs", "support for your guests")}</span></div>
     </div>
   </div>
-  <div class="band" role="region" aria-label="{t("Secteurs où nous gérons des logements", "Areas where we manage homes")}">{marquee(L)}</div>
-</section>
+</section>"""
 
-<section class="sec"><div class="wrap">
-  <div class="stats">
-    <div class="stat reveal"><b>{t("15 %", "15%")}</b><span>{t("de marge moyenne avec le contrat au revenu garanti", "average margin on the guaranteed-income contract")}</span></div>
-    <div class="stat reveal"><b>{t("18 à 25 %", "18–25%")}</b><span>{t("de commission avec le contrat au revenu réel, selon la durée de location", "commission on the actual-income contract, depending on rental length")}</span></div>
-    <div class="stat reveal"><b>{t("24h/24", "24/7")}</b><span>{t("d'assistance pour les voyageurs, 7 jours sur 7", "guest support, every day of the week")}</span></div>
-  </div>
-</div></section>
-
-<section class="sec tight" aria-labelledby="services-t"><div class="wrap">
-  {head(t("Nos services", "Our services"), t("Une gestion complète, <mark>pour un rendement sans tracas</mark>", "Full management, <mark>for a hassle-free return</mark>"),
-        t("De la mise en ligne de l'annonce à la blanchisserie, chaque étape de la location est prise en charge par notre équipe. Vous pouvez aussi ne choisir que certains services.",
-          "From publishing the listing to washing the linen, our team handles every step of the rental. You can also pick only the services you need."), center=True, hid="services-t")}
-  <div class="cards">{service_cards(L, services(L))}</div>
-</div></section>
-
-<section class="sec split"><div class="wrap split-grid">
-  <div class="split-visual">
-    <figure class="ph">{photo("accueil-voyageurs", t("Une famille de voyageurs accueillie dans l'entrée d'un appartement parisien", "A family of travellers welcomed in the hallway of a Paris apartment"))}</figure>
-    {fcard(t("Identité", "Identity"), "t-green", t("Pièce d'identité vérifiée", "ID checked"), "a", "id")}
-    {fcard(t("Profil", "Profile"), "t-coral", t("Commentaires positifs et profil vérifié", "Positive reviews and verified profile"), "b", "star")}
-    {fcard(t("Familles", "Families"), "t-blue", t("Réservations des familles facilitées", "Family bookings made easy"), "c", "family")}
-    {sticker("identite", cls="low")}
-  </div>
-  <div class="split-text reveal">
-    {chip(t("Gestion des voyageurs", "Guest management"))}
-    <h2>{t("Des voyageurs choisis avec soin", "Guests chosen with care")}</h2>
-    <p>{t("Une équipe se consacre uniquement à la sélection, à la communication et à la gestion des voyageurs. Nous n'acceptons pas n'importe qui dans votre logement.",
-          "A dedicated team handles only guest screening, communication and management. We don't let just anyone into your home.")}</p>
-    {ticks([t("Âge et raison du séjour demandés, en insistant pour les voyageurs sans commentaire", "Age and reason for the stay requested, insisting with guests who have no reviews"),
-            t("Priorité aux profils vérifiés et aux commentaires positifs", "Priority to verified profiles and positive reviews"),
-            t("Pièce d'identité obligatoire pour réserver", "ID required to book"),
-            t("Assistance 24h/24 pendant tout le séjour", "24/7 support throughout the stay")])}
-    {btn(url("voyageurs", L), t("La gestion des voyageurs", "Guest management"))}
-  </div>
-</div></section>
-
-<section class="sec split flip"><div class="wrap split-grid">
-  <div class="split-visual">
-    <figure class="ph">{photo("accueil-logement", t("Lit fait avec du linge blanc propre dans une chambre parisienne lumineuse", "A bed made with crisp white linen in a bright Paris bedroom"))}</figure>
-    {fcard(t("Réapprovisionnement", "Restocking"), "t-blue", t("Draps, serviettes et articles de toilette remis en place.", "Sheets, towels and toiletries put back in place."), "a", "linen")}
-    {fcard(t("Entretien", "Upkeep"), "t-sand", t("Vérifications régulières des équipements.", "Regular checks of all equipment."), "b", "wrench")}
-    {sticker("linge")}
-  </div>
-  <div class="split-text reveal">
-    {chip(t("Gestion du logement", "Property management"))}
-    <h2>{t("Votre bien entre de bonnes mains", "Your property in good hands")}</h2>
-    <p>{t("Ménage après chaque départ, linge, réapprovisionnement, petits travaux et décoration : nous gardons votre logement prêt à accueillir, séjour après séjour.",
-          "Cleaning after every check-out, linen, restocking, small repairs and decoration: we keep your home ready for guests, stay after stay.")}</p>
-    {ticks([t("Ménage en profondeur après chaque séjour", "Deep clean after every stay"),
-            t("Linge lavé et repassé, consommables remplacés", "Linen washed and ironed, consumables restocked"),
-            t("Maintenance, petits travaux et réaménagement", "Maintenance, small works and refurbishment"),
-            t("Décoration pour des photos qui donnent envie de réserver", "Decoration for photos that make guests want to book")])}
-    {btn(url("logement", L), t("La gestion du logement", "Property management"))}
-  </div>
-</div></section>
-
-<section class="sec tight" aria-labelledby="plans-t"><div class="wrap">
-  {head(t("Nos formules", "Our plans"), t("Revenu garanti ou revenu réel : <mark>à vous de choisir</mark>", "Guaranteed or actual income: <mark>your choice</mark>"),
-        t("Un revenu fixé à l'avance, ou les revenus réels du logement moins notre commission : dans les deux cas, nous gérons tout.",
-          "An income agreed in advance, or the home's actual income minus our commission: either way, we handle everything."), center=True, hid="plans-t")}
-  {Q.plans_strip(L)}
-</div></section>
-
-<section class="sec blue-band" aria-labelledby="areas-t" data-rail>
-  <div class="wrap">
-    <div class="rail-head">
-      {head("Paris", t("Les quartiers que les voyageurs viennent chercher", "The neighbourhoods guests come looking for"),
-            t("Nous gérons des logements dans tout Paris et en Île-de-France. Voici ce qui attire les voyageurs dans chaque quartier.",
-              "We manage homes all over Paris and Île-de-France. Here is what draws guests to each neighbourhood."), hid="areas-t")}
-      {illu("tour-eiffel")}
-      <div class="rail-btns"><button class="prev" type="button" aria-label="{t("Quartiers précédents", "Previous")}">{icon("arrow")}</button><button class="next" type="button" aria-label="{t("Quartiers suivants", "Next")}">{icon("arrow")}</button></div>
-    </div>
-    <div class="rail">{rail}</div>
-    <div class="rail-foot">{btn(url("paris", L), t("Conciergerie Airbnb à Paris : tous les quartiers", "Airbnb management in Paris: all neighbourhoods"))}</div>
-  </div>
-</section>
-
-<section class="sec" aria-labelledby="steps-t"><div class="wrap">
-  {head(t("Comment ça marche", "How it works"), t("De votre premier appel à vos premiers voyageurs", "From your first call to your first guests"), center=True, hid="steps-t")}
-  {steps(L)}
-</div></section>
-
-<section class="sec tight" aria-labelledby="faq-t"><div class="wrap faq-wrap">
-  <div class="faq-side">
-    {head("FAQ", t("Les questions des propriétaires", "Owners' questions"), hid="faq-t")}
-    <p class="intro">{t("Les réponses à ce qu'on nous demande avant de nous confier un logement.", "Answers to what owners ask us before handing over their keys.")}</p>
-    <div class="split-visual">
-      <figure class="ph">{photo("accueil-faq", t("Une propriétaire écrit un message depuis son salon", "An owner sending a message from her living room"))}</figure>
-      {fcard("WhatsApp", "t-green", t("Une autre question ? Écrivez-nous.", "Another question? Message us."), "b", "chat")}
-    </div>
-  </div>
-  <div>{faq_list(faq.pick(L, ["tarifs", "revenu", "cles", "selection", "legislation"]))}
-    <p style="margin-top:28px">{btn(url("faq", L), t("Toutes les questions", "All questions"), "ghost")}</p></div>
-</div></section>
-
-<section class="sec tight"><div class="wrap">
-  <div class="travel panel coral-s" style="margin:0">
-    {illu("cafe")}
-    <div><h2>{t("Vous voyagez à Paris ?", "Travelling to Paris?")}</h2>
-      <p>{t("Découvrez les logements EdenFlats disponibles et réservez directement.", "Browse the EdenFlats homes available and book directly.")}</p></div>
-    {btn(s["booking"], t("Voir les logements", "See the homes"), ext=True, ico="out")}
+    bento = f"""<section class="sec" aria-labelledby="services-t"><div class="wrap">
+  {rtitle(t("Une conciergerie <em>complète</em>", "Full-service <em>management</em>"), "services-t")}
+  <p class="sub">{t("De la mise en ligne de l'annonce à la blanchisserie, chaque étape de la location est prise en charge par notre équipe. Vous pouvez aussi ne choisir que certains services.",
+                   "From publishing the listing to washing the linen, our team handles every step of the rental. You can also pick only the services you need.")}</p>
+  <div class="bento">
+    <a class="b-card lime b1" href="{url("voyageurs", L)}"><h3 class="serif">{t("Gestion des voyageurs", "Guest management")}</h3>{out}
+      <p>{t("Annonce, réservations, sélection des voyageurs, remise des clés et assistance 24h/24.", "Listing, bookings, guest screening, key handover and 24/7 support.")}</p></a>
+    <a class="b-ph b2" href="{url("logement", L)}">{pic("logement-menage", L, "(max-width: 560px) 100vw, 33vw")}<span class="lab">{t("Service :", "Service:")}</span><span class="name">{t("Ménage", "Cleaning")}</span>{out}</a>
+    <figure class="b-portrait b3">{pic("voyageurs-hero", L, "(max-width: 900px) 100vw, 33vw")}</figure>
+    <a class="b-ph b4" href="{url("voyageurs", L)}">{pic("voyageurs-annonce", L, "(max-width: 560px) 100vw, 33vw")}<span class="lab">{t("Service :", "Service:")}</span><span class="name">{t("Photos et annonce", "Photos and listing")}</span>{out}</a>
+    <a class="b-card navy b5" href="{url("logement", L)}"><h3 class="serif">{t("Gestion du logement", "Property management")}</h3>{out}
+      <p>{t("Ménage après chaque départ, linge, réapprovisionnement, entretien et petites réparations.", "Cleaning after every check-out, linen, restocking, upkeep and small repairs.")}</p></a>
   </div>
 </div></section>"""
+
+    plans = f"""<section class="sec tight" aria-labelledby="plans-t"><div class="wrap">
+  <div class="panel-b" data-rail>
+    <div class="label-rule"><span>{t("Nos formules", "Our plans")}</span><i aria-hidden="true"></i>{rail_btns(L)}</div>
+    <div class="hj-grid">
+      <div class="hj-text">
+        <h2 class="serif" id="plans-t">{t("Revenu garanti ou revenu réel : à vous de choisir", "Guaranteed or actual income: your choice")}</h2>
+        <p>{t("Un revenu fixé à l'avance, ou les revenus réels du logement moins notre commission. Dans les deux cas, nous gérons tout, avec des contrats flexibles.",
+              "An income agreed in advance, or the home's actual income minus our commission. Either way, we handle everything, with flexible contracts.")}</p>
+        <a class="pill" href="{url("formules", L)}">{t("Comparer les formules", "Compare the plans")}{arrow}</a>
+      </div>
+      <div class="rail hj-rail">
+        <a class="c-ph" href="{url("formules", L)}">{pic("formules-hero", L, "260px")}<span class="ltag">{t("Revenu garanti", "Guaranteed income")}</span><b>{t("Environ 15 % de marge moyenne, versé que le logement soit loué ou non", "About 15% average margin, paid whether or not the home is booked")}</b></a>
+        <a class="c-art" href="{url("formules", L)}"><span class="art-top">{illu("graphique")}</span><span class="art-body"><span class="ltag">{t("Revenu réel", "Actual income")}</span><b>{t("18 à 25 % de commission", "18–25% commission")}</b><span>{t("Vous touchez les revenus réels du logement ; la commission dépend de la durée de location.", "You receive the home's actual income; the commission depends on the rental length.")}</span></span></a>
+        <a class="c-ph" href="{url("formules", L)}">{pic("logement-reassort", L, "260px")}<span class="ltag">{t("À la carte", "À la carte")}</span><b>{t("Seulement le ménage, les clés ou les réservations : vous choisissez", "Only cleaning, keys or bookings: you choose")}</b></a>
+        <a class="c-art" href="{url("contact", L)}"><span class="art-top">{illu("maison")}</span><span class="art-body"><span class="ltag">{t("Estimation", "Estimate")}</span><b>{t("Une projection de vos revenus", "A projection of your income")}</b><span>{t("Après une visite du logement, nous vous remettons une estimation réaliste et transparente.", "After visiting the home, we give you a realistic, transparent estimate.")}</span></span></a>
+      </div>
+    </div>
+  </div>
+</div></section>"""
+
+    qa = faq.pick(L, ["tarifs", "garder-compte", "selection", "cles", "legislation"])
+    acc = "".join(f'<details{" open" if i == 1 else ""}><summary><i aria-hidden="true"></i><span>{q}</span></summary><div class="ans">{a}</div></details>'
+                  for i, (q, a) in enumerate(qa))
+    helpsec = f"""<section class="navy-sec" aria-labelledby="faq-t"><div class="wrap">
+  {rtitle(t("Nous sommes là pour <em>vous aider</em> !", "We are here to <em>help</em>!"), "faq-t", light=True)}
+  <div class="help-grid">
+    <div class="help-left">
+      <p>{t("Les réponses à ce que les propriétaires nous demandent avant de nous confier leur logement. Une autre question ? Écrivez-nous sur WhatsApp ou appelez-nous.",
+            "Answers to what owners ask us before handing over their home. Another question? Message us on WhatsApp or give us a call.")}</p>
+      <figure>{pic("voyageurs-selection", L, "(max-width: 900px) 100vw, 40vw")}</figure>
+    </div>
+    <div class="help-right"><div class="acc">{acc}</div>
+      <a class="pill light" href="{url("faq", L)}">{t("Toutes les questions", "All questions")}{out}</a></div>
+  </div>
+</div></section>"""
+
+    pp = photos.AREA["paris"]
+    pop = "".join(
+        f'<a class="pop-i" href="{Q.area_url(a, L)}"><figure>{Q.area_img(a, L, sizes="130px")}<span class="ltag">{t("Quartier", "Area")}</span></figure>'
+        f'<span class="pop-txt"><small>{a[L]["arr"]}</small><b>{a[L]["name"]}</b><span>{a[L]["teaser"]}</span></span></a>'
+        for a in (Q.BY_ID[x] for x in ("marais", "montmartre", "saint-germain-des-pres", "tour-eiffel")))
+    news = f"""<section class="sec" aria-labelledby="areas-t"><div class="wrap">
+  {rtitle(t("Où nous <em>intervenons</em>", "Where we <em>work</em>"), "areas-t", side="left")}
+  <div class="news-grid">
+    <a class="feat" href="{url("paris", L)}"><figure>{photo(pp["file"], pp["alt"][L], sizes="(max-width: 900px) 100vw, 55vw", big=pp["big"])}<span class="ltag">Paris</span></figure>
+      <small>{t("12 quartiers · Créteil · Saint-Maur-des-Fossés", "12 neighbourhoods · Créteil · Saint-Maur-des-Fossés")}</small>
+      <h3>{t("Conciergerie Airbnb à Paris : les quartiers que les voyageurs viennent chercher", "Airbnb management in Paris: the neighbourhoods guests come looking for")}</h3></a>
+    <div class="pop"><p class="pop-t">{t("Quartiers recherchés", "Popular neighbourhoods")}</p>{pop}
+      <p class="pop-more">{more(url("paris", L), t("Tous les quartiers", "All neighbourhoods"))}</p></div>
+  </div>
+</div></section>"""
+
+    explore = f"""<section class="sec tight"><div class="wrap">
+  <div class="more-panel">
+    <figure>{pic("accueil-logement", L, "(max-width: 900px) 100vw, 45vw")}</figure>
+    <div class="mp-text"><h2 class="serif">{t("Tout savoir avant de vous lancer", "Everything to know before you start")}</h2>
+      <p>{t("Tarifs, réglementation, déroulé de la gestion : trouvez les réponses, puis parlons de votre logement.",
+            "Fees, regulations, how management works: find the answers, then let's talk about your home.")}</p>
+      <div class="mp-tiles">
+        <a href="{url("faq", L)}"><span>FAQ</span>{out}<i>{icon("help")}</i></a>
+        <a href="{url("formules", L)}"><span>{t("Formules", "Plans")}</span>{out}<i>{icon("chart")}</i></a>
+        <a href="{url("contact", L)}"><span>Contact</span>{out}<i>{icon("phone")}</i></a>
+      </div></div>
+  </div>
+</div></section>"""
+
+    banner = f"""<section class="banner"><img src="/assets/img/og-image.jpg" alt="" loading="lazy" decoding="async">
+  <div class="wrap"><h2>{t("Nous accueillons vos <em>voyageurs</em> comme <em>chez eux</em>", "We welcome your <em>guests</em> as if they were <em>at home</em>")}</h2></div>
+</section>"""
+
+    def ev(big, small, title, text, meta, href):
+        m = "".join(f"<span>{icon(i)}{x}</span>" for i, x in meta)
+        return (f'<a class="ev" href="{href}"><span class="ev-num"><b>{big}</b><small>{small}</small></span>'
+                f'<span class="ev-body"><b>{title}</b><span class="ev-p">{text}</span><span class="meta">{m}</span></span>{out}</a>')
+    evs = (ev(t("15 %", "15%"), t("de marge", "margin"), t("Revenu garanti", "Guaranteed income"),
+              t("Un revenu fixe chaque mois, que le logement soit loué ou non.", "A fixed income every month, whether or not the home is booked."),
+              [("pin", "Paris · IDF"), ("calendar", t("Contrat flexible", "Flexible contract"))], url("formules", L))
+           + ev(t("18–25 %", "18–25%"), t("de commission", "commission"), t("Revenu réel", "Actual income"),
+                t("Les revenus réels du logement, moins notre commission selon la durée de location.", "The home's actual income, minus our commission depending on rental length."),
+                [("pin", "Paris · IDF"), ("chart", t("Selon la durée", "By rental length"))], url("formules", L))
+           + ev(t("24h/24", "24/7"), t("7 j sur 7", "7 days a week"), t("Assistance voyageurs", "Guest support"),
+                t("Une question, un imprévu : nous répondons aux voyageurs à toute heure.", "A question or a problem: we answer guests at any hour."),
+                [("headset", t("Téléphone et WhatsApp", "Phone and WhatsApp")), ("globe", "FR · EN")], url("voyageurs", L)))
+    who = f"""<section class="sec" aria-labelledby="who-t"><div class="wrap">
+  <p class="sub">{t("Propriétaires et voyageurs : chacun a son interlocuteur, joignable 7 jours sur 7.", "Owners and guests: each has a contact person, reachable 7 days a week.")}</p>
+  <div class="act-grid">
+    <div class="act-cards">
+      <a class="act lime" href="{url("logement", L)}"><h3 class="serif" id="who-t">{t("Pour les propriétaires", "For owners")}</h3>{out}
+        <p>{t("Résidence secondaire ou bien locatif : nous louons, accueillons, nettoyons et entretenons votre logement.", "Second home or buy-to-let: we let, welcome, clean and look after your home.")}</p>
+        <figure>{pic("logement-hero", L, "(max-width: 560px) 100vw, 25vw")}</figure></a>
+      <a class="act navy" href="{url("voyageurs", L)}"><h3 class="serif">{t("Pour les voyageurs", "For guests")}</h3>{out}
+        <p>{t("Un logement soigné, un accueil chaleureux et une assistance 24h/24 pendant tout le séjour.", "A well-kept home, a warm welcome and 24/7 support throughout the stay.")}</p>
+        <figure>{pic("accueil-voyageurs", L, "(max-width: 560px) 100vw, 25vw")}</figure></a>
+    </div>
+    <div class="events"><p class="ev-t">{t("En chiffres", "In figures")}</p>{evs}
+      <a class="pill" href="{url("formules", L)}">{t("Comparer nos formules", "Compare our plans")}{out}</a></div>
+  </div>
+</div></section>"""
+
+    subs = [t("Annonce, calendrier et prix", "Listing, calendar and pricing"), t("Remise des clés et visite", "Key handover and tour"),
+            t("Après chaque séjour", "After every stay"), t("Draps et serviettes", "Sheets and towels"),
+            t("Petits travaux, dépannage", "Small works, repairs"), t("24h/24 et 7j/7", "24/7"),
+            t("Médiation et démarches", "Mediation and claims"), t("Les services de votre choix", "The services you choose")]
+    jobs = "".join(
+        f'<a class="job" href="{url(target, L)}"><span class="job-top">{illu(ic)}</span><span class="job-body"><b>{h}</b><small>{sub}</small>{out}'
+        f'<span class="meta"><span>{icon("pin")}Paris · IDF</span><span>{icon("calendar")}{t("Toute l’année", "All year")}</span></span></span></a>'
+        for (tone, ic, h, p, target), sub in zip(services(L), subs))
+    svc = f"""<section class="navy-sec" aria-labelledby="svc-t" data-rail><div class="wrap">
+  <div class="jobs-head"><div><h2 id="svc-t">{t("Nos services", "Our services")}</h2>
+    <p>{t("Huit services, en gestion complète ou à la carte, pour les logements de Paris et d'Île-de-France.", "Eight services, as full management or à la carte, for homes in Paris and Île-de-France.")}</p></div>
+    {rail_btns(L, light=True)}</div>
+  <div class="rail jobs">{jobs}</div>
+  <a class="pill light" href="{url("logement", L)}">{t("Tous nos services", "All our services")}{out}</a>
+</div></section>"""
+
+    contact = f"""<section class="nl" aria-labelledby="nl-t">
+  <img class="nl-bg" src="/assets/img/formules-hero.jpg" alt="" loading="lazy" decoding="async">
+  <div class="wrap"><div class="nl-card">
+    <div class="nl-text"><h2 class="serif" id="nl-t">{t("Parlons de votre logement", "Let's talk about your home")}</h2>
+      <p>{t("Dites-nous où il se trouve et ce que vous souhaitez nous confier : nous vous répondons rapidement.", "Tell us where it is and what you'd like us to handle: we will get back to you quickly.")}</p>
+      <ul class="nl-lines">
+        <li><a href="tel:{s['phone_href']}">{icon("phone")}<span><small>{t("Téléphone", "Phone")}</small>{s['phone']}</span></a></li>
+        <li><a href="https://wa.me/{s['whatsapp']}" target="_blank" rel="noopener">{icon("chat")}<span><small>WhatsApp</small>{t("Écrire sur WhatsApp", "Message us on WhatsApp")}</span></a></li>
+        <li><a href="mailto:{s['email']}">{icon("mail")}<span><small>{t("E-mail", "Email")}</small>{s['email']}</span></a></li>
+      </ul>
+      <a class="pill" href="{url("contact", L)}">{t("Nous contacter", "Contact us")}{arrow}</a></div>
+    <figure class="nl-ph">{pic("accueil-faq", L, "(max-width: 900px) 100vw, 380px")}<span class="nl-mark">{MARK}</span></figure>
+  </div></div>
+</section>"""
+
+    body = hero + bento + plans + helpsec + news + explore + banner + who + svc + contact
     return {"title": t("Conciergerie Airbnb à Paris et en Île-de-France | EdenFlats", "Airbnb Management in Paris & Île-de-France | EdenFlats"),
             "desc": t("Conciergerie Airbnb à Paris et en Île-de-France : annonce, voyageurs, clés, ménage et entretien de votre résidence secondaire. Revenu garanti ou réel.",
                       "Airbnb management in Paris and Île-de-France for second homes and buy-to-let flats: listing, guests, keys, cleaning. Guaranteed or actual income."),
-            "body": body, "ld": [org_ld(L), website_ld(L)], "og_image": "/assets/img/og-image.jpg", "image": "/assets/img/accueil-hero.jpg"}
+            "body": body, "ld": [org_ld(L), website_ld(L)], "og_image": "/assets/img/og-image.jpg", "image": "/assets/img/accueil-hero.jpg",
+            "cta": False}
 
 
 # ── Gestion des voyageurs ───────────────────────────────────────────────────
@@ -634,7 +710,7 @@ def mentions(L):
   <h2>{t("Propriété intellectuelle", "Intellectual property")}</h2>
   <p>{t("Les textes, le logo et la mise en page du site appartiennent à EdenFlats, sauf mention contraire. Toute reproduction, même partielle, est interdite sans autorisation écrite.",
         "The texts, logo and layout of this website belong to EdenFlats unless stated otherwise. Any reproduction, even partial, is prohibited without written permission.")}</p>
-  <p>{t("Les photos du site sont des images d'illustration.", "The photos on this website are illustrations.")} {t("Les polices Bricolage Grotesque et Public Sans sont distribuées sous licence SIL Open Font License 1.1.", "The Bricolage Grotesque and Public Sans fonts are distributed under the SIL Open Font License 1.1.")}</p>
+  <p>{t("Les photos du site sont des images d'illustration.", "The photos on this website are illustrations.")} {t("Les polices Public Sans et Instrument Serif sont distribuées sous licence SIL Open Font License 1.1.", "The Public Sans and Instrument Serif fonts are distributed under the SIL Open Font License 1.1.")}</p>
   <h2>{t("Données personnelles", "Personal data")}</h2>
   <p>{t("Le traitement de vos données est décrit dans notre", "How we handle your data is described in our")} <a href="{url('confidentialite', L)}">{t("politique de confidentialité", "privacy policy")}</a>.</p>
 </div></section>"""
