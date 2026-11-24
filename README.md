@@ -4,6 +4,8 @@ Site statique bilingue de la conciergerie Airbnb EdenFlats (Paris et Île-de-Fra
 
 Éditeur : EDENEL PATRIMOINE GESTION RESEAUX & SERVICES (EPGRS), SAS, 14 rue de Champigny, 94370 Sucy-en-Brie, SIRET 104 632 591 00012.
 
+Coordonnées (confirmées) : edenflats.paris@gmail.com, +33 7 84 54 48 61, et WhatsApp sur le même numéro, comme sur l'ancien site.
+
 ## Identité visuelle
 
 Une palette chaude qui réunit l'ancien site (crème, ardoise, vert tendre, corail), la pervenche de la maquette de référence et la construction de Bridge : des familles de couleurs claires, chacune avec sa couleur foncée pour le texte et les illustrations, des cartes blanches posées sur les photos, des panneaux arrondis qui se chevauchent.
@@ -40,7 +42,6 @@ Les adresses françaises de l'ancien site sont reprises **à l'identique** (sans
 | Mentions légales | `/mentions-legales` (ancienne adresse) | `/en/legal-notice` |
 | Conditions générales de vente | `/conditions-generales-de-vente` (ancienne adresse) | `/en/terms-and-conditions` |
 | Confidentialité et cookies | `/politique-de-cookies` (ancienne adresse) | `/en/privacy` |
-| Crédits photos | `/credits-photos` | `/en/photo-credits` |
 | Plan du site | `/plan-du-site` | `/en/sitemap` |
 
 Anciennes adresses sans équivalent, redirigées : `/accueil` → `/`, `/boutique` → `/`, `/erreur-404` → `/`. Sur GitHub Pages, ce sont des pages qui redirigent aussitôt ; le fichier `_redirects` donne de vraies redirections 301 sur Cloudflare Pages ou Netlify.
@@ -84,7 +85,7 @@ Le site est produit par `_generator/` (Python 3 et Pillow). Il réécrit tous le
 - `assets/main.js` : menu, bouton de contact, bandeau cookies et chargement de Google Analytics, proposition de langue.
 - `quartiers.py` : les 12 quartiers, Créteil, Saint-Maur et la page Paris.
 - `faq.py` : questions et réponses ; `{formules}`, `{voyageurs}`… deviennent des liens vers ces pages.
-- `illus.py` : les illustrations. `photos.py` : photos des quartiers, avec auteur et licence.
+- `illus.py` : les illustrations. `photos.py` : photos de la page Paris, des quartiers et des communes (nom de fichier et texte alternatif). `placeholders.py` : cadres « Photo à venir ».
 
 ```powershell
 cd _generator
@@ -97,9 +98,9 @@ Les couleurs et les polices sont dans `assets/style.css`, bloc `:root`.
 
 ## Images (Midjourney)
 
-`IMAGES-MIDJOURNEY.md` donne un prompt à copier-coller pour chaque emplacement photo, avec son nom de fichier et son format. Déposez les images dans `_generator/sources/`, lancez `py images.py` (recadrage et deux tailles), puis `py build.py`.
+Toutes les photos du site sont des images Midjourney faites par MLK Web Studio : 27 emplacements, un prompt chacun dans `IMAGES-MIDJOURNEY.md` (nom de fichier, page, section, format). Elles montrent des voyageurs, des propriétaires, l'équipe au travail et des appartements, jamais un monument ni une rue réelle. Déposez les images dans `_generator/sources/`, lancez `py images.py` (recadrage et deux tailles), puis `py build.py`.
 
-En attendant, les emplacements montrent les photos de l'ancien site (photos de banque d'images). Les quartiers utilisent de vraies photos de Wikimedia Commons, créditées sous chaque photo et sur la page Crédits photos.
+En attendant, les pages principales montrent les photos de l'ancien site, et la page Paris, les quartiers et les communes un cadre « Photo à venir » qui porte le nom du fichier attendu. Les textes alternatifs décrivent déjà ce que montrent les prompts : si une image s'en écarte, corrigez-le (`pages.py` pour les pages principales, `photos.py` pour les quartiers).
 
 ## Mise en ligne
 
@@ -109,7 +110,6 @@ Pensé pour GitHub Pages avec le domaine `www.edenflats.com` (les liens commence
 
 - **Mentions légales** : capital social, immatriculation RCS (en principe RCS Créteil, à lire sur le Kbis) et numéro de TVA (le calcul à partir du SIREN donne FR62104632591, à confirmer) sont affichés « à compléter » ; les renseigner dans `SITE["company"]`.
 - **Loi Hoguet** : si la société encaisse des loyers pour le compte des propriétaires, indiquer la carte professionnelle (numéro, CCI) et la garantie financière.
-- **Coordonnées** : le site utilise edenflats.paris@gmail.com et +33 7 84 54 48 61 (WhatsApp sur le même numéro). L'ancien site affichait aussi info@edenflats.com, contact@edenflats.com et +33 1 83 73 95 96.
 - **Avis clients** : les six témoignages de l'ancien site ne sont pas repris (photos de banque d'images, un nom qui ne correspond pas à sa photo). De vrais avis peuvent être ajoutés, avec l'accord des clients.
 - **CGV** : reprises de l'ancien site (version du 7 avril 2025) sous le nom de la société, avec les trous comblés quand l'information était connue. Restent en cadre pointillé : le délai de confirmation et d'annulation (« [nombre] heures », deux fois), l'assureur de la responsabilité civile professionnelle et le médiateur de la consommation (obligatoire dès qu'on a des clients particuliers). Ajoutés, à faire valider par un juriste : droit de rétractation de quatorze jours pour un particulier qui signe à distance (lui remettre aussi le formulaire type de rétractation avec le contrat), médiation, pénalités de retard pour les clients professionnels, et tribunaux (l'ancien texte attribuait les litiges aux « tribunaux de Sucy-en-Brie », clause sans effet face à un particulier). Mettre à jour `CGV_MAJ` (`pages.py`) une fois le texte validé.
 - **FAQ** : la réponse sur la législation a été mise à jour (Paris : 90 jours par an depuis le 1er janvier 2025) ; « nous prenons tout en charge » (dédommagement) est devenu « nous nous chargeons de toutes les démarches ».

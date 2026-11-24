@@ -1,193 +1,194 @@
-# Midjourney prompts for the EdenFlats website
+# Pictures to make for the EdenFlats website (Midjourney)
 
-One prompt per picture slot on the site. Copy a prompt, generate, pick the best image, save it under the **file name** shown, and the site picks it up automatically (see "How to add the images" at the end).
+**27 pictures**, one per photo spot on the site. Each prompt matches the section the picture sits in: guests arriving, owners, the concierge team at work, the apartments. None of them shows a real landmark or a real street: the neighbourhood pages show the kind of home and guest typical of the area, not the monuments.
 
-Every prompt shares the same look so the pictures feel like one series and match the site's colours: warm cream walls, coral and terracotta touches, sage green plants, a little soft periwinkle blue, Parisian Haussmann details, soft natural light.
+Copy a prompt, generate, keep the best image and save it under the **file name** given (e.g. `accueil-hero.png`). Then see "How to add the pictures" at the end.
 
 **Tips**
-- Generate `accueil-hero` first. When you like it, copy its image URL and add `--sref <url>` at the end of every other prompt: Midjourney will keep the same colours and mood across the whole set.
-- People are shown from behind or as hands only. That avoids AI faces that could pass for your team or your clients.
-- `--ar` sets the format each slot needs. Don't change it: the pages crop to that shape.
-- The line illustrations (keys, calendar, cleaning spray…) are already drawn in the site (`assets/illus.svg`). There is nothing to generate for them.
+- Make `accueil-hero` first. When you like it, add `--sref <its image URL>` at the end of every other prompt: the whole set will share the same light and colours (cream walls, sage green, terracotta/coral, a little periwinkle blue).
+- Keep the `--ar` value: each spot crops the picture to that shape.
+- The people in these pictures are illustrations. Don't present them as the real EdenFlats team or real clients (no names, no "meet the team").
+- The line drawings (keys, calendar, spray bottle…) are already in the site. Nothing to make for them.
+
+| # | File name | Page | Where on the page | Format |
+|---|---|---|---|---|
+| 1 | `accueil-hero` | Home | Top of the page, big photo with the white cards | 4:5 |
+| 2 | `accueil-voyageurs` | Home | "Des voyageurs choisis avec soin" | 6:5 |
+| 3 | `accueil-logement` | Home | "Votre bien entre de bonnes mains" | 6:5 |
+| 4 | `accueil-faq` | Home | Questions section, photo with the WhatsApp card | 6:5 |
+| 5 | `voyageurs-hero` | Guest management | Top of the page | 4:5 |
+| 6 | `voyageurs-annonce` | Guest management | "Une annonce qui donne envie de réserver" | 6:5 |
+| 7 | `voyageurs-selection` | Guest management | "Pourquoi sélectionner les voyageurs ?" | 6:5 |
+| 8 | `logement-hero` | Property management | Top of the page | 4:5 |
+| 9 | `logement-menage` | Property management | "On s'occupe du ménage" | 6:5 |
+| 10 | `logement-reassort` | Property management | "Une sérénité assurée" (restocking) | 6:5 |
+| 11 | `formules-hero` | Plans | Top of the page | 4:5 |
+| 12 | `og-image` | Every page | Preview when a link is shared (WhatsApp, Facebook, LinkedIn) | 1.91:1 |
+| 13 | `paris` | Paris page | Top of the page | 5:4 |
+| 14–25 | `paris-marais` … `paris-trocadero` | One page per neighbourhood | Top of the page, and its card on the home and Paris pages | 5:4 |
+| 26–27 | `ville-creteil`, `ville-saint-maur` | Créteil, Saint-Maur pages | Top of the page | 5:4 |
 
 ---
 
-## Home page (`/`)
+## Home page
 
-### 1. `accueil-hero` — top of the home page, tall photo with the white cards on it
-
+### 1. `accueil-hero`
 ```
-Two travellers seen from behind walking up to the tall carved wooden door of a Haussmann apartment building in Paris, one pulling a cabin suitcase, cream limestone facade, wrought-iron balconies, a terracotta planter with an olive tree by the entrance, soft golden morning light, warm editorial travel photography, natural colours, 35mm --ar 4:5 --style raw --no text, logo, watermark
-```
-
-### 2. `accueil-voyageurs` — section "Des voyageurs choisis avec soin"
-
-```
-Close-up of a host's hand giving a set of brass keys on a coral leather key ring to a guest's open hand, in the bright entrance hall of a Parisian apartment, cream walls, herringbone oak floor, a sage green plant in the background, shallow depth of field, warm editorial lifestyle photography --ar 6:5 --style raw --no text, logo, watermark, faces
+A friendly concierge in a sage green linen shirt welcoming a young couple of tourists with suitcases at the tall carved wooden door of a Haussmann apartment building, handing them a set of brass keys on a coral leather key ring, cream limestone facade, wrought-iron balcony above, potted olive tree by the entrance, warm golden morning light, candid moment, photorealistic editorial lifestyle photography, 35mm --ar 4:5 --style raw --no text, logo, watermark, landmarks
 ```
 
-### 3. `accueil-logement` — section "Votre bien entre de bonnes mains"
-
+### 2. `accueil-voyageurs` — "Des voyageurs choisis avec soin"
 ```
-Freshly made bed with crisp white linen, a folded throw in soft periwinkle blue and a coral cushion, a stack of rolled white towels at the foot of the bed, in a Parisian Haussmann bedroom with ceiling mouldings and a tall French window, soft morning light, warm editorial interior photography --ar 6:5 --style raw --no text, logo, watermark, people
+A family of four travellers, parents with a young boy and girl, arriving in the bright entrance hall of a Parisian apartment with their suitcases, the mother handing her passport to a smiling host who checks it, herringbone oak floor, cream walls, sage green plant, warm daylight, candid, photorealistic editorial lifestyle photography --ar 6:5 --style raw --no text, logo, watermark
 ```
 
-### 4. `accueil-faq` — FAQ section, photo with the WhatsApp card
-
+### 3. `accueil-logement` — "Votre bien entre de bonnes mains"
 ```
-Bright Parisian living room with ornate ceiling mouldings and tall French windows opening onto a wrought-iron balcony, cream linen sofa with terracotta and sage green cushions, indoor plants, a coffee cup and a croissant on a round wooden coffee table, warm morning light, editorial interior photography --ar 6:5 --style raw --no text, logo, watermark, people
+A housekeeper in a sage green apron making a bed with crisp white linen in a bright Parisian bedroom with ceiling mouldings and a tall French window, a stack of folded white towels and a small basket of toiletries on the bedside table, soft periwinkle throw, warm morning light, candid, photorealistic editorial lifestyle photography --ar 6:5 --style raw --no text, logo, watermark
+```
+
+### 4. `accueil-faq` — questions section (WhatsApp card)
+```
+A woman in her fifties, an apartment owner, sitting on a cream linen sofa in her bright Parisian living room, smiling as she types a message on her phone, a coffee cup and a croissant on a round wooden coffee table, terracotta and sage green cushions, indoor plants, tall windows, warm morning light, candid, photorealistic editorial lifestyle photography --ar 6:5 --style raw --no text, readable screen, logo, watermark
 ```
 
 ## Guest management (`/gestion-des-voyageurs-conciergerie-airbnb-ile-de-france`)
 
-### 5. `voyageurs-hero` — top of the page
-
+### 5. `voyageurs-hero` — top of the page (keys handed over in person or remotely)
 ```
-A guest seen from behind pulling a suitcase across a sunny cobbled Paris courtyard towards an apartment entrance, cream stone facades, green wooden shutters, potted plants, warm golden light, editorial travel photography, natural colours --ar 4:5 --style raw --no text, logo, watermark
-```
-
-### 6. `voyageurs-annonce` — section "Une annonce qui donne envie de réserver"
-
-```
-Behind-the-scenes shot of a photographer on a tripod photographing a staged Parisian living room for a rental listing, seen from behind, softbox light, cream walls, coral armchair, sage green plants, herringbone parquet, warm editorial photography --ar 6:5 --style raw --no text, logo, watermark, faces
+A young woman traveller with a backpack and a cabin suitcase smiling as she opens a small key lockbox next to the door of a Parisian apartment, phone in hand, wooden door with a brass handle, stone stairwell landing, warm daylight, candid, photorealistic editorial lifestyle photography, 35mm --ar 4:5 --style raw --no text, readable screen, logo, watermark
 ```
 
-### 7. `voyageurs-selection` — section "Pourquoi sélectionner les voyageurs ?"
-
+### 6. `voyageurs-annonce` — "Une annonce qui donne envie de réserver" (photos taken by the team)
 ```
-Over-the-shoulder view of hands typing on a laptop on a wooden desk, the screen showing an abstract booking calendar, a notebook, a cup of coffee and a set of keys beside it, warm daylight from a Parisian window, cream and sage green tones, editorial workplace photography --ar 6:5 --style raw --no text, readable text, logo, watermark, faces
+A photographer from a concierge team, camera on a tripod, photographing a beautifully staged Parisian living room for a rental listing while a colleague arranges cushions on the sofa, softbox light, cream walls, coral armchair, sage green plants, herringbone parquet, behind-the-scenes, candid, photorealistic editorial photography --ar 6:5 --style raw --no text, logo, watermark
+```
+
+### 7. `voyageurs-selection` — "Pourquoi sélectionner les voyageurs ?"
+```
+Two members of a concierge team, a man and a woman, at a wooden desk in a bright office with a tall Parisian window, reviewing a booking request together on a laptop, a notebook, coffee cups and a set of keys on the desk, relaxed and focused, candid, photorealistic editorial workplace photography --ar 6:5 --style raw --no text, readable screen, logo, watermark
 ```
 
 ## Property management (`/gestion-de-propriete-conciergerie-airbnb-ile-de-france`)
 
-### 8. `logement-hero` — top of the page
-
+### 8. `logement-hero` — top of the page (owner and concierge)
 ```
-Elegant Haussmann apartment living room in Paris, white marble fireplace with a gilded mirror, herringbone parquet, cream linen sofa with coral and soft periwinkle cushions, sage green plants, tall windows with afternoon light, warm editorial interior photography --ar 4:5 --style raw --no text, logo, watermark, people
-```
-
-### 9. `logement-menage` — section "On s'occupe du ménage"
-
-```
-Housekeeper's hands smoothing a crisp white duvet on a bed in a bright Parisian bedroom, a stack of folded white towels and a small basket of toiletries on the bedside table, warm daylight, cream and sage green tones, editorial lifestyle photography --ar 6:5 --style raw --no text, logo, watermark, faces
+An apartment owner and a concierge walking through an elegant Haussmann living room, the concierge taking notes on a tablet while the owner points at the marble fireplace, herringbone parquet, cream linen sofa with coral and periwinkle cushions, sage green plants, tall windows, warm afternoon light, candid, photorealistic editorial lifestyle photography --ar 4:5 --style raw --no text, readable screen, logo, watermark
 ```
 
-### 10. `logement-reassort` — section "Une sérénité assurée" (restocking and upkeep)
-
+### 9. `logement-menage` — "On s'occupe du ménage"
 ```
-Bright Parisian bathroom with a wooden shelf of rolled white towels, amber glass bottles of shampoo and shower gel without labels, a sprig of eucalyptus in a small vase, terracotta zellige tiles and cream walls, soft window light, warm editorial still life photography --ar 6:5 --style raw --no text, labels, logo, watermark
+Two housekeepers from a cleaning team tidying a bright Parisian living room after the guests have left, one vacuuming the rug, the other plumping cushions on a cream sofa, a cleaning caddy on the floor, warm daylight, cream and sage green tones, candid, photorealistic editorial lifestyle photography --ar 6:5 --style raw --no text, logo, watermark
+```
+
+### 10. `logement-reassort` — "Une sérénité assurée" (restocking before each arrival)
+```
+A concierge team member restocking a bright Parisian bathroom before the next guests arrive, placing rolled white towels and amber glass bottles without labels on a wooden shelf, terracotta zellige tiles, cream walls, a eucalyptus sprig in a small vase, soft window light, candid, photorealistic editorial lifestyle photography --ar 6:5 --style raw --no text, labels, logo, watermark
 ```
 
 ## Plans (`/nos-formules`)
 
-### 11. `formules-hero` — top of the page
-
+### 11. `formules-hero` — top of the page (guaranteed or actual income)
 ```
-Sunlit Parisian apartment with a small round wooden dining table, a set of keys, a coffee cup and a closed document folder on the table, view of zinc rooftops and chimneys through the open French window, cream walls, terracotta and sage green accents, warm editorial interior photography --ar 4:5 --style raw --no text, readable text, logo, watermark, people
-```
-
-## Share image (Facebook, LinkedIn, WhatsApp previews)
-
-### 12. `og-image`
-
-```
-Wide view of a warm Parisian Haussmann living room with tall open windows overlooking zinc rooftops and the Eiffel Tower in the distance, cream walls, coral and sage green accents, soft periwinkle cushions, morning light, editorial interior photography --ar 191:100 --style raw --no text, logo, watermark, people
+An apartment owner and a concierge manager sitting at a small round wooden table in a sunlit Parisian apartment, going over a contract together, the owner smiling, a set of keys and two coffee cups on the table, open French window, cream walls, terracotta and sage green accents, candid, photorealistic editorial lifestyle photography --ar 4:5 --style raw --no text, readable text, logo, watermark
 ```
 
----
+## Share image (all pages)
 
-## Optional: neighbourhood pages
+### 12. `og-image` — what people see when a link to the site is shared
+```
+A friendly host welcoming two travellers with suitcases into a warm, bright Parisian apartment, wide shot of the living room with tall windows, herringbone parquet, cream walls, coral and sage green accents, soft periwinkle cushions, morning light, candid, photorealistic editorial lifestyle photography --ar 191:100 --style raw --no text, logo, watermark, landmarks
+```
 
-The neighbourhood pages already use **real photos** from Wikimedia Commons, credited under each photo. Real places look right in real photos; AI images of landmarks often get details wrong. Replace them only if you prefer a uniform AI style. If you do, empty the `"author"` of that photo in `_generator/photos.py` so the Wikimedia credit disappears.
+## Paris page and neighbourhood pages
 
-| File | Page |
-|---|---|
-| `paris-marais` | Le Marais |
-| `paris-montmartre` | Montmartre |
-| `paris-saint-germain-des-pres` | Saint-Germain-des-Prés |
-| `paris-quartier-latin` | Quartier latin |
-| `paris-tour-eiffel` | Tour Eiffel |
-| `paris-champs-elysees` | Champs-Élysées |
-| `paris-opera` | Opéra |
-| `paris-louvre` | Louvre |
-| `paris-canal-saint-martin` | Canal Saint-Martin |
-| `paris-bastille` | Bastille |
-| `paris-montparnasse` | Montparnasse |
-| `paris-trocadero` | Trocadéro |
-| `paris-toits` | Paris hub page |
-| `ville-creteil` | Créteil |
-| `ville-saint-maur` | Saint-Maur-des-Fossés |
+Each neighbourhood page shows the kind of home and guest typical of that area, never the monument. The same picture is used on the neighbourhood's card on the home page and on the Paris page.
 
-`paris-marais`
+### 13. `paris` — Paris page (`/conciergerie-airbnb-paris`)
 ```
-The Place des Vosges in Le Marais, Paris, red brick and stone arcades with steep slate roofs, linden trees, people relaxing on the lawn around the fountain, warm late-afternoon light, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+A concierge handing a set of keys on a coral leather key ring to a smiling traveller in the stairwell of a classic Parisian apartment building, polished wooden banister, red carpet runner on the stairs, warm light, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, logo, watermark, landmarks
 ```
-`paris-montmartre`
+
+### 14. `paris-marais` — Le Marais (old buildings, exposed beams)
 ```
-Cobbled street in Montmartre climbing towards the white domes of the Sacré-Cœur basilica, a café terrace with rattan chairs, ivy-covered facades, warm morning light, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+A couple of travellers unpacking a suitcase in a charming Paris apartment with exposed oak ceiling beams and pale stone walls typical of 17th-century buildings, linen sofa, sage green plants, warm afternoon light through small-paned windows, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, logo, watermark, landmarks
 ```
-`paris-saint-germain-des-pres`
+
+### 15. `paris-montmartre` — Montmartre (artists' studios)
 ```
-Café terrace with rattan chairs and round marble tables facing the Romanesque bell tower of the church of Saint-Germain-des-Prés, Paris, autumn light, editorial travel photography --ar 5:4 --style raw --no text, readable signs, logo, watermark
+A young couple having breakfast at a small table under the large glass atelier window of an artist's studio apartment on the top floor of an old Paris building, an easel and canvases in the corner, plants, croissants and coffee, warm morning light, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, logo, watermark, landmarks
 ```
-`paris-quartier-latin`
+
+### 16. `paris-saint-germain-des-pres` — Saint-Germain-des-Prés (literary Left Bank)
 ```
-The dome of the Panthéon seen down rue Soufflot in the Latin Quarter, Paris, Haussmann facades, people walking, clear morning light, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+A woman reading a book in a velvet armchair by the tall window of an elegant Left Bank apartment lined with bookshelves, ceiling mouldings, herringbone parquet, a cup of coffee on a side table, soft afternoon light, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, readable text, logo, watermark, landmarks
 ```
-`paris-tour-eiffel`
+
+### 17. `paris-quartier-latin` — Latin Quarter (students, researchers)
 ```
-The Eiffel Tower framed by blossoming trees on the Champ de Mars in spring, soft morning light, a few people walking, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+A friendly host showing a young student traveller with a backpack around a cosy studio apartment with a desk by the window, bookshelves and a small kitchenette, wooden beams, warm daylight, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, readable text, logo, watermark, landmarks
 ```
-`paris-champs-elysees`
+
+### 18. `paris-tour-eiffel` — Eiffel Tower area (families)
 ```
-Avenue des Champs-Élysées leading to the Arc de Triomphe at golden hour, rows of trees, light traffic, warm light, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+A family with two young children arriving in a bright, spacious Haussmann apartment with tall windows, the children running ahead across the herringbone parquet while the parents roll in their suitcases, cream walls, sage green and coral accents, warm daylight, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, logo, watermark, landmarks, Eiffel Tower
 ```
-`paris-opera`
+
+### 19. `paris-champs-elysees` — Champs-Élysées (business travellers)
 ```
-Facade of the Palais Garnier opera house in Paris with its gilded statues and green dome, blue sky, people on the steps, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+A business traveller in a tailored navy coat rolling a cabin suitcase into a refined Paris apartment with a marble fireplace, contemporary art and a velvet sofa, evening lamplight, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, logo, watermark, landmarks
 ```
-`paris-louvre`
+
+### 20. `paris-opera` — Opéra (evenings out)
 ```
-The Louvre glass pyramid and palace reflected in a fountain basin at sunrise, Paris, calm water, soft pink sky, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+A couple getting ready for an evening at the opera in a classic Haussmann salon with gilded mouldings, the woman fastening an earring in front of a large gilded mirror, the man adjusting his bow tie, warm lamplight, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, logo, watermark, landmarks
 ```
-`paris-canal-saint-martin`
+
+### 21. `paris-louvre` — Louvre (art lovers)
 ```
-Green iron footbridge over the Canal Saint-Martin in Paris, plane trees, a lock with calm water, cafés along the quay, morning light, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+Two friends leafing through a large art book together on the sofa of a refined Paris apartment decorated with framed paintings and a plaster bust, herringbone parquet, cream walls, soft daylight, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, readable text, logo, watermark, landmarks
 ```
-`paris-bastille`
+
+### 22. `paris-canal-saint-martin` — Canal Saint-Martin (young, lofts)
 ```
-The bronze July Column on Place de la Bastille in Paris against a blue sky, café terraces and Haussmann buildings around, warm light, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+A young couple carrying a city bike into an industrial-chic loft apartment with large steel-framed windows, an exposed brick wall and lots of plants, warm morning light, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, logo, watermark, landmarks
 ```
-`paris-montparnasse`
+
+### 23. `paris-bastille` — Bastille (friends, nightlife)
 ```
-Art deco facade of a historic brasserie with a red awning on Boulevard du Montparnasse, Paris, terrace with wicker chairs, evening light, editorial travel photography --ar 5:4 --style raw --no text, readable signs, logo, watermark
+Three friends laughing around the kitchen island of a modern loft apartment, preparing an aperitif with wine glasses and a cheese board, pendant lights, warm evening light, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, logo, watermark, landmarks
 ```
-`paris-trocadero`
+
+### 24. `paris-montparnasse` — Montparnasse (Art Deco, arrivals by train)
 ```
-View of the Eiffel Tower from the Trocadéro esplanade at sunrise, the wings of the Palais de Chaillot in the foreground, fountains, soft pink light, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+A traveller arriving with a suitcase in a Paris apartment with Art Deco details, a curved velvet armchair, geometric floor tiles, brass lamps and framed vintage prints, warm afternoon light, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, readable text, logo, watermark, landmarks
 ```
-`paris-toits`
+
+### 25. `paris-trocadero` — Trocadéro (grand apartments)
 ```
-Paris zinc rooftops and chimney pots at golden hour, Haussmann buildings, the Sacré-Cœur in the distance, warm light, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+A grandmother and her granddaughter standing at the tall open French window of a grand Paris apartment with high ceilings, ornate mouldings and herringbone parquet, soft blurred trees outside, morning light, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, logo, watermark, landmarks, Eiffel Tower
 ```
-`ville-creteil`
+
+### 26. `ville-creteil` — Créteil (`/conciergerie-airbnb-creteil`)
 ```
-Lake of Créteil near Paris on a sunny morning, small sailboats, willow trees and modern residential towers on the far bank, calm water, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+A business traveller working on a laptop at a small table on the balcony of a bright modern apartment surrounded by greenery, a coffee cup, calm water and trees softly blurred in the background, morning light, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, readable screen, logo, watermark, landmarks
 ```
-`ville-saint-maur`
+
+### 27. `ville-saint-maur` — Saint-Maur-des-Fossés (`/conciergerie-airbnb-saint-maur-des-fosses`)
 ```
-Banks of the Marne river at Saint-Maur-des-Fossés near Paris, a rowing boat, weeping willows and houses with gardens on the bank, soft morning light, editorial travel photography --ar 5:4 --style raw --no text, logo, watermark
+A family with suitcases arriving at the garden gate of a charming stone house with a flowering garden in a leafy suburb, a host waving to welcome them, a weeping willow in the background, soft morning light, candid, photorealistic editorial lifestyle photography --ar 5:4 --style raw --no text, logo, watermark, landmarks
 ```
 
 ---
 
-## How to add the images
+## How to add the pictures
 
-1. Generate with the prompt, upscale the image you prefer and download it (PNG or JPG).
-2. Rename it exactly as listed (for example `accueil-hero.png`) and put it in `_generator/sources/`.
-3. In `_generator/`, run `py images.py`: each image is cropped to its format and saved in two sizes in `assets/img/`.
-4. Run `py build.py`, preview with `py serve.py` (http://localhost:8001), then commit and push.
+Send them to me with their file names, or do it yourself:
 
-Until you replace them, the slots show the photos from the old Squarespace site. They are stock photos: check their licences before launch, or replace them all.
+1. Save each picture (PNG or JPG) under its exact file name, e.g. `accueil-hero.png`, in `_generator/sources/`.
+2. In `_generator/`, run `py images.py`: each picture is cropped to its format and saved in two sizes in `assets/img/`.
+3. Run `py build.py`, check with `py serve.py` (http://localhost:8001), then commit and push.
 
-Commercial use: check Midjourney's current terms for your plan before publishing the images on a business website.
+Until then, the main pages show the old site's photos and the neighbourhood pages show a "Photo à venir" box with the file name to make.
+
+Commercial use: check Midjourney's current terms for your plan before publishing the pictures on a business website.

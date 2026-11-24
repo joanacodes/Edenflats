@@ -116,7 +116,7 @@ def home(L):
         <div class="cta-row">{btn(url("contact", L), t("Parlez-nous de votre projet", "Tell us about your property"))}{btn(url("formules", L), t("Voir nos formules", "See our plans"), "ghost")}</div>
       </div>
       <div class="hero-visual">
-        <figure class="hero-photo">{photo("accueil-hero", t("Deux voyageurs arrivent avec leur valise", "Two guests arriving with their suitcase"), sizes="(max-width: 900px) 100vw, 40vw", lazy=False)}</figure>
+        <figure class="hero-photo">{photo("accueil-hero", t("Deux voyageurs accueillis avec leurs valises devant la porte d'un immeuble parisien", "Two guests with suitcases welcomed at the door of a Paris apartment building"), sizes="(max-width: 900px) 100vw, 40vw", lazy=False)}</figure>
         {fcard(t("Revenu garanti", "Guaranteed income"), "t-green", t("Versé que le logement soit loué ou non.", "Paid whether or not the home is booked."), "fc-1", "chart")}
         {fcard(t("Voyageurs", "Guests"), "t-coral", t("Pièce d'identité vérifiée avant chaque séjour.", "ID checked before every stay."), "fc-2", "id")}
         {fcard(t("Ménage", "Cleaning"), "t-blue", t("Après chaque départ, linge compris.", "After every check-out, linen included."), "fc-3", "sparkle")}
@@ -144,7 +144,7 @@ def home(L):
 
 <section class="sec split"><div class="wrap split-grid">
   <div class="split-visual">
-    <figure class="ph">{photo("accueil-voyageurs", t("Passeport et lunettes de soleil posés sur une carte du monde", "Passport and sunglasses on a world map"))}</figure>
+    <figure class="ph">{photo("accueil-voyageurs", t("Une famille de voyageurs accueillie dans l'entrée d'un appartement parisien", "A family of travellers welcomed in the hallway of a Paris apartment"))}</figure>
     {fcard(t("Identité", "Identity"), "t-green", t("Pièce d'identité vérifiée", "ID checked"), "a", "id")}
     {fcard(t("Profil", "Profile"), "t-coral", t("Commentaires positifs et profil vérifié", "Positive reviews and verified profile"), "b", "star")}
     {fcard(t("Familles", "Families"), "t-blue", t("Réservations des familles facilitées", "Family bookings made easy"), "c", "family")}
@@ -165,7 +165,7 @@ def home(L):
 
 <section class="sec split flip"><div class="wrap split-grid">
   <div class="split-visual">
-    <figure class="ph">{photo("accueil-logement", t("Chambre lumineuse avec un lit fait et du linge propre", "Bright bedroom with a freshly made bed"))}</figure>
+    <figure class="ph">{photo("accueil-logement", t("Lit fait avec du linge blanc propre dans une chambre parisienne lumineuse", "A bed made with crisp white linen in a bright Paris bedroom"))}</figure>
     {fcard(t("Réapprovisionnement", "Restocking"), "t-blue", t("Draps, serviettes et articles de toilette remis en place.", "Sheets, towels and toiletries put back in place."), "a", "linen")}
     {fcard(t("Entretien", "Upkeep"), "t-sand", t("Vérifications régulières des équipements.", "Regular checks of all equipment."), "b", "wrench")}
     {sticker("linge")}
@@ -200,8 +200,7 @@ def home(L):
       <div class="rail-btns"><button class="prev" type="button" aria-label="{t("Quartiers précédents", "Previous")}">{icon("arrow")}</button><button class="next" type="button" aria-label="{t("Quartiers suivants", "Next")}">{icon("arrow")}</button></div>
     </div>
     <div class="rail">{rail}</div>
-    <div class="rail-foot">{btn(url("paris", L), t("Conciergerie Airbnb à Paris : tous les quartiers", "Airbnb management in Paris: all neighbourhoods"))}
-      <span>{t("Photos des quartiers : Wikimedia Commons,", "Neighbourhood photos: Wikimedia Commons,")} <a href="{url("credits", L)}">{t("voir les crédits", "see credits")}</a></span></div>
+    <div class="rail-foot">{btn(url("paris", L), t("Conciergerie Airbnb à Paris : tous les quartiers", "Airbnb management in Paris: all neighbourhoods"))}</div>
   </div>
 </section>
 
@@ -215,7 +214,7 @@ def home(L):
     {head("FAQ", t("Les questions des propriétaires", "Owners' questions"), hid="faq-t")}
     <p class="intro">{t("Les réponses à ce qu'on nous demande avant de nous confier un logement.", "Answers to what owners ask us before handing over their keys.")}</p>
     <div class="split-visual">
-      <figure class="ph">{photo("accueil-faq", t("Salon lumineux avec des plantes", "Bright living room with plants"))}</figure>
+      <figure class="ph">{photo("accueil-faq", t("Une propriétaire écrit un message depuis son salon", "An owner sending a message from her living room"))}</figure>
       {fcard("WhatsApp", "t-green", t("Une autre question ? Écrivez-nous.", "Another question? Message us."), "b", "chat")}
     </div>
   </div>
@@ -242,7 +241,7 @@ def voyageurs(L):
     t = tr(L)
     trail = [(t("Gestion des voyageurs", "Guest management"), url("voyageurs", L))]
     visual = f"""<div class="hero-visual">
-        <figure class="hero-photo">{photo("voyageurs-hero", t("Portes d'entrée colorées d'une rue résidentielle", "Colourful front doors on a residential street"), sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
+        <figure class="hero-photo">{photo("voyageurs-hero", t("Une voyageuse récupère ses clés dans une boîte à clés à l'entrée d'un appartement", "A guest collecting her keys from a key box at an apartment door"), sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
         {fcard(t("Accueil", "Welcome"), "t-coral", t("Remise des clés en main propre ou à distance.", "Keys handed over in person or remotely."), "fc-1", "key")}
         {fcard(t("Assistance", "Support"), "t-green", t("Voyageurs accompagnés 24h/24 et 7j/7.", "Guests supported 24/7."), "fc-3", "headset")}
         {sticker("cles")}
@@ -269,7 +268,7 @@ def voyageurs(L):
 
 <section class="sec tight split"><div class="wrap split-grid">
   <div class="split-visual">
-    <figure class="ph">{photo("voyageurs-annonce", t("Salon lumineux d'un appartement meublé", "Bright living room in a furnished apartment"))}</figure>
+    <figure class="ph">{photo("voyageurs-annonce", t("Séance photo d'un salon parisien pour une annonce de location", "Photo shoot of a Paris living room for a rental listing"))}</figure>
     {fcard("FR · EN", "t-blue", t("Annonce rédigée en français et en anglais.", "Listing written in French and English."), "a", "globe")}
     {fcard(t("Photos", "Photos"), "t-green", t("Prises par nos soins, sous les meilleurs angles.", "Taken by us, from the best angles."), "b", "camera")}
     {sticker("appareil", cls="low")}
@@ -288,7 +287,7 @@ def voyageurs(L):
 
 <section class="sec split flip"><div class="wrap split-grid">
   <div class="split-visual">
-    <figure class="ph">{photo("voyageurs-selection", t("L'équipe échange autour d'un ordinateur portable", "The team talking around a laptop"))}</figure>
+    <figure class="ph">{photo("voyageurs-selection", t("Deux membres de l'équipe étudient une demande de réservation", "Two team members reviewing a booking request"))}</figure>
     {fcard(t("Accepté", "Accepted"), "t-green", t("Profil vérifié, commentaires positifs, identité contrôlée.", "Verified profile, positive reviews, ID checked."), "a", "check")}
     {fcard(t("Questions", "Questions"), "t-coral", t("Âge et raison du séjour demandés.", "Age and reason for the stay requested."), "b", "users")}
     {sticker("identite", cls="low")}
@@ -351,7 +350,7 @@ def logement(L):
     t = tr(L)
     trail = [(t("Gestion du logement", "Property management"), url("logement", L))]
     visual = f"""<div class="hero-visual">
-        <figure class="hero-photo">{photo("logement-hero", t("Salon d'un appartement meublé avec canapé en cuir", "Living room of a furnished apartment with a leather sofa"), sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
+        <figure class="hero-photo">{photo("logement-hero", t("Un propriétaire fait le tour de son appartement avec la conciergerie", "An owner showing their apartment to the concierge"), sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
         {fcard(t("Ménage", "Cleaning"), "t-blue", t("Après chaque départ des voyageurs.", "After every check-out."), "fc-1", "sparkle")}
         {fcard(t("Entretien", "Upkeep"), "t-sand", t("Petits travaux et réparations.", "Small works and repairs."), "fc-3", "wrench")}
         {sticker("linge")}
@@ -375,7 +374,7 @@ def logement(L):
 
 <section class="sec tight split"><div class="wrap split-grid">
   <div class="split-visual">
-    <figure class="ph">{photo("logement-menage", t("Deux personnes font le ménage d'un salon", "Two people cleaning a living room"))}</figure>
+    <figure class="ph">{photo("logement-menage", t("Ménage d'un salon parisien après le départ des voyageurs", "Cleaning a Paris living room after the guests leave"))}</figure>
     {fcard(t("Ménage", "Cleaning"), "t-blue", t("Fait après chaque passage des voyageurs.", "Done after every stay."), "a", "sparkle")}
     {sticker("menage")}
   </div>
@@ -393,7 +392,7 @@ def logement(L):
 
 <section class="sec split flip"><div class="wrap split-grid">
   <div class="split-visual">
-    <figure class="ph">{photo("logement-reassort", t("Cuisine ouverte et coin salon d'un appartement", "Open kitchen and lounge corner of an apartment"))}</figure>
+    <figure class="ph">{photo("logement-reassort", t("Serviettes et produits d'accueil remis en place dans une salle de bains", "Towels and toiletries restocked in a bathroom"))}</figure>
     {fcard(t("Réapprovisionnement", "Restocking"), "t-green", t("Articles de toilette de qualité, prêts avant chaque arrivée.", "Quality toiletries, ready before every arrival."), "a", "check")}
     {sticker("outils", cls="low")}
   </div>
@@ -445,7 +444,7 @@ def formules(L):
     t = tr(L)
     trail = [(t("Nos formules", "Our plans"), url("formules", L))]
     visual = f"""<div class="hero-visual">
-        <figure class="hero-photo">{photo("formules-hero", t("Salon épuré avec canapé vert et table basse en bois", "Minimal living room with a green sofa and a wooden coffee table"), sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
+        <figure class="hero-photo">{photo("formules-hero", t("Un propriétaire et la conciergerie relisent un contrat autour d'un café", "An owner and the concierge going over a contract over coffee"), sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
         {fcard(t("Revenu garanti", "Guaranteed income"), "t-green", t("≈ 15 % de marge moyenne.", "≈ 15% average margin."), "fc-1", "chart")}
         {fcard(t("Revenu réel", "Actual income"), "t-blue", t("18 à 25 % de commission.", "18–25% commission."), "fc-3", "sliders")}
       </div>"""
@@ -635,7 +634,7 @@ def mentions(L):
   <h2>{t("Propriété intellectuelle", "Intellectual property")}</h2>
   <p>{t("Les textes, le logo et la mise en page du site appartiennent à EdenFlats, sauf mention contraire. Toute reproduction, même partielle, est interdite sans autorisation écrite.",
         "The texts, logo and layout of this website belong to EdenFlats unless stated otherwise. Any reproduction, even partial, is prohibited without written permission.")}</p>
-  <p>{t("Les photos des quartiers proviennent de Wikimedia Commons et sont publiées sous licence libre : leurs auteurs et licences sont indiqués sur la page", "Neighbourhood photos come from Wikimedia Commons under free licences: their authors and licences are listed on the")} <a href="{url('credits', L)}">{t("crédits photos", "photo credits page")}</a>. {t("Les polices Bricolage Grotesque et Public Sans sont distribuées sous licence SIL Open Font License 1.1.", "The Bricolage Grotesque and Public Sans fonts are distributed under the SIL Open Font License 1.1.")}</p>
+  <p>{t("Les photos du site sont des images d'illustration.", "The photos on this website are illustrations.")} {t("Les polices Bricolage Grotesque et Public Sans sont distribuées sous licence SIL Open Font License 1.1.", "The Bricolage Grotesque and Public Sans fonts are distributed under the SIL Open Font License 1.1.")}</p>
   <h2>{t("Données personnelles", "Personal data")}</h2>
   <p>{t("Le traitement de vos données est décrit dans notre", "How we handle your data is described in our")} <a href="{url('confidentialite', L)}">{t("politique de confidentialité", "privacy policy")}</a>.</p>
 </div></section>"""
@@ -692,31 +691,6 @@ def confidentialite(L):
     return {"title": t("Politique de confidentialité et cookies | EdenFlats", "Privacy and cookie policy | EdenFlats"),
             "desc": t("Politique de confidentialité et de cookies d'EdenFlats : cookies déposés seulement avec votre accord, données de contact, durée de conservation et vos droits RGPD.",
                       "EdenFlats privacy and cookie policy: cookies set only with your consent, how we use your contact details, how long we keep them and your rights under the GDPR."),
-            "body": body, "ld": [crumbs_ld(L, trail)], "cta": False}
-
-
-# ── Crédits photos ──────────────────────────────────────────────────────────
-def credits(L):
-    t = tr(L)
-    trail = [(t("Crédits photos", "Photo credits"), url("credits", L))]
-    items = []
-    for a in Q.AREAS + Q.TOWNS + [{"id": "paris", "fr": {"name": "Paris"}, "en": {"name": "Paris"}}]:
-        p = photos.AREA[a["id"]]
-        if not p.get("author"):
-            continue
-        items.append(f'<li><b>{a[L]["name"]}</b> · {p["alt"][L]}<br>{t("Auteur", "Author")} : {p["author"]} · '
-                     f'{t("Licence", "Licence")} : <a href="{p["license_url"]}" target="_blank" rel="noopener">{p["license"]}</a> · '
-                     f'<a href="{p["page"]}" target="_blank" rel="noopener">{t("Fichier original", "Original file")}</a>'
-                     f' · {t("recadrée et redimensionnée", "cropped and resized")}</li>')
-    body = phead(L, trail, t("Informations", "Information"), t("Crédits photos", "Photo credits"),
-                 t("Les photos des quartiers et des communes proviennent de Wikimedia Commons et sont réutilisées selon leur licence libre.",
-                   "Neighbourhood and town photos come from Wikimedia Commons and are reused under their free licences."), actions=False) + f"""
-<section class="sec"><div class="wrap doc">
-  <ul class="credits-list">{"".join(items)}</ul>
-</div></section>"""
-    return {"title": t("Crédits photos | EdenFlats", "Photo credits | EdenFlats"),
-            "desc": t("Auteurs et licences libres (Creative Commons) des photos des quartiers de Paris utilisées sur le site EdenFlats, issues de Wikimedia Commons.",
-                      "Authors and free licences (Creative Commons) of the Paris neighbourhood photos used on the EdenFlats website, from Wikimedia Commons."),
             "body": body, "ld": [crumbs_ld(L, trail)], "cta": False}
 
 
@@ -824,7 +798,7 @@ def plan_du_site(L):
         (f'{a[L]["name"]} <small>{a[L]["arr"]}</small>', Q.area_url(a, L)) for a in Q.AREAS]
     towns = [(a[L]["name"], Q.area_url(a, L)) for a in Q.TOWNS]
     info = [(t("Mentions légales", "Legal notice"), url("mentions", L)), (t("Conditions générales de vente", "Terms and conditions"), url("cgv", L)),
-            (t("Confidentialité et cookies", "Privacy and cookies"), url("confidentialite", L)), (t("Crédits photos", "Photo credits"), url("credits", L))]
+            (t("Confidentialité et cookies", "Privacy and cookies"), url("confidentialite", L))]
     groups = [("green-s", "maison", t("Conciergerie Airbnb", "Airbnb management"), main, ""),
               ("blue-s", "tour-eiffel", "Paris", paris, " cols2"),
               ("coral-s", "carte", t("Île-de-France", "Île-de-France"), towns, ""),

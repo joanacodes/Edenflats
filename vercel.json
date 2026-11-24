@@ -1,0 +1,20 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/accueil",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/boutique",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/erreur-404",
+      "destination": "/",
+      "permanent": true
+    }
+  ]
+}

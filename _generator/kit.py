@@ -66,7 +66,6 @@ ROUTES = {
     "mentions": {"fr": "/mentions-legales", "en": "/en/legal-notice"},
     "cgv": {"fr": "/conditions-generales-de-vente", "en": "/en/terms-and-conditions"},
     "confidentialite": {"fr": "/politique-de-cookies", "en": "/en/privacy"},
-    "credits": {"fr": "/credits-photos", "en": "/en/photo-credits"},
     "plan": {"fr": "/plan-du-site", "en": "/en/sitemap"},
 }
 
@@ -368,7 +367,6 @@ def footer(L, areas, towns):
         <li><a href="{url('mentions', L)}">{t("Mentions légales", "Legal notice")}</a></li>
         <li><a href="{url('cgv', L)}">{t("Conditions générales de vente", "Terms and conditions")}</a></li>
         <li><a href="{url('confidentialite', L)}">{t("Confidentialité et cookies", "Privacy and cookies")}</a></li>{manage}
-        <li><a href="{url('credits', L)}">{t("Crédits photos", "Photo credits")}</a></li>
         <li><a href="{url('plan', L)}">{t("Plan du site", "Sitemap")}</a></li></ul></div>
     </div>
     <div class="foot-bottom">

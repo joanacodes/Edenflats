@@ -1,3 +1,4 @@
+.vercelignore
 404.html
 _config.yml
 _redirects
@@ -20,7 +21,6 @@ conciergerie-airbnb-tour-eiffel.html
 conciergerie-airbnb-trocadero.html
 conditions-generales-de-vente.html
 contact.html
-credits-photos.html
 en/airbnb-management-bastille.html
 en/airbnb-management-canal-saint-martin.html
 en/airbnb-management-champs-elysees.html
@@ -41,7 +41,6 @@ en/faq.html
 en/guest-management.html
 en/index.html
 en/legal-notice.html
-en/photo-credits.html
 en/plans.html
 en/privacy.html
 en/property-management.html
@@ -61,3 +60,4 @@ plan-du-site.html
 politique-de-cookies.html
 robots.txt
 sitemap.xml
+vercel.json

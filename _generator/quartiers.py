@@ -333,15 +333,6 @@ def area_card(a, L, h="h3"):
             f'<{h}>{d["name"]}{icon("arrow")}</{h}><small>{d["arr"]} · {d["teaser"]}</small></a>')
 
 
-def credit(a, L):
-    t = tr(L)
-    p = photos.AREA[a["id"]]
-    if not p.get("author"):
-        return ""
-    return (f'<p class="credit">{t("Photo", "Photo")} : <a href="{p["page"]}" target="_blank" rel="noopener">{p["author"]}</a>, '
-            f'<a href="{p["license_url"]}" target="_blank" rel="noopener">{p["license"]}</a>, Wikimedia Commons</p>')
-
-
 def rules(L):
     t = tr(L)
     cards = [
@@ -399,7 +390,7 @@ def area_page(a, L):
         <figure class="hero-photo">{area_img(a, L, sizes="(max-width: 900px) 100vw, 45vw", lazy=False)}</figure>
         {fcard(t("Métro et RER", "Metro and RER") if not is_town else t("Transports", "Transport"), "t-blue", ", ".join(d["transit"][:2]), "fc-1", "train")}
         {fcard(t("À voir", "Nearby"), "t-green", ", ".join(d["see"][:2]), "fc-3", "eye")}
-      </div>{credit(a, L)}"""
+      </div>"""
     facts = [("pin", t("Situation", "Location"), d["arr"]),
              ("train", t("Métro et RER", "Metro and RER") if not is_town else t("Transports", "Transport"), " · ".join(d["transit"])),
              ("eye", t("À voir", "Nearby"), " · ".join(d["see"])),
@@ -469,10 +460,6 @@ def hub(L):
     cards = "".join(area_card(a, L) for a in AREAS)
     town_chips = "".join(f'<a class="chip" href="{area_url(a, L)}">{a[L]["name"]} {icon("arrow")}</a>' for a in TOWNS)
     others = "".join(f'<span class="chip">{n}</span>' for n in IDF)
-    cred = ""
-    if p.get("author"):
-        cred = (f'<p class="credit">{t("Photo", "Photo")} : <a href="{p["page"]}" target="_blank" rel="noopener">{p["author"]}</a>, '
-                f'<a href="{p["license_url"]}" target="_blank" rel="noopener">{p["license"]}</a>, Wikimedia Commons</p>')
     trail = [("Paris", url("paris", L))]
     body = f"""<section class="phead">
   <div class="phead-panel panel">
@@ -486,7 +473,7 @@ def hub(L):
         <figure class="hero-photo">{photo(p["file"], p["alt"][L], sizes="(max-width: 900px) 100vw, 45vw", lazy=False, big=p["big"])}</figure>
         {fcard("Paris", "t-green", t("Résidence principale : 90 jours de location par an au maximum.", "Main residence: up to 90 rental days a year."), "fc-1", "calendar")}
         {fcard(t("Annonce", "Listing"), "t-coral", t("Numéro d'enregistrement affiché sur chaque annonce.", "Registration number shown on every listing."), "fc-3", "id")}
-      </div>{cred}</div>
+      </div></div>
     </div>
   </div>
 </section>
@@ -495,7 +482,6 @@ def hub(L):
         t("Familles autour de la tour Eiffel, voyageurs d'affaires aux Champs-Élysées, chercheurs au Quartier latin : nous adaptons l'annonce, les prix et l'accueil au quartier de votre logement.",
           "Families around the Eiffel Tower, business travellers on the Champs-Élysées, researchers in the Latin Quarter: we adapt the listing, the prices and the welcome to your neighbourhood."))}
   <div class="areas">{cards}</div>
-  <p class="note">{t("Photos : Wikimedia Commons,", "Photos: Wikimedia Commons,")} <a href="{url("credits", L)}">{t("voir les crédits", "see credits")}</a>.</p>
 </div></section>
 <section class="sec tight"><div class="wrap">
   {head(t("Réglementation", "Regulations"), t("Louer à Paris : les règles à connaître", "Letting in Paris: the rules to know"))}

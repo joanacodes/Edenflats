@@ -3,6 +3,7 @@
 #
 # Chaque page est un fichier .html servi sans extension (/faq sert faq.html) : les adresses françaises
 # sont ainsi exactement celles de l'ancien site, sans barre finale.
+import json
 import re
 from datetime import date
 from html import unescape
@@ -23,7 +24,7 @@ TODAY = date.today().isoformat()
 PAGES = [  # (identifiant, fonction)
     ("home", P.home), ("voyageurs", P.voyageurs), ("logement", P.logement), ("formules", P.formules),
     ("faq", P.faq_page), ("paris", Q.hub), ("contact", P.contact), ("mentions", P.mentions), ("cgv", P.cgv),
-    ("confidentialite", P.confidentialite), ("credits", P.credits), ("plan", P.plan_du_site),
+    ("confidentialite", P.confidentialite), ("plan", P.plan_du_site),
 ]
 
 # Anciennes adresses Squarespace sans équivalent : une page qui redirige aussitôt vers la plus proche.
@@ -41,7 +42,7 @@ FAVICON = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect wi
            '<circle cx="18.6" cy="19.6" r="1.6" fill="#FC585C"/></svg>')
 
 # Jekyll (GitHub Pages) publie le dossier tel quel, sauf ces fichiers de travail.
-JEKYLL = "exclude:\n  - README.md\n  - IMAGES-MIDJOURNEY.md\n  - _generator\n"
+JEKYLL = "exclude:\n  - README.md\n  - IMAGES-MIDJOURNEY.md\n  - _generator\n  - vercel.json\n"
 
 written = []
 
@@ -178,6 +179,10 @@ def main():
         write(src, redirect_page(target))
     # Pour Cloudflare Pages ou Netlify : vraies redirections 301 (GitHub Pages utilise les pages ci-dessus).
     write("_redirects", "".join(f"{src} {target} 301\n" for src, target in REDIRECTS.items()))
+    # Vercel : adresses sans « .html » (comme GitHub Pages) et les mêmes redirections ; le générateur n'est pas publié.
+    write("vercel.json", json.dumps({"cleanUrls": True, "redirects": [
+        {"source": src, "destination": target, "permanent": True} for src, target in REDIRECTS.items()]}, indent=2) + "\n")
+    write(".vercelignore", "_generator\nREADME.md\nIMAGES-MIDJOURNEY.md\n")
     base = kit.SITE["url"]
     urls = []
     for fr, en, image in sitemap:

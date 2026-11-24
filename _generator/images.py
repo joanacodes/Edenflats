@@ -18,10 +18,11 @@ SLOTS = {
     "accueil-faq": ((6, 5), 1600), "voyageurs-hero": ((4, 5), 1600), "voyageurs-annonce": ((6, 5), 1600),
     "voyageurs-selection": ((6, 5), 1600), "logement-hero": ((4, 5), 1600), "logement-menage": ((6, 5), 1600),
     "logement-reassort": ((6, 5), 1600), "formules-hero": ((4, 5), 1600),
-    # Quartiers (facultatif : les photos actuelles sont de vraies photos Wikimedia Commons, créditées).
+    # Page Paris, quartiers et communes.
+    "paris": ((5, 4), 1280),
     **{f"paris-{k}": ((5, 4), 1280) for k in (
         "marais", "montmartre", "saint-germain-des-pres", "quartier-latin", "tour-eiffel", "champs-elysees", "opera",
-        "louvre", "canal-saint-martin", "bastille", "montparnasse", "trocadero", "toits")},
+        "louvre", "canal-saint-martin", "bastille", "montparnasse", "trocadero")},
     "ville-creteil": ((5, 4), 1280), "ville-saint-maur": ((5, 4), 1280),
 }
 
@@ -61,8 +62,6 @@ def main():
             out = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS) if im.width > width else im
             out.save(OUT / f"{name}{suffix}.jpg", "JPEG", quality=q, optimize=True, progressive=True)
         print(f"{name}.jpg")
-        if name.startswith(("paris-", "ville-")):
-            print(f"  → photo de quartier remplacée : videz son « author » dans photos.py pour retirer le crédit Wikimedia.")
         done += 1
     print(f"{done} image(s) prête(s). Lancez maintenant : py build.py")
 
