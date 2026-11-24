@@ -423,6 +423,15 @@ def language_template(L, target):
 """
 
 
+# Lancé dans <head>, avant le premier affichage : pose html.m-on pour que les éléments animés partent cachés
+# (sinon ils apparaîtraient, puis disparaîtraient le temps que motion.js démarre). Rien de caché si le visiteur
+# demande moins d'animations ; et si motion.js ne s'est pas lancé au bout de 4 s, tout est réaffiché.
+HEAD_JS = ("<script>(function(d){d.classList.remove('no-js');"
+           "if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window){"
+           "d.classList.add('m-on');try{if(document.referrer.indexOf(location.origin)===0)d.classList.add('m-nav')}catch(e){}"
+           "setTimeout(function(){if(!window.efMotion)d.classList.remove('m-on')},4000)}})(document.documentElement)</script>")
+
+
 def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None, ld=None, cta=True,
            cta_title=None, cta_text=None, og_image="/assets/img/og-image.jpg", og_alt=None, noindex=False, section=None):
     t = tr(L)
@@ -451,6 +460,7 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+{HEAD_JS}
 <title>{escape(title)}</title>
 <meta name="description" content="{escape(desc)}">
 {robots}<link rel="canonical" href="{SITE['url']}{path}">
@@ -474,6 +484,7 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
 <link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/public-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/motion.css">
 {lds}</head>
 <body{body_attrs}>
 <a class="skip" href="#contenu">{t("Aller au contenu", "Skip to content")}</a>
@@ -494,7 +505,7 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
 </main>
 {final_cta(L, cta_title, cta_text) if cta else ""}
 {footer(L, areas, towns)}
-{bubble(L, pid)}{consent_template(L)}{language_template(L, alt_path or url("home", OTHER[L]))}<script src="/assets/main.js" defer></script>
+{bubble(L, pid)}{consent_template(L)}{language_template(L, alt_path or url("home", OTHER[L]))}<script src="/assets/main.js" defer></script><script src="/assets/motion.js" defer></script>
 </body>
 </html>
 """
