@@ -1,10 +1,10 @@
 /* EdenFlats — feuille de style unique, version « maquette » : la mise en page de la maquette de
    référence (bleu nuit, pervenche, vert anis), avec le crème de l'ancien site à la place du beige.
    Sections à angles droits, une grande courbe par photo, boutons en pilule, mots en italique à empattements. */
-@font-face{font-family:"Public Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/fonts/public-sans-latin-wght-normal.woff2) format("woff2-variations")}
-@font-face{font-family:"Public Sans";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/fonts/public-sans-latin-wght-italic.woff2) format("woff2-variations")}
-@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;src:url(/assets/fonts/instrument-serif-latin-400-normal.woff2) format("woff2")}
-@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url(/assets/fonts/instrument-serif-latin-400-italic.woff2) format("woff2")}
+@font-face{font-family:"Public Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/public-sans-latin-wght-normal.woff2) format("woff2-variations")}
+@font-face{font-family:"Public Sans";font-style:italic;font-weight:100 900;font-display:swap;src:url(fonts/public-sans-latin-wght-italic.woff2) format("woff2-variations")}
+@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-latin-400-italic.woff2) format("woff2")}
 
 :root{
   /* Toutes les familles de couleurs écrivent en bleu nuit, comme sur la maquette. */

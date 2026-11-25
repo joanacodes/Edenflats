@@ -103,12 +103,17 @@ En attendant, les pages principales montrent les photos de l'ancien site, et la 
 
 ## Mise en ligne
 
-Le dépôt est privé : GitHub Pages n'y est disponible qu'avec un compte GitHub payant, et servirait le site sous `/Edenflats/`, que les liens (qui commencent par `/`) ne gèrent pas. Le site est prêt pour **Vercel** :
+Les liens du site sont relatifs : il fonctionne à la racine d'un domaine comme dans un sous-dossier. Sur une adresse d'aperçu (`github.io`, `vercel.app`), les pages demandent aux moteurs de ne pas les indexer ; seul `www.edenflats.com` doit apparaître dans Google.
 
-1. vercel.com/new → importer `joanacodes/Edenflats` (préréglage « Other », aucune commande de build) → Deploy.
-2. Dans le projet : Settings → Git (ou Environments → Production) → branche de production `claude/edenflats-website-redesign-4i4x4w` (ou fusionner cette branche dans `main`), puis redéployer.
+**Aperçu sur GitHub Pages** (https://joanacodes.github.io/Edenflats/) :
 
-`vercel.json` sert les pages sans « .html », reprend les redirections des anciennes adresses et demande aux moteurs de ne pas indexer les adresses en `.vercel.app` ; `.vercelignore` ne publie pas le générateur. Pour la mise en ligne définitive : ajouter le domaine `www.edenflats.com` dans Vercel, faire pointer le DNS, et mettre l'hébergeur à jour dans `SITE["host"]` (`kit.py`, mentions légales : Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA). Sur Netlify ou Cloudflare Pages, `_redirects` donne les mêmes redirections ; sur GitHub Pages avec le domaine, `_config.yml` empêche Jekyll de publier le générateur.
+1. Le dépôt est privé : GitHub Pages y demande un abonnement GitHub Pro. Sans abonnement, le rendre public (Settings → General → Danger Zone → Change visibility).
+2. Settings → Pages → Build and deployment → Source « Deploy from a branch » → branche `claude/edenflats-website-redesign-4i4x4w` (version actuelle) ou `claude/edenflats-layout-template` (version maquette), dossier `/ (root)` → Save.
+3. Le site est en ligne une à deux minutes plus tard. Un seul site par dépôt : pour voir l'autre version, choisir l'autre branche au même endroit.
+
+**Mise en ligne définitive** : au moment de quitter Squarespace, saisir `www.edenflats.com` dans Settings → Pages → Custom domain (GitHub crée le fichier `CNAME`), puis faire pointer le DNS vers GitHub. `_config.yml` empêche Jekyll de publier le générateur et les fichiers de travail.
+
+**Autre hébergeur** : le site est aussi prêt pour **Vercel** (vercel.com/new → importer `joanacodes/Edenflats`, préréglage « Other », aucune commande de build ; chaque branche reçoit sa propre adresse d'aperçu). `vercel.json` sert les pages sans « .html » et reprend les redirections des anciennes adresses ; `.vercelignore` ne publie pas le générateur. Sur Netlify ou Cloudflare Pages, `_redirects` donne les mêmes redirections. Si le site est hébergé ailleurs que chez GitHub, mettre l'hébergeur à jour dans `SITE["host"]` (`kit.py`, mentions légales ; Vercel : Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA).
 
 ## À vérifier avant la mise en ligne
 
