@@ -1,5 +1,6 @@
 exclude:
   - README.md
   - IMAGES-MIDJOURNEY.md
+  - IMAGES-MIDJOURNEY-BATCHES.md
   - _generator
   - vercel.json

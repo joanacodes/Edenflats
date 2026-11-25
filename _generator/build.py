@@ -42,7 +42,7 @@ FAVICON = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect wi
            '<circle cx="18.6" cy="19.6" r="1.6" fill="#FC585C"/></svg>')
 
 # Jekyll (GitHub Pages) publie le dossier tel quel, sauf ces fichiers de travail.
-JEKYLL = "exclude:\n  - README.md\n  - IMAGES-MIDJOURNEY.md\n  - _generator\n  - vercel.json\n"
+JEKYLL = "exclude:\n  - README.md\n  - IMAGES-MIDJOURNEY.md\n  - IMAGES-MIDJOURNEY-BATCHES.md\n  - _generator\n  - vercel.json\n"
 
 written = []
 
