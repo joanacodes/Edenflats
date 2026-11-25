@@ -8,7 +8,7 @@ Coordonnées (confirmées) : edenflats.paris@gmail.com, +33 7 84 54 48 61, et Wh
 
 ## Identité visuelle
 
-**Version « maquette »** (branche `claude/edenflats-layout-template`) : la mise en page de la maquette de référence, section par section, avec le contenu d'EdenFlats. La version précédente, plus proche de Bridge, est sur la branche `claude/edenflats-website-redesign-4i4x4w` ; les deux partagent les mêmes pages, adresses, textes et photos.
+**Version « maquette »** (branche `claude/edenflats-layout-template`) : la mise en page de la maquette de référence, section par section, avec le contenu d'EdenFlats. La version précédente, plus proche de Bridge, est sur la branche `main` ; les deux partagent les mêmes pages, adresses, textes et photos.
 
 | Rôle | Couleur |
 |---|---|
@@ -108,7 +108,7 @@ Les liens du site sont relatifs : il fonctionne à la racine d'un domaine comme 
 **Aperçu sur GitHub Pages** (https://joanacodes.github.io/Edenflats/) :
 
 1. Le dépôt est privé : GitHub Pages y demande un abonnement GitHub Pro. Sans abonnement, le rendre public (Settings → General → Danger Zone → Change visibility).
-2. Settings → Pages → Build and deployment → Source « Deploy from a branch » → branche `claude/edenflats-website-redesign-4i4x4w` (version actuelle) ou `claude/edenflats-layout-template` (version maquette), dossier `/ (root)` → Save.
+2. Settings → Pages → Build and deployment → Source « Deploy from a branch » → branche `main` (version actuelle) ou `claude/edenflats-layout-template` (version maquette), dossier `/ (root)` → Save.
 3. Le site est en ligne une à deux minutes plus tard. Un seul site par dépôt : pour voir l'autre version, choisir l'autre branche au même endroit.
 
 **Mise en ligne définitive** : au moment de quitter Squarespace, saisir `www.edenflats.com` dans Settings → Pages → Custom domain (GitHub crée le fichier `CNAME`), puis faire pointer le DNS vers GitHub. `_config.yml` empêche Jekyll de publier le générateur et les fichiers de travail.
