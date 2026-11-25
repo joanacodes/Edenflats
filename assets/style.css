@@ -2,9 +2,9 @@
    Palette chaude : l'ardoise et le crème de l'ancien site, son vert tendre et son corail,
    la pervenche de la maquette de référence, et la construction de Bridge (familles de couleurs
    claires avec leur couleur foncée pour le texte, cartes blanches posées sur les photos). */
-@font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:200 800;font-display:swap;src:url(/assets/fonts/bricolage-grotesque-latin-wght-normal.woff2) format("woff2-variations")}
-@font-face{font-family:"Public Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/fonts/public-sans-latin-wght-normal.woff2) format("woff2-variations")}
-@font-face{font-family:"Public Sans";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/fonts/public-sans-latin-wght-italic.woff2) format("woff2-variations")}
+@font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:200 800;font-display:swap;src:url(fonts/bricolage-grotesque-latin-wght-normal.woff2) format("woff2-variations")}
+@font-face{font-family:"Public Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/public-sans-latin-wght-normal.woff2) format("woff2-variations")}
+@font-face{font-family:"Public Sans";font-style:italic;font-weight:100 900;font-display:swap;src:url(fonts/public-sans-latin-wght-italic.woff2) format("woff2-variations")}
 
 :root{
   --ink:#24485C;--ink-dark:#1B3747;--ink-2:#4E5F68;--ink-3:#617079;--line:#E9DFD3;

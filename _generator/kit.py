@@ -426,7 +426,11 @@ def language_template(L, target):
 # Lancé dans <head>, avant le premier affichage : pose html.m-on pour que les éléments animés partent cachés
 # (sinon ils apparaîtraient, puis disparaîtraient le temps que motion.js démarre). Rien de caché si le visiteur
 # demande moins d'animations ; et si motion.js ne s'est pas lancé au bout de 4 s, tout est réaffiché.
+# Sur une adresse d'aperçu (github.io, vercel.app), il demande aussi aux moteurs de ne pas indexer la page :
+# seul www.edenflats.com doit apparaître dans Google.
 HEAD_JS = ("<script>(function(d){d.classList.remove('no-js');"
+           "if(/\\.github\\.io$|\\.vercel\\.app$/.test(location.hostname)){var m=document.createElement('meta');"
+           "m.name='robots';m.content='noindex';document.head.appendChild(m)}"
            "if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window){"
            "d.classList.add('m-on');try{if(document.referrer.indexOf(location.origin)===0)d.classList.add('m-nav')}catch(e){}"
            "setTimeout(function(){if(!window.efMotion)d.classList.remove('m-on')},4000)}})(document.documentElement)</script>")

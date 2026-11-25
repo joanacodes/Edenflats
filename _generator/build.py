@@ -55,9 +55,44 @@ def file_for(path):
     return ROOT / (path.lstrip("/") + ".html")
 
 
+# Liens relatifs : le générateur écrit des adresses qui partent de la racine (/faq, /assets/…) ; à l'écriture,
+# elles deviennent relatives à la page (faq, ../assets/…). Le site marche ainsi à la racine du domaine comme dans
+# un sous-dossier, par exemple sur GitHub Pages (joanacodes.github.io/Edenflats/). Les adresses complètes
+# (canonique, hreflang, Open Graph, données structurées, plan du site) restent en https://www.edenflats.com.
+LINK = re.compile(r'\b(href|src)="(/(?!/)[^"]*)"')
+SRCSET = re.compile(r'\bsrcset="([^"]*)"')
+REFRESH = re.compile(r'(http-equiv="refresh" content="0; url=)(/[^"]*)"')
+
+
+def relative(url, depth):
+    up, rest = "../" * depth, url[1:]
+    return up + rest if (up or rest) else "./"
+
+
+def relativize(html, depth):
+    def srcset(m):
+        out = []
+        for part in m.group(1).split(","):
+            u, _, w = part.strip().partition(" ")
+            out.append((relative(u, depth) if u.startswith("/") else u) + (f" {w}" if w else ""))
+        return 'srcset="' + ", ".join(out) + '"'
+    html = LINK.sub(lambda m: f'{m.group(1)}="{relative(m.group(2), depth)}"', html)
+    html = SRCSET.sub(srcset, html)
+    return REFRESH.sub(lambda m: f'{m.group(1)}{relative(m.group(2), depth)}"', html)
+
+
+# La page 404 est servie à l'adresse demandée, quelle que soit sa profondeur : une balise <base> la ramène à la
+# racine du site (le dossier du dépôt sur github.io, la racine du domaine ailleurs) pour que ses liens restent justes.
+BASE_404 = ("<script>(function(){var p=location.pathname.split('/');"
+            "var r=/\\.github\\.io$/.test(location.hostname)&&p.length>2?'/'+p[1]+'/':'/';"
+            "document.write('<base href=\"'+r+'\">')})()</script>\n")
+
+
 def write(path, html):
     out = file_for(path) if path.startswith("/") else ROOT / path
     out.parent.mkdir(parents=True, exist_ok=True)
+    if out.suffix == ".html":
+        html = relativize(html, len(out.relative_to(ROOT).parts) - 1)
     out.write_text(html, encoding="utf-8")
     written.append(str(out.relative_to(ROOT)))
 
@@ -173,8 +208,9 @@ def main():
                 sitemap.append((p["path"], p["alt_path"], p.get("image")))
             entries.append({"group": "areas_" + L, "name": a[L]["name"], "path": p["path"], "desc": a[L]["teaser"]})
     nf = P.not_found("fr")
-    write("404.html", kit.layout("fr", "404", nf["title"], nf["desc"], nf["body"], areas_footer["fr"], towns_footer["fr"],
-                                 path="/404", noindex=True, cta=False))
+    page404 = kit.layout("fr", "404", nf["title"], nf["desc"], nf["body"], areas_footer["fr"], towns_footer["fr"],
+                         path="/404", noindex=True, cta=False)
+    write("404.html", page404.replace('<meta charset="utf-8">\n', '<meta charset="utf-8">\n' + BASE_404, 1))
     for src, target in REDIRECTS.items():
         write(src, redirect_page(target))
     # Pour Cloudflare Pages ou Netlify : vraies redirections 301 (GitHub Pages utilise les pages ci-dessus).
