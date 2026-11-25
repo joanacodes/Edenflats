@@ -1,0 +1,72 @@
+# EdenFlats
+
+> Conciergerie Airbnb à Paris et en Île-de-France : gestion locative saisonnière de résidences secondaires et de biens locatifs (annonce, sélection des voyageurs, remise des clés, ménage, linge, entretien, assistance 24h/24). Deux formules : revenu garanti (marge moyenne de 15 %) ou revenu réel (commission de 18 à 25 % selon la durée de location). Site en français et en anglais.
+
+EdenFlats est exploitée par EDENEL PATRIMOINE GESTION RESEAUX & SERVICES (EPGRS), SAS, 14 rue de Champigny, 94370 Sucy-en-Brie, France, SIRET 104 632 591 00012. Contact : +33 7 84 54 48 61 (téléphone et WhatsApp), edenflats.paris@gmail.com.
+
+## Pages principales
+
+- [Conciergerie Airbnb à Paris et en Île-de-France](https://www.edenflats.com/): Conciergerie Airbnb à Paris et en Île-de-France : annonce, voyageurs, clés, ménage et entretien de votre résidence secondaire. Revenu garanti ou réel.
+- [Gestion des voyageurs Airbnb à Paris](https://www.edenflats.com/gestion-des-voyageurs-conciergerie-airbnb-ile-de-france): Annonce Airbnb en français et en anglais, sélection des voyageurs, accueil et remise des clés, assistance 24h/24 : la gestion des voyageurs à Paris.
+- [Gestion de propriété Airbnb : ménage, linge](https://www.edenflats.com/gestion-de-propriete-conciergerie-airbnb-ile-de-france): Ménage Airbnb après chaque départ, blanchisserie du linge, réapprovisionnement, maintenance, décoration et travaux : EdenFlats garde votre logement prêt à louer à Paris.
+- [Tarifs conciergerie Airbnb : revenu garanti ou réel](https://www.edenflats.com/nos-formules): Tarifs de la conciergerie Airbnb EdenFlats : contrat au revenu garanti (marge moyenne de 15 %) ou au revenu réel (commission de 18 à 25 %). Comparez les deux formules.
+- [FAQ conciergerie Airbnb : tarifs, clés, législation](https://www.edenflats.com/faq): Tarifs, calcul du revenu, compte Airbnb, sélection des voyageurs, clés, ménage, législation Airbnb à Paris : les réponses de la conciergerie EdenFlats aux propriétaires.
+- [Conciergerie Airbnb à Paris : nos quartiers](https://www.edenflats.com/conciergerie-airbnb-paris): Conciergerie Airbnb à Paris, du Marais à Montmartre et à la tour Eiffel : annonce, voyageurs, clés, ménage, et les règles de location à Paris (90 jours).
+- [Contact conciergerie Airbnb Paris](https://www.edenflats.com/contact): Contactez la conciergerie Airbnb EdenFlats par téléphone, WhatsApp ou e-mail pour confier la gestion de votre logement à Paris et en Île-de-France. Estimation de revenus.
+- [Mentions légales](https://www.edenflats.com/mentions-legales): Mentions légales du site EdenFlats : éditeur (EDENEL PATRIMOINE GESTION RESEAUX & SERVICES, Sucy-en-Brie), hébergeur et propriété intellectuelle.
+- [Conditions générales de vente](https://www.edenflats.com/conditions-generales-de-vente): Conditions générales de vente d'EdenFlats, conciergerie Airbnb à Paris et en Île-de-France : prestations, tarifs, annulation, rétractation, responsabilités et litiges.
+- [Politique de confidentialité et cookies](https://www.edenflats.com/politique-de-cookies): Politique de confidentialité et de cookies d'EdenFlats : cookies déposés seulement avec votre accord, données de contact, durée de conservation et vos droits RGPD.
+- [Plan du site](https://www.edenflats.com/plan-du-site): Plan du site EdenFlats : toutes les pages de la conciergerie Airbnb, services, formules, FAQ, quartiers de Paris, communes d'Île-de-France et informations légales.
+
+## Quartiers de Paris et communes d'Île-de-France
+
+- [Le Marais](https://www.edenflats.com/conciergerie-airbnb-le-marais): Hôtels particuliers, place des Vosges, boutiques ouvertes le dimanche.
+- [Montmartre](https://www.edenflats.com/conciergerie-airbnb-montmartre): La butte, le Sacré-Cœur et la vue sur tout Paris.
+- [Saint-Germain-des-Prés](https://www.edenflats.com/conciergerie-airbnb-saint-germain-des-pres): Cafés littéraires, galeries d'art et jardin du Luxembourg.
+- [Quartier latin](https://www.edenflats.com/conciergerie-airbnb-quartier-latin): La Sorbonne, le Panthéon et la rue Mouffetard.
+- [Tour Eiffel](https://www.edenflats.com/conciergerie-airbnb-tour-eiffel): Champ-de-Mars, Invalides et rue Cler.
+- [Champs-Élysées](https://www.edenflats.com/conciergerie-airbnb-champs-elysees): Arc de Triomphe, Grand Palais et avenue Montaigne.
+- [Opéra](https://www.edenflats.com/conciergerie-airbnb-opera): Palais Garnier, grands magasins et passages couverts.
+- [Louvre](https://www.edenflats.com/conciergerie-airbnb-louvre): Le Louvre, les Tuileries et le Palais-Royal.
+- [Canal Saint-Martin](https://www.edenflats.com/conciergerie-airbnb-canal-saint-martin): Écluses, passerelles et gares du Nord et de l'Est.
+- [Bastille](https://www.edenflats.com/conciergerie-airbnb-bastille): Opéra Bastille, marché d'Aligre et Coulée verte.
+- [Montparnasse](https://www.edenflats.com/conciergerie-airbnb-montparnasse): La gare, les cafés historiques et les Catacombes.
+- [Trocadéro](https://www.edenflats.com/conciergerie-airbnb-trocadero): Face à la tour Eiffel, musées et grandes avenues.
+- [Créteil](https://www.edenflats.com/conciergerie-airbnb-creteil): Préfecture du Val-de-Marne, sur la ligne 8.
+- [Saint-Maur-des-Fossés](https://www.edenflats.com/conciergerie-airbnb-saint-maur-des-fosses): Une boucle de la Marne, à une vingtaine de minutes de Paris en RER A.
+
+## English
+
+- [Airbnb Management in Paris & Île-de-France](https://www.edenflats.com/en/): Airbnb management in Paris and Île-de-France for second homes and buy-to-let flats: listing, guests, keys, cleaning. Guaranteed or actual income.
+- [Airbnb Guest Management in Paris](https://www.edenflats.com/en/guest-management): Airbnb listing in French and English, guest screening, check-in and key handover, 24/7 support: EdenFlats guest management in Paris and Île-de-France.
+- [Airbnb Property Management: Cleaning, Linen](https://www.edenflats.com/en/property-management): Airbnb cleaning after every check-out, linen service, restocking, maintenance, decoration and works: EdenFlats keeps your Paris home ready to let.
+- [Airbnb Management Fees: Guaranteed or Actual Income](https://www.edenflats.com/en/plans): EdenFlats Airbnb management fees: guaranteed-income contract (15% average margin) or actual-income contract (18–25% commission). Compare the two plans.
+- [Airbnb Management FAQ: Fees, Keys, Rules](https://www.edenflats.com/en/faq): Fees, income, your Airbnb account, guest screening, keys, cleaning and the Paris Airbnb rules: EdenFlats answers the questions owners ask.
+- [Airbnb management in Paris: our neighbourhoods](https://www.edenflats.com/en/airbnb-management-paris): Airbnb management across Paris, from Le Marais to Montmartre and the Eiffel Tower: listing, guests, keys and cleaning, plus the Paris rental rules.
+- [Contact our Paris Airbnb Management Team](https://www.edenflats.com/en/contact): Contact EdenFlats, Airbnb management in Paris, by phone, WhatsApp or email to have your Paris or Île-de-France home managed. Ask for an income estimate.
+- [Legal notice](https://www.edenflats.com/en/legal-notice): EdenFlats legal notice: publisher (EDENEL PATRIMOINE GESTION RESEAUX & SERVICES, Sucy-en-Brie), website host and intellectual property.
+- [Terms and conditions](https://www.edenflats.com/en/terms-and-conditions): EdenFlats terms and conditions for Airbnb management in Paris and Île-de-France: services, prices, cancellation, withdrawal, liability and disputes.
+- [Privacy and cookie policy](https://www.edenflats.com/en/privacy): EdenFlats privacy and cookie policy: cookies set only with your consent, how we use your contact details, how long we keep them and your rights under the GDPR.
+- [Sitemap](https://www.edenflats.com/en/sitemap): EdenFlats sitemap: every page of our Airbnb management website, from services, plans and FAQ to Paris neighbourhoods, Île-de-France towns and legal pages.
+
+## English: Paris neighbourhoods
+
+- [Le Marais](https://www.edenflats.com/en/airbnb-management-le-marais): Mansions, the Place des Vosges and shops open on Sundays.
+- [Montmartre](https://www.edenflats.com/en/airbnb-management-montmartre): The hill, the Sacré-Cœur and views across Paris.
+- [Saint-Germain-des-Prés](https://www.edenflats.com/en/airbnb-management-saint-germain-des-pres): Literary cafés, art galleries and the Luxembourg Gardens.
+- [Latin Quarter](https://www.edenflats.com/en/airbnb-management-latin-quarter): The Sorbonne, the Panthéon and Rue Mouffetard.
+- [Eiffel Tower](https://www.edenflats.com/en/airbnb-management-eiffel-tower): Champ de Mars, Les Invalides and Rue Cler.
+- [Champs-Élysées](https://www.edenflats.com/en/airbnb-management-champs-elysees): Arc de Triomphe, Grand Palais and Avenue Montaigne.
+- [Opéra](https://www.edenflats.com/en/airbnb-management-opera): Palais Garnier, department stores and covered passages.
+- [Louvre](https://www.edenflats.com/en/airbnb-management-louvre): The Louvre, the Tuileries and the Palais-Royal.
+- [Canal Saint-Martin](https://www.edenflats.com/en/airbnb-management-canal-saint-martin): Locks, footbridges, Gare du Nord and Gare de l'Est.
+- [Bastille](https://www.edenflats.com/en/airbnb-management-bastille): Opéra Bastille, Aligre market and the Coulée verte.
+- [Montparnasse](https://www.edenflats.com/en/airbnb-management-montparnasse): The station, historic cafés and the Catacombs.
+- [Trocadéro](https://www.edenflats.com/en/airbnb-management-trocadero): Facing the Eiffel Tower, museums and wide avenues.
+- [Créteil](https://www.edenflats.com/en/airbnb-management-creteil): Val-de-Marne's prefecture, on metro line 8.
+- [Saint-Maur-des-Fossés](https://www.edenflats.com/en/airbnb-management-saint-maur-des-fosses): A loop of the Marne, about twenty minutes from Paris by RER A.
+
+## Optional
+
+- [Texte complet du site (FAQ, formules, quartiers)](https://www.edenflats.com/llms-full.txt)
+- [Plan du site XML](https://www.edenflats.com/sitemap.xml)
