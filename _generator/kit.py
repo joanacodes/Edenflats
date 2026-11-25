@@ -31,6 +31,10 @@ SITE = {
     # nécessaire : mettez alors "cookie_banner" à False, la politique de confidentialité s'adapte.
     "cookie_banner": True,
     "analytics": {"ga4": ""},
+    # Comparaison des deux mises en page, le temps de choisir : un lien du menu ouvre la même page dans l'autre
+    # version. « href » : où se trouve l'autre version, vue depuis la racine de celle-ci. None pour retirer le lien.
+    "other_version": {"href": "../", "fr": "Voir l'autre version", "en": "See the other version",
+                      "hint_fr": "Version actuelle", "hint_en": "Current version"},
     "company": {
         "name": "EDENEL PATRIMOINE GESTION RESEAUX & SERVICES",
         "acronym": "EPGRS",
@@ -120,6 +124,7 @@ ICONS = {
     "cookie": '<path d="M20.5 12.6A8.5 8.5 0 1 1 11.4 3.5a2.8 2.8 0 0 0 3.4 3.4 2.8 2.8 0 0 0 3.3 3.3 2.8 2.8 0 0 0 2.4 2.4z"/><path d="M8.3 10.2h.01M11.8 15.6h.01M15.6 14.2h.01M8.4 15h.01" stroke-width="2.4"/>',
     "close": '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
     "help": '<circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.5a2.5 2.5 0 0 1 4.9.7c0 1.7-2.5 2.1-2.5 3.6"/><path d="M12 16.8h.01" stroke-width="2.6"/>',
+    "swap": '<path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5"/>',
     "menu": '<path d="M4 7h16M4 12h16M4 17h16"/>',
 }
 
@@ -456,6 +461,15 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
     other = OTHER[L]
     switch = (f'<a class="lang" href="{alt_path}" hreflang="{other}" lang="{other}" '
               f'aria-label="{t("English version", "Version française")}">{other.upper()}</a>') if alt_path else ""
+    # Même page dans l'autre version : on remonte à la racine de celle-ci, puis on suit « href ».
+    ov = SITE.get("other_version")
+    other_link = nav_other = ""
+    if ov:
+        href = "../" * max(0, path.count("/") - 1) + ov["href"] + path.lstrip("/")
+        hint = ov["hint_" + L]
+        other_link = (f'<a class="other-version" href="{href}" title="{hint}" aria-label="{ov[L]} ({hint})">'
+                      f'{icon("swap")}<span>{ov[L]}</span></a>\n      ')
+        nav_other = f'\n      <a class="nav-other" href="{href}">{icon("swap")}{ov[L]}</a>'
     robots = ('<meta name="robots" content="noindex">' if noindex
               else '<meta name="robots" content="index, follow, max-image-preview:large">') + "\n"
     og_alt = og_alt or title
@@ -498,9 +512,9 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
   <div class="wrap top-in">
     {logo(L)}
     <nav class="nav" id="menu" aria-label="{t("Menu principal", "Main menu")}">{nav}
-      <a class="nav-contact" href="{url('contact', L)}">{t("Contact", "Contact")}</a></nav>
+      <a class="nav-contact" href="{url('contact', L)}">{t("Contact", "Contact")}</a>{nav_other}</nav>
     <div class="top-actions">
-      {switch}
+      {other_link}{switch}
       {btn(url('contact', L), t("Nous contacter", "Contact us"), "small hide-sm")}
       <button class="burger" type="button" aria-label="{t("Ouvrir le menu", "Open menu")}" aria-expanded="false" aria-controls="menu">{icon("menu")}</button>
     </div>
