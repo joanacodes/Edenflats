@@ -6,6 +6,8 @@ Site statique bilingue de la conciergerie Airbnb EdenFlats (Paris et Île-de-Fra
 
 Coordonnées (confirmées) : edenflats.paris@gmail.com, +33 7 84 54 48 61, et WhatsApp sur le même numéro, comme sur l'ancien site.
 
+**Deux mises en page à comparer** : celle-ci, sur la branche `main` ; la version « maquette », qui reprend la mise en page de la maquette de référence, sur la branche `claude/edenflats-layout-template`. Les deux partagent les mêmes pages, adresses, textes, photos et animations ; pour les voir en ligne, voir « Mise en ligne ».
+
 ## Identité visuelle
 
 Une palette chaude qui réunit l'ancien site (crème, ardoise, vert tendre, corail), la pervenche de la maquette de référence et la construction de Bridge : des familles de couleurs claires, chacune avec sa couleur foncée pour le texte et les illustrations, des cartes blanches posées sur les photos, des panneaux arrondis qui se chevauchent.
@@ -110,7 +112,7 @@ Les liens du site sont relatifs : il fonctionne à la racine d'un domaine comme 
 **Aperçu sur GitHub Pages** (https://joanacodes.github.io/Edenflats/) :
 
 1. Le dépôt est privé : GitHub Pages y demande un abonnement GitHub Pro. Sans abonnement, le rendre public (Settings → General → Danger Zone → Change visibility).
-2. Settings → Pages → Build and deployment → Source « Deploy from a branch » → branche `claude/edenflats-website-redesign-4i4x4w` (version actuelle) ou `claude/edenflats-layout-template` (version maquette), dossier `/ (root)` → Save.
+2. Settings → Pages → Build and deployment → Source « Deploy from a branch » → branche `main` (version actuelle) ou `claude/edenflats-layout-template` (version maquette), dossier `/ (root)` → Save.
 3. Le site est en ligne une à deux minutes plus tard. Un seul site par dépôt : pour voir l'autre version, choisir l'autre branche au même endroit.
 
 **Mise en ligne définitive** : au moment de quitter Squarespace, saisir `www.edenflats.com` dans Settings → Pages → Custom domain (GitHub crée le fichier `CNAME`), puis faire pointer le DNS vers GitHub. `_config.yml` empêche Jekyll de publier le générateur et les fichiers de travail.
