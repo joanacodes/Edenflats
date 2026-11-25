@@ -114,6 +114,7 @@ ALTS = {
     "logement-menage": ("Ménage d'un salon parisien après le départ des voyageurs", "Cleaning a Paris living room after the guests leave"),
     "logement-reassort": ("Serviettes et produits d'accueil remis en place dans une salle de bains", "Towels and toiletries restocked in a bathroom"),
     "formules-hero": ("Un propriétaire et la conciergerie relisent un contrat autour d'un café", "An owner and the concierge going over a contract over coffee"),
+    "maquette-voyageurs": ("Un couple de voyageurs découvre un appartement parisien lumineux", "A couple of guests discovering a bright Paris apartment"),
 }
 
 
@@ -266,7 +267,7 @@ def home(L):
         <figure>{pic("logement-hero", L, "(max-width: 560px) 100vw, 25vw")}</figure></a>
       <a class="act navy" href="{url("voyageurs", L)}"><h3 class="serif">{t("Pour les voyageurs", "For guests")}</h3>{out}
         <p>{t("Un logement soigné, un accueil chaleureux et une assistance 24h/24 pendant tout le séjour.", "A well-kept home, a warm welcome and 24/7 support throughout the stay.")}</p>
-        <figure>{pic("accueil-voyageurs", L, "(max-width: 560px) 100vw, 25vw")}</figure></a>
+        <figure>{pic("maquette-voyageurs", L, "(max-width: 560px) 100vw, 25vw")}</figure></a>
     </div>
     <div class="events"><p class="ev-t">{t("En chiffres", "In figures")}</p>{evs}
       <a class="pill" href="{url("formules", L)}">{t("Comparer nos formules", "Compare our plans")}{out}</a></div>
@@ -290,7 +291,7 @@ def home(L):
 </div></section>"""
 
     contact = f"""<section class="nl" aria-labelledby="nl-t">
-  <img class="nl-bg" src="/assets/img/formules-hero.jpg" alt="" loading="lazy" decoding="async">
+  <img class="nl-bg" src="/assets/img/maquette-contact.jpg" alt="" loading="lazy" decoding="async">
   <div class="wrap"><div class="nl-card">
     <div class="nl-text"><h2 class="serif" id="nl-t">{t("Parlons de votre logement", "Let's talk about your home")}</h2>
       <p>{t("Dites-nous où il se trouve et ce que vous souhaitez nous confier : nous vous répondons rapidement.", "Tell us where it is and what you'd like us to handle: we will get back to you quickly.")}</p>

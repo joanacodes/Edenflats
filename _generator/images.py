@@ -24,6 +24,8 @@ SLOTS = {
         "marais", "montmartre", "saint-germain-des-pres", "quartier-latin", "tour-eiffel", "champs-elysees", "opera",
         "louvre", "canal-saint-martin", "bastille", "montparnasse", "trocadero")},
     "ville-creteil": ((5, 4), 1280), "ville-saint-maur": ((5, 4), 1280),
+    # Version maquette seulement : carte « Pour les voyageurs » et fond de la carte contact.
+    "maquette-voyageurs": ((6, 5), 1600), "maquette-contact": ((191, 100), 1920),
 }
 
 
