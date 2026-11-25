@@ -1,5 +1,7 @@
 # Pictures to make for the EdenFlats website (Midjourney)
 
+**Faster: batch prompts.** `IMAGES-MIDJOURNEY-BATCHES.md` groups the same 27 pictures into 8 Midjourney prompts (one grid per option inside the braces), ready to paste in order.
+
 **27 pictures**, one per photo spot on the site. Each prompt matches the section the picture sits in: guests arriving, owners, the concierge team at work, the apartments. None of them shows a real landmark or a real street: the neighbourhood pages show the kind of home and guest typical of the area, not the monuments.
 
 Copy a prompt, generate, keep the best image and save it under the **file name** given (e.g. `accueil-hero.png`). Then see "How to add the pictures" at the end.
