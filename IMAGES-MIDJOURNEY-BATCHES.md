@@ -1,37 +1,36 @@
 # EdenFlats pictures still to make
 
-The 22 pictures left: 20 from the first list and 2 new ones for version B, its guests card and its contact background. The first 7 (page tops and home sections) are done. Every option inside the braces becomes its own grid of four; keep one picture per grid.
+The 20 pictures left for the website. The first 7 (page tops and home sections) are done. Every option inside the braces becomes its own grid of four; keep one picture per grid.
 
-8 prompts, 22 grids, about 18 of 200 Fast minutes (V8.1, Basic plan).
+8 prompts, 20 grids, about 16 of 200 Fast minutes (V8.1, Basic plan).
 
 ## How to use them
 
 - **One prompt at a time.** Each makes at most 3 grids, the number the Basic plan runs at once; paste the next one when they finish.
 - **Keep the backslashes.** The \, inside the braces keeps each option in one piece; a plain comma starts the next option.
 - **Add your style reference.** At the end of each prompt, add --sref and the link of the most natural-looking picture you have made so far, so the whole set matches.
-- **One picture per grid.** Save it under the file name before the colon (paris-marais.png, maquette-contact.png…) and send them to me: I crop them to size and put them on both versions.
+- **One picture per grid.** Save it under the file name before the colon (paris-marais.png, og-image.png…) and send them to me: I crop them to size and put them on the site.
 
 ## Step 1. Guest and property pages
 
-Four photos beside the text sections, and the new photo for version B's guests card (6:5).
+Four photos beside the text sections of the guest and property pages (6:5).
 
 ### Guest and property pages (6:5)
 
-- 1. voyageurs-annonce: guest page, the listing (B: home services grid)
-- 2. voyageurs-selection: guest page, guest screening (B: home questions)
-- 3. logement-menage: property page, cleaning (B: home services grid)
+- 1. voyageurs-annonce: guest page, the listing
+- 2. voyageurs-selection: guest page, guest screening
+- 3. logement-menage: property page, cleaning
 
 ```
 {a photographer from a concierge team\, a young Black woman with braids\, photographing a real Paris living room for a rental listing with a camera on a tripod\, while a colleague of North African descent straightens a cushion\, a softbox light\, a coral armchair, two members of a concierge team\, a South Asian woman and a white man in his forties\, at a cluttered wooden desk by a tall Parisian window\, checking a booking request together on a laptop\, a notebook\, coffee cups and a set of keys, two housekeepers\, a white woman in her forties and a young man of Caribbean descent\, tidying a Paris living room after guests have left\, one vacuuming the rug\, the other plumping cushions on a slightly worn cream sofa\, a cleaning caddy on the floor}, candid documentary-style photo of a real lived-in place, small everyday imperfections, natural skin texture, unposed, slightly imperfect framing, soft natural light, warm cream walls with a few sage green and terracotta touches, natural colours with no colour grading, 35mm, no text --ar 6:5 --style raw --stylize 50 --no text, logo, watermark, readable screen, labels, glossy magazine look
 ```
 
-### Restocking, and version B's guests card (6:5)
+### Restocking (6:5)
 
-- 1. logement-reassort: property page, restocking (B: plans carousel)
-- 2. maquette-voyageurs: version B only, « Pour les voyageurs » card
+- 1. logement-reassort: property page, restocking
 
 ```
-{a concierge team member\, a young white man in a sage green T-shirt\, restocking a small Paris bathroom before the next guests\, placing rolled white towels and amber bottles without labels on a wooden shelf\, terracotta zellige tiles\, a eucalyptus sprig, a young East Asian couple of tourists who have just arrived in a bright Paris apartment\, suitcases still by the door\, one opening the tall window shutters while the other looks around smiling}, candid documentary-style photo of a real lived-in place, small everyday imperfections, natural skin texture, unposed, slightly imperfect framing, soft natural light, warm cream walls with a few sage green and terracotta touches, natural colours with no colour grading, 35mm, no text --ar 6:5 --style raw --stylize 50 --no text, logo, watermark, readable screen, labels, glossy magazine look
+a concierge team member, a young white man in a sage green T-shirt, restocking a small Paris bathroom before the next guests, placing rolled white towels and amber bottles without labels on a wooden shelf, terracotta zellige tiles, a eucalyptus sprig, candid documentary-style photo of a real lived-in place, small everyday imperfections, natural skin texture, unposed, slightly imperfect framing, soft natural light, warm cream walls with a few sage green and terracotta touches, natural colours with no colour grading, 35mm, no text --ar 6:5 --style raw --stylize 50 --no text, logo, watermark, readable screen, labels, glossy magazine look
 ```
 
 ## Step 2. Paris, the neighbourhoods and the towns
@@ -40,7 +39,7 @@ One photo per page (5:4), also shown on the neighbourhood cards: the kind of hom
 
 ### Paris, Le Marais, Montmartre (5:4)
 
-- 1. paris: Paris page (B: home, « Où nous intervenons »)
+- 1. paris: Paris page
 - 2. paris-marais: Le Marais
 - 3. paris-montmartre: Montmartre
 
@@ -88,17 +87,16 @@ One photo per page (5:4), also shown on the neighbourhood cards: the kind of hom
 {a white grandmother and her mixed-race granddaughter standing at the tall open French window of a grand Paris apartment with high ceilings and ornate mouldings\, soft blurred trees outside\, morning light, a Black businesswoman working on a laptop at a small table on the balcony of a bright modern apartment surrounded by greenery\, a coffee cup\, calm water and trees softly blurred in the background, a Chinese-French family with suitcases arriving at the garden gate of a stone house with a flowering garden in a leafy suburb\, an older host waving to welcome them\, a weeping willow in the background}, candid documentary-style photo of a real lived-in place, small everyday imperfections, natural skin texture, unposed, slightly imperfect framing, soft natural light, warm cream walls with a few sage green and terracotta touches, natural colours with no colour grading, 35mm, no text --ar 5:4 --style raw --stylize 50 --no text, logo, watermark, landmarks, Eiffel Tower, readable text, glossy magazine look
 ```
 
-## Step 3. The two wide pictures
+## Step 3. The share image
 
-The share image, shown when someone shares a link (version B also uses it as its banner), and the new background behind version B's contact card.
+The picture shown when someone shares a link to the site on WhatsApp, Facebook or LinkedIn (wide 1.91:1).
 
-### The share image, and version B's contact background (wide 1.91:1)
+### The share image (wide 1.91:1)
 
-- 1. og-image: preview when a link is shared (B: full-width banner)
-- 2. maquette-contact: version B only, behind the « Parlons de votre logement » card
+- 1. og-image: preview when a link is shared (WhatsApp, Facebook, LinkedIn)
 
 ```
-{a host\, a young South Asian woman\, welcoming a white couple in their thirties with suitcases into a warm bright Paris apartment\, wide view of a lived-in living room with tall windows and herringbone parquet, a wide view of a quiet lived-in Paris living room in soft afternoon light\, a wooden table with a set of keys\, an open notebook and a coffee cup in the foreground\, tall windows\, plants\, no people}, candid documentary-style photo of a real lived-in place, small everyday imperfections, natural skin texture, unposed, slightly imperfect framing, soft natural light, warm cream walls with a few sage green and terracotta touches, natural colours with no colour grading, 35mm, no text --ar 191:100 --style raw --stylize 50 --no text, logo, watermark, landmarks, glossy magazine look
+a host, a young South Asian woman, welcoming a white couple in their thirties with suitcases into a warm bright Paris apartment, wide view of a lived-in living room with tall windows and herringbone parquet, candid documentary-style photo of a real lived-in place, small everyday imperfections, natural skin texture, unposed, slightly imperfect framing, soft natural light, warm cream walls with a few sage green and terracotta touches, natural colours with no colour grading, 35mm, no text --ar 191:100 --style raw --stylize 50 --no text, logo, watermark, landmarks, glossy magazine look
 ```
 
 Each grid costs about 0.8 Fast minute on V8.1 and always holds 4 pictures. Midjourney's terms forbid bots and auto-clickers, so paste by hand. The people in these pictures are invented: never present them as the EdenFlats team or as real clients.
