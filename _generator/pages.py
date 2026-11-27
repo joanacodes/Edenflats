@@ -652,8 +652,8 @@ def confidentialite(L):
     trail = [(t("Confidentialité", "Privacy"), url("confidentialite", L))]
     banner = s["cookie_banner"]
     if banner:
-        cookies = f"""<p>{t("Le site ne dépose aucun cookie publicitaire, et aucun cookie sans votre accord. Il garde seulement dans votre navigateur (stockage local) deux préférences nécessaires à son fonctionnement : votre choix dans le bandeau cookies, pendant six mois, et la langue que vous avez choisie quand le site vous la propose. Elles ne vous identifient pas et ne quittent pas votre appareil.",
-        "The website sets no advertising cookies, and no cookies at all without your consent. It only keeps two preferences in your browser (local storage) that it needs to work: your choice in the cookie banner, for six months, and the language you picked when the site offered it. They do not identify you and never leave your device.")}</p>
+        cookies = f"""<p>{t("Le site ne dépose aucun cookie publicitaire, et aucun cookie sans votre accord. Il garde seulement dans votre navigateur (stockage local) trois préférences nécessaires à son fonctionnement : votre choix dans le bandeau cookies, pendant six mois, la langue que vous avez choisie quand le site vous la propose, et le thème clair ou sombre si vous l'avez changé. Elles ne vous identifient pas et ne quittent pas votre appareil.",
+        "The website sets no advertising cookies, and no cookies at all without your consent. It only keeps three preferences in your browser (local storage) that it needs to work: your choice in the cookie banner, for six months, the language you picked when the site offered it, and the light or dark theme if you changed it. They do not identify you and never leave your device.")}</p>
   <h3>{t("Mesure d'audience", "Audience measurement")}</h3>
   <p>{t("Si vous cliquez sur « Accepter » dans le bandeau, nous utilisons Google Analytics, un service de Google Ireland Limited, pour compter les visites et savoir quelles pages sont consultées. Google Analytics dépose alors des cookies (_ga et _ga_…) conservés treize mois au plus. Les données peuvent être transférées aux États-Unis, où Google est certifié au titre du Data Privacy Framework UE–États-Unis. Si vous cliquez sur « Refuser », Google Analytics n'est pas chargé et rien n'est déposé.",
         "If you click “Accept” in the banner, we use Google Analytics, a service of Google Ireland Limited, to count visits and see which pages are read. Google Analytics then sets cookies (_ga and _ga_…) kept for thirteen months at most. Data may be transferred to the United States, where Google is certified under the EU–US Data Privacy Framework. If you click “Decline”, Google Analytics is not loaded and nothing is set.")}</p>
@@ -661,8 +661,8 @@ def confidentialite(L):
         "You can change your mind at any time, here or with the “Cookie settings” link at the bottom of every page. You will be asked again after six months.")}</p>
   <p><button class="btn small" type="button" data-consent-open><span>{t("Gérer les cookies", "Cookie settings")}</span><i>{icon("cookie")}</i></button></p>"""
     else:
-        cookies = f"""<p>{t("Le site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience. Il garde seulement dans votre navigateur (stockage local) la langue que vous avez choisie quand le site vous la propose : cette préférence, nécessaire à son fonctionnement, ne vous identifie pas et ne quitte pas votre appareil.",
-        "The website sets no cookies and uses no audience measurement tools. It only keeps in your browser (local storage) the language you picked when the site offered it: this preference, which the site needs to work, does not identify you and never leaves your device.")}</p>"""
+        cookies = f"""<p>{t("Le site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience. Il garde seulement dans votre navigateur (stockage local) la langue que vous avez choisie quand le site vous la propose, et le thème clair ou sombre si vous l'avez changé : ces préférences, nécessaires à son fonctionnement, ne vous identifient pas et ne quittent pas votre appareil.",
+        "The website sets no cookies and uses no audience measurement tools. It only keeps in your browser (local storage) the language you picked when the site offered it, and the light or dark theme if you changed it: these preferences, which the site needs to work, do not identify you and never leave your device.")}</p>"""
     body = phead(L, trail, t("Informations", "Information"), t("Politique de confidentialité et cookies", "Privacy and cookie policy"),
                  t("Ce que le site garde dans votre navigateur, ce qui se passe quand vous nous contactez, et vos droits.",
                    "What the website keeps in your browser, what happens when you contact us, and your rights."), actions=False) + f"""
@@ -670,8 +670,10 @@ def confidentialite(L):
   <h2>{t("Responsable du traitement", "Data controller")}</h2>
   <p>{escape(c['name'])} ({c['acronym']}), {c['address']}, {t("qui exploite la marque EdenFlats. Contact :", "which operates the EdenFlats brand. Contact:")} <a href="mailto:{s['email']}">{s['email']}</a>.</p>
   <h2>{t("Données collectées", "Data collected")}</h2>
-  <p>{t("Le site n'a pas de formulaire. Les polices de caractères et les images sont hébergées sur le site, sans appel à un service tiers.",
-        "The website has no forms. Fonts and images are hosted on the site, with no call to a third-party service.")}</p>
+  <p>{t("Les polices de caractères et les images sont hébergées sur le site, sans appel à un service tiers.",
+        "Fonts and images are hosted on the site, with no call to a third-party service.")}</p>
+  <p id="formulaire">{t("Le formulaire de la fenêtre de contact recueille votre nom, votre adresse e-mail, votre numéro de téléphone si vous le donnez et votre message, ainsi que la page et la langue depuis lesquelles vous l'envoyez. Il est transmis par FormSubmit (formsubmit.co), un service qui fait suivre les formulaires par e-mail jusqu'à notre boîte de réception. Nous utilisons ces données pour vous répondre.",
+        "The form in the contact window collects your name, your email address, your phone number if you give it and your message, along with the page and language you send it from. It is delivered by FormSubmit (formsubmit.co), a service that forwards forms by email to our inbox. We use this data to reply to you.")}</p>
   <p>{t("Quand vous nous contactez par téléphone, WhatsApp ou e-mail, nous utilisons vos coordonnées et votre message pour vous répondre et, si nous travaillons ensemble, pour préparer et exécuter notre contrat.",
         "When you contact us by phone, WhatsApp or email, we use your contact details and your message to reply and, if we work together, to prepare and perform our contract.")}</p>
   <h2 id="cookies">{t("Cookies et stockage local", "Cookies and local storage")}</h2>
@@ -681,6 +683,7 @@ def confidentialite(L):
         "Exchanges with people who do not become clients are kept for at most three years after the last contact. Client data is kept for the duration of the contract, then for as long as our legal obligations require, notably accounting.")}</p>
   <h2>{t("Services tiers", "Third-party services")}</h2>
   <ul>
+    <li>{t("FormSubmit (formsubmit.co) transmet par e-mail les messages envoyés avec le formulaire de contact. Sa propre politique de confidentialité s'applique, et il peut traiter les données hors de l'Union européenne.", "FormSubmit (formsubmit.co) forwards the messages sent with the contact form by email. Its own privacy policy applies, and it may process data outside the European Union.")}</li>
     <li>{t("WhatsApp est un service de WhatsApp Ireland Limited : si vous nous écrivez par ce biais, sa propre politique de confidentialité s'applique.", "WhatsApp is a service of WhatsApp Ireland Limited: if you message us through it, its own privacy policy applies.")}</li>
     <li>{t("L'hébergeur du site,", "The website host,")} {s['host']['name']}, {t("peut enregistrer l'adresse IP des visiteurs dans ses journaux techniques, à des fins de sécurité.", "may record visitors' IP addresses in its technical logs, for security purposes.")}</li>
     <li>{t("Les liens vers nos réseaux sociaux et vers notre page de réservation mènent à des sites tiers, qui appliquent leurs propres règles.", "Links to our social media pages and to our booking page lead to third-party sites, which apply their own rules.")}</li>

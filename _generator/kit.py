@@ -4,6 +4,7 @@ import json
 import re
 from datetime import date
 from html import escape
+from urllib.parse import quote
 
 from illus import illu  # noqa: F401  (réexporté pour les pages)
 
@@ -31,6 +32,12 @@ SITE = {
     # nécessaire : mettez alors "cookie_banner" à False, la politique de confidentialité s'adapte.
     "cookie_banner": True,
     "analytics": {"ga4": ""},
+    # Formulaire de la fenêtre de contact (bouton rond en bas de l'écran), transmis par e-mail par FormSubmit
+    # (formsubmit.co), sans serveur à nous. Le tout premier message déclenche un e-mail de FormSubmit à cette
+    # adresse : cliquer sur « Activate Form » pour recevoir les suivants. FormSubmit propose ensuite un alias
+    # (une suite de lettres et de chiffres) à mettre ici à la place de l'adresse, qui disparaît alors du code
+    # des pages. Une adresse vide retire le formulaire : la fenêtre garde le téléphone et WhatsApp.
+    "form_to": "cassideadly@gmail.com",
     "company": {
         "name": "EDENEL PATRIMOINE GESTION RESEAUX & SERVICES",
         "acronym": "EPGRS",
@@ -120,6 +127,8 @@ ICONS = {
     "cookie": '<path d="M20.5 12.6A8.5 8.5 0 1 1 11.4 3.5a2.8 2.8 0 0 0 3.4 3.4 2.8 2.8 0 0 0 3.3 3.3 2.8 2.8 0 0 0 2.4 2.4z"/><path d="M8.3 10.2h.01M11.8 15.6h.01M15.6 14.2h.01M8.4 15h.01" stroke-width="2.4"/>',
     "close": '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
     "menu": '<path d="M4 7h16M4 12h16M4 17h16"/>',
+    "moon": '<path d="M19.5 14.6A7.8 7.8 0 0 1 9.4 4.5a7.8 7.8 0 1 0 10.1 10.1z"/>',
+    "sun": '<circle cx="12" cy="12" r="3.8"/><path d="M12 2.8v2.1M12 19.1v2.1M2.8 12h2.1M19.1 12h2.1M5.5 5.5L7 7M17 17l1.5 1.5M5.5 18.5L7 17M17 7l1.5-1.5"/>',
 }
 
 
@@ -177,9 +186,8 @@ def photo(name, alt, sizes="(max-width: 900px) 100vw, 50vw", lazy=True, cls="", 
 
 def sticker(name, tone="", cls=""):
     """Pastille ronde illustrée posée sur le bord d'une photo."""
-    bg = tone or "light"
-    style = "" if tone else ' style="background:#fff;color:var(--ink)"'
-    return f'<div class="sticker {bg} {cls}"{style} aria-hidden="true">{illu(name)}</div>'
+    bg = tone or "light"  # .sticker.light : pastille blanche en mode clair, sombre en mode sombre (style.css)
+    return f'<div class="sticker {bg} {cls}" aria-hidden="true">{illu(name)}</div>'
 
 
 def ticks(items, cls="ticks"):
@@ -378,12 +386,117 @@ def footer(L, areas, towns):
 
 
 def bubble(L, pid):
-    """Petit bouton de contact fixé en bas de l'écran ; il apparaît une fois passé le haut de page."""
+    """Petit bouton de contact fixé en bas de l'écran ; il apparaît une fois passé le haut de page.
+    Il ouvre la fenêtre de contact (data-contact) ; sans JavaScript, il reste un lien vers la page Contact."""
     if pid == "contact":
         return ""
     t = tr(L)
-    return (f'<a class="bubble" href="{url("contact", L)}"><i>{icon("bubble")}</i>'
+    return (f'<a class="bubble" href="{url("contact", L)}" data-contact aria-haspopup="dialog"><i>{icon("bubble")}</i>'
             f'<span>{t("Nous contacter", "Contact us")}</span></a>\n')
+
+
+def theme_button(L):
+    """Bascule clair / sombre de l'en-tête (ordinateur). aria-pressed dit si le mode sombre est actif ; main.js le
+    tient à jour, et le script de <head> a déjà posé le bon thème avant le premier affichage."""
+    t = tr(L)
+    label = t("Mode sombre", "Dark mode")
+    return (f'<button class="theme-btn" type="button" data-theme-toggle aria-pressed="false" aria-label="{label}" '
+            f'title="{label}">{icon("moon", "ico i-moon")}{icon("sun", "ico i-sun")}</button>')
+
+
+def drawer_template(L, path, alt_path, section):
+    """Menu des téléphones et tablettes : un tiroir qui glisse depuis la droite, ouvert par le bouton ☰ (main.js).
+    Il vient d'un <template>, comme les autres fenêtres : ses liens doublent ceux de l'en-tête et du pied de page,
+    inutile de les faire lire deux fois aux moteurs de recherche."""
+    t = tr(L)
+    s = SITE
+    cur = ' aria-current="page"'
+    items = nav_items(L) + [("contact", t("Contact", "Contact"))]
+    links = "".join(f'<a href="{url(k, L)}" style="--i:{i}"{cur if url(k, L) == path or k == section else ""}>'
+                    f'<span>{n}</span>{icon("arrow")}</a>' for i, (k, n) in enumerate(items))
+    other = OTHER[L]
+    here = f'<span aria-current="true" lang="{L}">{L.upper()}</span>'
+    there = (f'<a href="{alt_path}" hreflang="{other}" lang="{other}" data-lang-switch>{other.upper()}</a>'
+             if alt_path else "")
+    seg = here + there if L == "fr" else there + here  # toujours FR puis EN, quelle que soit la page
+    return f"""<template id="tpl-tiroir">
+<dialog class="drawer" aria-label="{t("Menu", "Menu")}">
+  <div class="drawer-in">
+    <div class="drawer-top">{logo(L)}<button class="dlg-x" type="button" data-close autofocus aria-label="{t("Fermer le menu", "Close menu")}">{icon("close")}</button></div>
+    <nav class="drawer-nav" aria-label="{t("Menu principal", "Main menu")}">{links}</nav>
+    <div class="drawer-contact">
+      <button class="btn" type="button" data-contact aria-haspopup="dialog"><span>{t("Nous écrire", "Send us a message")}</span><i>{icon("arrow")}</i></button>
+      <div class="drawer-quick">
+        <a href="tel:{s['phone_href']}">{icon("phone")}<span>{t("Appeler", "Call")}</span></a>
+        <a href="https://wa.me/{s['whatsapp']}" target="_blank" rel="noopener">{icon("chat")}<span>WhatsApp</span></a>
+      </div>
+    </div>
+    <div class="drawer-set">
+      <div class="seg" role="group" aria-label="{t("Langue", "Language")}">{seg}</div>
+      <div class="set-theme"><span id="lbl-sombre">{t("Mode sombre", "Dark mode")}</span><button class="switch" type="button" data-theme-toggle aria-pressed="false" aria-labelledby="lbl-sombre"><i>{icon("moon")}</i></button></div>
+    </div>
+  </div>
+</dialog>
+</template>
+"""
+
+
+def contact_template(L):
+    """Fenêtre ouverte par le bouton de contact : appel, WhatsApp et formulaire (FormSubmit, voir SITE["form_to"]).
+    Le message part en arrière-plan : le visiteur reste sur la page et voit la confirmation dans la fenêtre.
+    Les noms des champs restent en français dans les deux langues : ce sont les titres de l'e-mail reçu."""
+    t = tr(L)
+    s = SITE
+    hello = quote(t("Bonjour EdenFlats, je vous contacte depuis votre site.",
+                    "Hello EdenFlats, I am contacting you from your website."))
+    form = ""
+    if s["form_to"]:
+        to = escape(s["form_to"])
+        subject = t("Nouveau message depuis le site EdenFlats", "Nouveau message depuis le site EdenFlats (version anglaise)")
+        form = f"""
+      <p class="sep"><span>{t("ou laissez-nous un message", "or leave us a message")}</span></p>
+      <form class="cform" action="https://formsubmit.co/{to}" method="POST" data-ajax="https://formsubmit.co/ajax/{to}"
+            data-sending="{t("Envoi en cours…", "Sending…")}"
+            data-error="{t("Le message n’est pas parti. Réessayez dans un instant, ou écrivez-nous sur WhatsApp.", "Your message could not be sent. Please try again in a moment, or message us on WhatsApp.")}">
+        <input type="hidden" name="_subject" value="{subject}">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="Langue" value="{t("français", "anglais")}">
+        <div class="hp" aria-hidden="true"><label>Ne pas remplir <input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+        <div class="f2">
+          <label class="fld"><span>{t("Nom", "Name")}</span><input name="Nom" autocomplete="name" maxlength="120" required></label>
+          <label class="fld"><span>{t("Téléphone", "Phone")} <small>{t("facultatif", "optional")}</small></span><input name="Téléphone" type="tel" inputmode="tel" autocomplete="tel" maxlength="40"></label>
+        </div>
+        <label class="fld"><span>{t("E-mail", "Email")}</span><input name="email" type="email" autocomplete="email" maxlength="160" required></label>
+        <label class="fld"><span>{t("Message", "Message")}</span><textarea name="Message" rows="4" maxlength="4000" required placeholder="{t("Où se trouve votre logement, et que souhaitez-vous nous confier\u00a0?", "Where is your property, and what would you like us to handle?")}"></textarea></label>
+        <p class="cform-note">{t("Vos coordonnées servent uniquement à vous répondre.", "Your details are only used to reply to you.")} <a href="{url('confidentialite', L)}#formulaire">{t("Confidentialité", "Privacy")}</a></p>
+        <button class="btn cform-send" type="submit"><span>{t("Envoyer", "Send")}</span><i>{icon("arrow")}</i></button>
+        <p class="cform-status" role="status" aria-live="polite"></p>
+      </form>"""
+    return f"""<template id="tpl-contact">
+<dialog class="cdlg" aria-labelledby="cdlg-t">
+  <div class="cdlg-in">
+    <button class="dlg-x" type="button" data-close aria-label="{t("Fermer", "Close")}">{icon("close")}</button>
+    <div class="cdlg-main">
+      {chip(t("Contact", "Contact"))}
+      <h2 id="cdlg-t">{t("Parlons de votre logement", "Let's talk about your property")}</h2>
+      <p class="cdlg-lead">{t("Appelez-nous, écrivez-nous sur WhatsApp ou laissez-nous un message : nous vous répondons au plus vite.",
+                             "Call us, message us on WhatsApp or leave us a message: we will get back to you as soon as we can.")}</p>
+      <div class="qa-row">
+        <a class="qa coral-s" href="tel:{s['phone_href']}">{icon("phone")}<span><small>{t("Appeler", "Call")}</small><b class="tel">{s['phone']}</b></span></a>
+        <a class="qa green-s" href="https://wa.me/{s['whatsapp']}?text={hello}" target="_blank" rel="noopener">{icon("chat")}<span><small>WhatsApp</small><b>{t("Écrire un message", "Send a message")}</b></span></a>
+      </div>{form}
+    </div>
+    <div class="cdlg-done" hidden>
+      <span class="done-ico">{icon("check")}</span>
+      <h2>{t("Message envoyé, merci !", "Message sent, thank you!")}</h2>
+      <p>{t("Nous vous répondons au plus vite, par e-mail ou par téléphone.", "We will get back to you as soon as we can, by email or phone.")}</p>
+      <button class="btn ghost" type="button" data-close><span>{t("Fermer", "Close")}</span><i>{icon("close")}</i></button>
+    </div>
+  </div>
+</dialog>
+</template>
+"""
 
 
 def consent_template(L):
@@ -428,7 +541,12 @@ def language_template(L, target):
 # demande moins d'animations ; et si motion.js ne s'est pas lancé au bout de 4 s, tout est réaffiché.
 # Sur une adresse d'aperçu (github.io, vercel.app), il demande aussi aux moteurs de ne pas indexer la page :
 # seul www.edenflats.com doit apparaître dans Google.
+# Il pose enfin le thème (clair ou sombre) : le choix gardé par le bouton, sinon le réglage de l'appareil. Posé
+# plus tard, la page s'afficherait d'abord en clair puis basculerait, un éclair blanc à chaque page.
 HEAD_JS = ("<script>(function(d){d.classList.remove('no-js');"
+           "var t;try{t=localStorage.getItem('ef-theme')}catch(e){}"
+           "if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';"
+           "d.setAttribute('data-theme',t);"
            "if(/\\.github\\.io$|\\.vercel\\.app$/.test(location.hostname)){var m=document.createElement('meta');"
            "m.name='robots';m.content='noindex';document.head.appendChild(m)}"
            "if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window){"
@@ -495,12 +613,12 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
 <header class="top">
   <div class="wrap top-in">
     {logo(L)}
-    <nav class="nav" id="menu" aria-label="{t("Menu principal", "Main menu")}">{nav}
-      <a class="nav-contact" href="{url('contact', L)}">{t("Contact", "Contact")}</a></nav>
+    <nav class="nav" aria-label="{t("Menu principal", "Main menu")}">{nav}</nav>
     <div class="top-actions">
+      {theme_button(L)}
       {switch}
       {btn(url('contact', L), t("Nous contacter", "Contact us"), "small hide-sm")}
-      <button class="burger" type="button" aria-label="{t("Ouvrir le menu", "Open menu")}" aria-expanded="false" aria-controls="menu">{icon("menu")}</button>
+      <button class="burger" type="button" aria-label="{t("Ouvrir le menu", "Open menu")}" aria-expanded="false" aria-haspopup="dialog">{icon("menu")}</button>
     </div>
   </div>
 </header>
@@ -509,7 +627,7 @@ def layout(L, pid, title, desc, body, areas, towns, *, alt_path=None, path=None,
 </main>
 {final_cta(L, cta_title, cta_text) if cta else ""}
 {footer(L, areas, towns)}
-{bubble(L, pid)}{consent_template(L)}{language_template(L, alt_path or url("home", OTHER[L]))}<script src="/assets/main.js" defer></script><script src="/assets/motion.js" defer></script>
+{bubble(L, pid)}{consent_template(L)}{language_template(L, alt_path or url("home", OTHER[L]))}{drawer_template(L, path, alt_path, section)}{contact_template(L)}<script src="/assets/main.js" defer></script><script src="/assets/motion.js" defer></script>
 </body>
 </html>
 """

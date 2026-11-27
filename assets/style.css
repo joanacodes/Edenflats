@@ -18,6 +18,8 @@
   --body:"Public Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --wrap:1240px;--gut:clamp(16px,4vw,40px);--edge:8px;--r:24px;--r-sm:14px;
   --shadow:0 18px 48px -18px rgba(27,55,71,.32);
+  --field:#FBF2E8;--focus-ring:rgba(36,72,92,.12);
+  color-scheme:light;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -91,6 +93,7 @@ a.chip .ico{width:15px;height:15px}
 .fc p{margin-top:10px;font:600 .95rem/1.35 var(--body);color:var(--ink)}
 .sticker{position:absolute;z-index:4;display:grid;place-items:center;width:118px;height:118px;border-radius:50%;box-shadow:var(--shadow);pointer-events:none}
 .sticker .illu{width:96px}
+.sticker.light{background:var(--white);color:var(--ink)}
 
 /* En-tête en verre dépoli. Le flou est porté par un pseudo-élément et non par l'en-tête lui-même :
    un élément flouté ne laisse voir à ses enfants que lui-même, et le menu mobile, en verre lui aussi,
@@ -110,31 +113,18 @@ a.chip .ico{width:15px;height:15px}
 .nav a{text-decoration:none;padding:6px 0;border-bottom:2px solid transparent}
 .nav a:hover{color:var(--ink)}
 .nav a[aria-current=page]{color:var(--ink);border-color:var(--coral)}
-.nav .nav-contact{display:none}
 .top-actions{display:flex;align-items:center;gap:12px;margin-left:auto}
 .lang{display:grid;place-items:center;min-width:44px;height:40px;padding:0 10px;border-radius:10px;border:1.5px solid rgba(36,72,92,.16);background:rgba(255,255,255,.45);text-decoration:none;font:700 .85rem/1 var(--body);letter-spacing:.04em}
 .lang:hover{border-color:var(--ink)}
 .burger{display:none;width:44px;height:44px;border:0;border-radius:12px;background:rgba(36,72,92,.08);color:var(--ink);cursor:pointer;place-items:center}
 .burger:hover{background:rgba(36,72,92,.14)}
-@media(max-width:1080px){
-  .burger{display:grid}
-  /* Menu ouvert sur un fond opaque : translucide, il laissait lire le titre de la page sous ses liens. */
-  .nav{display:none;position:absolute;left:var(--edge);right:var(--edge);top:calc(100% + 8px);flex-direction:column;gap:0;padding:6px 20px 12px;
-    background:var(--white);
-    border:1px solid rgba(255,255,255,.85);border-radius:20px;box-shadow:0 24px 60px -24px rgba(27,55,71,.5);font-size:1.05rem;color:var(--ink)}
-  .nav.open{display:flex}
-  .nav a{padding:14px 0;border-bottom:1px solid rgba(36,72,92,.1)}
-  .nav a:last-child{border-bottom:0}
-  .nav a[aria-current=page]{border-color:rgba(36,72,92,.1);font-weight:600}
-  .nav .nav-contact{display:block}
-}
+@media(max-width:1080px){.burger{display:grid}.nav{display:none}}
 /* Sur téléphone, l'en-tête devient une barre de verre arrondie qui flotte au-dessus de la page. */
 @media(max-width:760px){
   .top{top:8px;margin:8px var(--edge);border-radius:18px}
   .top::before{border-radius:18px;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.8);box-shadow:0 12px 30px -14px rgba(27,55,71,.35)}
   .top.scrolled::before{background:rgba(255,255,255,.58);border-color:rgba(255,255,255,.8);box-shadow:0 14px 34px -14px rgba(27,55,71,.42)}
   .top-in{width:auto;margin:0 8px 0 14px;min-height:60px;gap:12px}
-  .nav{left:0;right:0}
   .lang{height:38px;min-width:42px}
   .burger{width:42px;height:42px}
 }
@@ -511,8 +501,211 @@ button.btn{cursor:pointer}
 @media(max-width:760px){.langprompt{top:84px;left:8px;right:8px;width:auto}}
 @media(max-width:400px){.langprompt{grid-template-columns:1fr}.langprompt .illu{width:62px}}
 
+/* Bascule clair / sombre de l'en-tête (ordinateur) ; sous 1080 px, elle est dans le tiroir du menu. */
+.theme-btn{display:grid;place-items:center;width:44px;height:40px;padding:0;border-radius:10px;border:1.5px solid rgba(36,72,92,.16);background:rgba(255,255,255,.45);color:var(--ink);cursor:pointer}
+.theme-btn:hover{border-color:var(--ink)}
+.theme-btn .ico{grid-area:1/1;width:19px;height:19px;transition:transform .55s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.theme-btn .i-sun{opacity:0;transform:rotate(-120deg) scale(.4)}
+[data-theme=dark] .theme-btn .i-moon{opacity:0;transform:rotate(120deg) scale(.4)}
+[data-theme=dark] .theme-btn .i-sun{opacity:1;transform:none}
+@media(max-width:1080px){.theme-btn{display:none}}
+/* Pendant la bascule, le nouveau thème s'étend en cercle depuis le bouton (main.js) ; l'en-tête bascule avec la
+   page au lieu de faire sa propre transition. */
+html.vt-theme .top{view-transition-name:none}
+html.vt-theme::view-transition-old(root),html.vt-theme::view-transition-new(root){animation:none;mix-blend-mode:normal}
+html.vt-theme::view-transition-new(root){z-index:2}
+
+/* Fenêtres : tiroir du menu (téléphones, tablettes) et fenêtre de contact. Sur écran tactile, la page ne défile
+   pas dessous. Pas sur ordinateur : y bloquer le défilement retirerait la barre de défilement, et la page se
+   décalerait d'un cran sous le voile (ou laisserait une bande non voilée si sa place restait réservée). */
+@media(pointer:coarse){html.modal-open{overflow:hidden}}
+dialog{padding:0;border:0;margin:0;max-width:none;max-height:none;background:transparent;color:var(--ink);overflow:visible}
+dialog::backdrop{background:rgba(15,28,36,.46);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+dialog[open]::backdrop{animation:voile-in .45s ease backwards}
+dialog.closing::backdrop{animation:voile-out .34s ease forwards}
+@keyframes voile-in{from{opacity:0}}
+@keyframes voile-out{to{opacity:0}}
+.dlg-x{display:grid;place-items:center;width:42px;height:42px;flex:none;padding:0;border:0;border-radius:50%;background:var(--cream-2);color:var(--ink);cursor:pointer;transition:transform .4s cubic-bezier(.34,1.56,.64,1),background .2s}
+.dlg-x:hover{transform:rotate(90deg)}
+.dlg-x .ico{width:20px;height:20px}
+
+/* Tiroir : il glisse depuis la droite et suit le doigt quand on le tire vers la droite (--drag, main.js). */
+.drawer{position:fixed;inset:0 0 0 auto;width:min(88vw,400px);height:100%;height:100dvh;transform:translateX(var(--drag,0px));transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.drawer.dragging{transition:none}
+.drawer[open]{animation:tiroir-in .6s cubic-bezier(.16,1,.3,1) backwards}
+.drawer.closing{animation:tiroir-out .36s cubic-bezier(.5,0,.75,0) forwards}
+@keyframes tiroir-in{from{transform:translateX(100%)}}
+@keyframes tiroir-out{to{transform:translateX(100%)}}
+.drawer-in{height:100%;display:flex;flex-direction:column;gap:clamp(12px,2.4vh,24px);overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;
+  padding:calc(12px + env(safe-area-inset-top,0px)) 22px calc(18px + env(safe-area-inset-bottom,0px));
+  background:var(--white);border-radius:26px 0 0 26px;box-shadow:-30px 0 70px -30px rgba(15,28,36,.5)}
+.drawer-top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px}
+.drawer-nav{display:flex;flex-direction:column}
+.drawer-nav a{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 2px;border-bottom:1px solid var(--line);
+  text-decoration:none;font:650 clamp(1.25rem,5.2vw,1.5rem)/1.15 var(--head);letter-spacing:-.02em;color:var(--ink)}
+.drawer-nav a .ico{width:22px;height:22px;color:var(--ink-3);transition:transform .35s cubic-bezier(.16,1,.3,1),color .2s}
+.drawer-nav a:hover .ico,.drawer-nav a:focus-visible .ico{transform:translateX(4px);color:var(--coral)}
+.drawer-nav a[aria-current=page] span::after{content:"";display:inline-block;width:8px;height:8px;margin-left:10px;border-radius:50%;background:var(--coral);vertical-align:.18em}
+.drawer[open] .drawer-nav a{animation:lien-in .7s cubic-bezier(.16,1,.3,1) backwards;animation-delay:calc(.12s + var(--i,0) * 55ms)}
+.drawer[open] :is(.drawer-contact,.drawer-set){animation:lien-in .7s cubic-bezier(.16,1,.3,1) .45s backwards}
+@keyframes lien-in{from{opacity:0;transform:translateX(48px)}}
+.drawer-contact{display:grid;gap:10px}
+.drawer-contact .btn{justify-content:space-between;padding-block:9px;font-size:1rem}
+.drawer-quick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.drawer-quick a{display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:12px;border:1.5px solid var(--line);text-decoration:none;font:600 .95rem/1 var(--body);color:var(--ink)}
+.drawer-quick a:hover{border-color:var(--ink)}
+.drawer-quick .ico{width:19px;height:19px}
+/* Réglages sur une seule ligne, en bas : la langue à gauche, le mode sombre à droite. */
+.drawer-set{margin-top:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;border-top:1px solid var(--line)}
+.set-theme{display:flex;align-items:center;gap:12px;font-weight:600;font-size:.95rem}
+.seg{display:inline-flex;padding:3px;border-radius:12px;background:var(--cream-2)}
+.seg>*{display:grid;place-items:center;min-width:48px;height:34px;border-radius:9px;font:700 .82rem/1 var(--body);letter-spacing:.05em;text-decoration:none;color:var(--ink-2)}
+.seg [aria-current]{background:var(--white);color:var(--ink);box-shadow:0 1px 4px rgba(15,28,36,.16)}
+.seg a:hover{color:var(--ink)}
+.switch{position:relative;flex:none;width:56px;height:32px;padding:0;border:0;border-radius:999px;background:var(--cream-2);cursor:pointer;transition:background .3s}
+.switch i{position:absolute;top:3px;left:3px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--white);color:var(--ink-3);
+  box-shadow:0 2px 6px rgba(15,28,36,.25);transition:transform .45s cubic-bezier(.34,1.56,.64,1),color .3s}
+.switch .ico{width:15px;height:15px}
+.switch[aria-pressed=true]{background:var(--ink)}
+.switch[aria-pressed=true] i{transform:translateX(24px);color:var(--ink)}
+@media(min-width:1081px){.drawer{display:none}}
+
+/* Fenêtre de contact : posée au-dessus du bouton rond, en bas à droite ; sur téléphone, elle monte du bas. */
+.cdlg{inset:auto 20px calc(20px + env(safe-area-inset-bottom,0px)) auto;width:min(440px,calc(100vw - 40px));transform-origin:100% 100%}
+.cdlg-in{position:relative;max-height:calc(100dvh - 40px);overflow-y:auto;overscroll-behavior:contain;padding:26px 24px 22px;border-radius:24px;
+  background:var(--white);border:1px solid var(--line);box-shadow:0 34px 90px -30px rgba(15,28,36,.6)}
+.cdlg[open]{animation:bulle-in .55s cubic-bezier(.16,1,.3,1) backwards}
+.cdlg.closing{animation:bulle-out .26s cubic-bezier(.5,0,.75,0) forwards}
+@keyframes bulle-in{from{opacity:0;transform:translateY(18px) scale(.9)}}
+@keyframes bulle-out{to{opacity:0;transform:translateY(14px) scale(.94)}}
+.cdlg .dlg-x{position:absolute;top:14px;right:14px}
+.cdlg h2{margin-top:14px;padding-right:40px;font-size:clamp(1.55rem,4.6vw,1.85rem)}
+.cdlg-lead{margin-top:10px;color:var(--ink-2);font-size:.95rem;line-height:1.5}
+.qa-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.qa{display:grid;align-content:start;gap:10px;padding:14px 14px 15px;border-radius:16px;text-decoration:none;transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.qa:hover{transform:translateY(-2px)}
+.qa .ico{width:38px;height:38px;padding:8px;border-radius:50%;background:var(--white);stroke-width:1.8}
+.qa>span{display:grid;gap:3px;min-width:0}
+.qa small{font:700 .72rem/1.2 var(--body);text-transform:uppercase;letter-spacing:.07em;opacity:.8}
+.qa b{font:700 .95rem/1.25 var(--head)}
+.qa .tel{white-space:nowrap}
+.sep{display:flex;align-items:center;gap:12px;margin:22px 0 14px;font-size:.85rem;color:var(--ink-3)}
+.sep::before,.sep::after{content:"";flex:1;height:1px;background:var(--line)}
+.cform{display:grid;gap:12px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fld{display:grid;gap:6px}
+.fld>span{font:600 .85rem/1.2 var(--body)}
+.fld small{font-weight:400;color:var(--ink-3)}
+.fld input,.fld textarea{width:100%;font:400 1rem/1.4 var(--body);color:var(--ink);background:var(--field);border:1.5px solid transparent;border-radius:12px;padding:11px 13px;transition:border-color .2s,box-shadow .2s}
+.fld textarea{resize:vertical;min-height:104px}
+.fld input:hover,.fld textarea:hover{border-color:var(--line)}
+.fld input:focus,.fld textarea:focus{outline:0;border-color:var(--ink);box-shadow:0 0 0 4px var(--focus-ring)}
+.fld input:user-invalid,.fld textarea:user-invalid{border-color:var(--coral)}
+.fld ::placeholder{color:var(--ink-3);opacity:1}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.cform-note{font-size:.8rem;line-height:1.45;color:var(--ink-3)}
+.cform-note a{color:inherit;text-underline-offset:3px;text-decoration-color:var(--coral)}
+.cform-send{justify-content:space-between;width:100%;padding-block:9px;font-size:1rem}
+.cform.busy .cform-send{opacity:.7;cursor:progress}
+.cform-status{font-size:.88rem;line-height:1.45;color:var(--ink-2)}
+.cform-status:empty{display:none}
+.cform-status.err{color:var(--coral-d)}
+.cdlg-done{display:grid;justify-items:start;gap:12px;padding:6px 0 2px}
+.cdlg-done[hidden]{display:none}
+.done-ico{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:var(--green);color:#1D4A35;animation:pop .6s cubic-bezier(.34,1.56,.64,1) backwards}
+.done-ico .ico{width:32px;height:32px;stroke-width:2.4}
+.cdlg-done h2{margin-top:6px}
+.cdlg-done p{color:var(--ink-2)}
+@keyframes pop{from{transform:scale(.4);opacity:0}}
+@media(max-width:600px){
+  .cdlg{inset:auto 0 0 0;width:100%;transform-origin:50% 100%}
+  .cdlg-in{max-height:calc(100dvh - 48px);border-radius:24px 24px 0 0;border-width:1px 0 0;padding:26px 18px calc(18px + env(safe-area-inset-bottom,0px))}
+  .cdlg-in::before{content:"";position:absolute;top:8px;left:50%;width:40px;height:4px;margin-left:-20px;border-radius:2px;background:var(--line)}
+  .cdlg[open]{animation:feuille-in .5s cubic-bezier(.16,1,.3,1) backwards}
+  .cdlg.closing{animation:feuille-out .3s cubic-bezier(.5,0,.75,0) forwards}
+  .f2{grid-template-columns:1fr}
+}
+@keyframes feuille-in{from{transform:translateY(100%)}}
+@keyframes feuille-out{to{transform:translateY(100%)}}
+@media(max-width:380px){.qa-row{grid-template-columns:1fr}}
+
+/* ── Mode sombre ─────────────────────────────────────────────────────────────
+   Posé par le script de <head> (data-theme) : le choix du bouton, sinon le réglage de l'appareil. Les fonds clairs
+   deviennent des ardoises profondes et le texte passe au crème. Les pastels (étiquettes, bouton vert, coches)
+   restent clairs avec leur texte foncé : ils gardent leur éclat sur le fond sombre. Les familles de couleur
+   (vert, bleu, corail, sable) deviennent des fonds teintés foncés, avec un texte clair de la même famille. */
+:root[data-theme=dark]{color-scheme:dark;
+  --ink:#F1E9DE;--ink-dark:#FFFFFF;--ink-2:#C2CCD1;--ink-3:#9AA9B1;--line:#2A3A44;
+  --white:#10181D;--cream:#18242B;--cream-2:#223139;
+  --green-s:#15251B;--blue-m:#1A2847;--blue-s:#161F36;--coral-s:#2C1B1C;--sand-s:#271F17;
+  --mark:#6E3533;--field:#0B1216;--focus-ring:rgba(241,233,222,.14);
+  --shadow:0 18px 48px -18px rgba(0,0,0,.7)}
+[data-theme=dark] .green-s{color:#C8EBAF}
+[data-theme=dark] .blue-s{color:#C9D6FF}
+[data-theme=dark] .coral-s{color:#FFC4BA}
+[data-theme=dark] .sand-s{color:#F0D3B0}
+[data-theme=dark] .compare thead th:nth-child(2){color:#C8EBAF}
+[data-theme=dark] .compare thead th:nth-child(3){color:#C9D6FF}
+[data-theme=dark] .compare td:nth-child(2){background:#121F17}
+[data-theme=dark] .compare td:nth-child(3){background:#131A2D}
+[data-theme=dark] :is(.rail-head,.langprompt) .illu{color:#C9D6FF}
+/* Illustrations : leurs surfaces blanches prennent une teinte du fond sur lequel elles sont posées. */
+[data-theme=dark] .illu{--illu-fill:color-mix(in srgb,currentColor 15%,var(--illu-bg,var(--white)))}
+[data-theme=dark] :is(.cream-s,.hero-panel,.phead-panel){--illu-bg:var(--cream)}
+[data-theme=dark] .green-s{--illu-bg:var(--green-s)}
+[data-theme=dark] :is(.blue-s,.langprompt){--illu-bg:var(--blue-s)}
+[data-theme=dark] .blue-band{--illu-bg:var(--blue-m)}
+[data-theme=dark] .coral-s{--illu-bg:var(--coral-s)}
+[data-theme=dark] .sand-s{--illu-bg:var(--sand-s)}
+[data-theme=dark] :is(.sticker.light,.fc){--illu-bg:var(--white)}
+/* Sur les pastels, le texte reste foncé. */
+[data-theme=dark] :is(.btn.green,a.chip:hover,.skip:focus,.social a:hover){color:#1B3747}
+[data-theme=dark] .btn.green i{background:#1B3747;color:var(--green)}
+[data-theme=dark] .bubble i{color:#1B3747}
+[data-theme=dark] .faq details[open] summary i::before,[data-theme=dark] .faq details[open] summary i::after{background:#1B3747}
+[data-theme=dark] .plan .ticks .ico{background:var(--green)}
+/* Bandeau sous le héros et appel final : un bleu ardoise profond, distinct du fond de page. */
+[data-theme=dark] :is(.band,.final){background:#183040;color:#F7F1E8}
+[data-theme=dark] .marquee span{color:#FBF2E8}
+[data-theme=dark] .btn.light{background:#F1E9DE;border-color:#F1E9DE;color:#10181D}
+[data-theme=dark] .btn.light i{background:#10181D;color:#F1E9DE}
+[data-theme=dark] .btn.light:hover{background:#FFFFFF;border-color:#FFFFFF}
+[data-theme=dark] .btn.ghost-light{color:#F7F1E8;border-color:rgba(247,241,232,.6)}
+[data-theme=dark] .btn.ghost-light i{background:#F1E9DE;color:#10181D}
+/* En-tête en verre fumé. */
+[data-theme=dark] .top::before{background:rgba(16,24,29,.72)}
+[data-theme=dark] .top.scrolled::before{background:rgba(16,24,29,.7);border-color:rgba(255,255,255,.07);box-shadow:0 12px 32px -22px rgba(0,0,0,.9)}
+[data-theme=dark] :is(.lang,.theme-btn){border-color:rgba(241,233,222,.18);background:rgba(255,255,255,.04)}
+[data-theme=dark] :is(.lang,.theme-btn):hover{border-color:var(--ink)}
+[data-theme=dark] .burger{background:rgba(255,255,255,.08)}
+[data-theme=dark] .burger:hover{background:rgba(255,255,255,.14)}
+[data-theme=dark] .logo .mark{color:#2C5A73}
+@media(max-width:760px){
+  [data-theme=dark] .top::before{background:rgba(16,24,29,.66);border-color:rgba(255,255,255,.08);box-shadow:0 12px 30px -14px rgba(0,0,0,.8)}
+  [data-theme=dark] .top.scrolled::before{background:rgba(16,24,29,.62);border-color:rgba(255,255,255,.08)}
+}
+@supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  [data-theme=dark] .top::before,[data-theme=dark] .top.scrolled::before{background:rgba(16,24,29,.97)}
+}
+/* Filets et survols tracés en ardoise sur fond clair : ils passent au crème transparent. */
+[data-theme=dark] :is(.plan .ticks li,.facts dl div){border-color:rgba(241,233,222,.1)}
+[data-theme=dark] .rail-btns button:hover{background:rgba(255,255,255,.08)}
+[data-theme=dark] .area-card .ph{background:rgba(255,255,255,.05)}
+[data-theme=dark] .langprompt{border-color:rgba(255,255,255,.08)}
+[data-theme=dark] .lp-close:hover{background:rgba(255,255,255,.08)}
+[data-theme=dark] .todo{outline-color:#F29A5B;color:#F29A5B}
+/* Fenêtres posées au-dessus de la page : un cran plus claires que le fond, comme une surface surélevée. */
+[data-theme=dark] :is(.consent,.cdlg-in,.drawer-in){background:#141E24}
+[data-theme=dark] dialog::backdrop{background:rgba(0,0,0,.55)}
+[data-theme=dark] .cform-status.err{color:#FFB3A7}
+[data-theme=dark] .fld :is(input,textarea){border-color:rgba(241,233,222,.09)}
+[data-theme=dark] .fld :is(input,textarea):hover{border-color:rgba(241,233,222,.2)}
+[data-theme=dark] .fld :is(input,textarea):focus{border-color:var(--ink)}
+[data-theme=dark] .bubble{box-shadow:0 16px 40px -12px rgba(0,0,0,.75)}
+
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important;scroll-behavior:auto!important}
   .marquee{animation:none;flex-wrap:wrap;width:auto;justify-content:center;row-gap:12px;padding:0 var(--gut)}
   .bubble,.consent,.langprompt{transform:none}
+  dialog[open],dialog.closing,dialog::backdrop,.drawer[open] :is(.drawer-nav a,.drawer-contact,.drawer-set),.done-ico{animation:none!important}
 }

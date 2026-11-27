@@ -152,7 +152,6 @@
 
   // ── En-tête : s'efface en descendant, revient en remontant ; fine barre de progression ─
   const top = document.querySelector('.top');
-  const menu = document.getElementById('menu');
   if (top) {
     const bar = document.createElement('span');
     bar.className = 'm-progress';
@@ -162,7 +161,7 @@
   }
   function header(y, dy) {
     if (!top) return;
-    if (menu && menu.classList.contains('open')) top.classList.remove('m-hide');
+    if (document.querySelector('dialog[open]')) top.classList.remove('m-hide');
     else if (y > 420 && dy > 3) top.classList.add('m-hide');
     else if (dy < -3 || y < 200) top.classList.remove('m-hide');
     const max = document.documentElement.scrollHeight - window.innerHeight;
